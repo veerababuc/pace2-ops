@@ -1,0 +1,300 @@
+
+<ion-header [ngClass]="(platform_tabclass==true)&& 'homeheaderclass-ios' || 'homeheaderclass-an'" >
+    <ion-row>
+      <ion-col style="padding:0px;">
+          <pace2header></pace2header>
+      </ion-col>
+    </ion-row>
+    <ion-row style="background-image: linear-gradient(to bottom right,#225ab4,#076bd0);"  >
+      <ion-col style="padding:0px;">
+          <ion-label style="font-size:2rem;padding:0px;margin:13px 8px 13px 20px;font-family:'HelveticaNeueLTStd-Bd'" (click)="appconstants.sitechangealert()">{{dlrname}}</ion-label>
+      </ion-col>
+    </ion-row>
+  </ion-header>
+
+
+<ion-content>
+      <ion-row style="background:white;">
+          <ion-col>
+            <div class="tabclass" [ngClass]="(platform_tabclass==true)&& 'tabclass-ios' || 'tabclass-android'   "></div>
+          </ion-col>
+        </ion-row>
+         <ion-row style="background:white;color:black;font-family:'HelveticaNeueLTStd-Md'">
+          <ion-col>
+            <ion-grid>
+              <ion-row>
+                  <ion-col style="max-width:25%">
+                    <ion-label class="cwlbl">VIN#:</ion-label>
+                  </ion-col>
+                  <ion-col style="max-width:74%;padding:5px 0px 5px 5px">
+                      <ion-item no-lines style="box-shadow:unset;padding:0px;margin:0px;min-height:4.3rem !important; ">
+                          <ion-input type="text" name="vin" [(ngModel)]="vin"  class="inputtxtclass"  (ionBlur)="FillStock()" (ionChange)="maxVin($event)" style="border-top-right-radius:0px;border-bottom-right-radius:0px;height:4.3rem;padding:0px;font-size:1.4rem"></ion-input>
+                          <button ion-button large color="dark" clear (click)="scan()" item-end style="border-top-left-radius:0px;border-bottom-left-radius:0px;background-color:#191919 !important;height:4.3rem;margin:0px;padding:5px;">
+                              <img src="assets/imgs/create_workorder/scan_icon.png"  style="height:1.6rem;" />
+                            </button>
+                        </ion-item>
+                    
+                  </ion-col>
+         </ion-row>
+
+          <ion-row>
+                  <ion-col style="padding:0px;"> <ion-label class="soldcardlbl" style="text-align:center;margin:5px;"> OR</ion-label></ion-col>
+             </ion-row>
+             <ion-row>
+                 <ion-col style="max-width:25%;padding-top:0px;">
+                   <ion-label class="cwlbl">STOCK#:</ion-label>
+                 </ion-col>
+                 <ion-col style="max-width:75%;padding-top:0px;">
+                     <ion-item no-lines style="box-shadow:unset;padding:0px;">
+                        <ion-input type="text" name="stock" [(ngModel)]="stock"  class="inputtxtclass"  (ionChange)="maxStock($event)" style="font-size:1.4rem"></ion-input>
+                     </ion-item>
+                 </ion-col>
+             </ion-row>
+             <ion-row>
+               <ion-col style="max-width:25%;">
+                  <ion-label class="cwlbl">RO#:</ion-label>
+                </ion-col>
+                <ion-col style="max-width:30%;padding-right:0px;">
+                    <ion-item no-lines style="box-shadow:unset;padding:0px;">
+                      <ion-input type="text" name="ro" [(ngModel)]="ro"  class="inputtxtclass"  style="font-size:1.4rem"></ion-input>
+                    </ion-item>
+                </ion-col>
+                 
+             
+               <!-- <ion-col style="max-width:15%;padding-left:0px;" *ngIf="po_required==1">
+                  <ion-label class="cwlbl">PO#:</ion-label>
+                 </ion-col>
+                 <ion-col style="max-width:30%" *ngIf="po_required==1">
+                    <ion-item no-lines style="box-shadow:unset;padding:0px;">
+                        <ion-input type="text" name="po" [(ngModel)]="po" class="inputtxtclass"  style="font-size:1.4rem"></ion-input>
+                    </ion-item>
+                  </ion-col>
+                   -->
+
+                   <ion-col style="max-width:15%;padding-left:0px;" >
+                      <ion-label class="cwlbl">PO#:</ion-label>
+                     </ion-col>
+                     <ion-col style="max-width:30%">
+                        <ion-item no-lines style="box-shadow:unset;padding:0px;">
+                            <ion-input type="text" name="po" [(ngModel)]="po" class="inputtxtclass"  style="font-size:1.4rem"></ion-input>
+                        </ion-item>
+                      </ion-col>
+                   
+                
+          
+             </ion-row>
+            </ion-grid>
+         </ion-col>
+         </ion-row>
+         <ion-row class="vin_series_block" *ngIf="swValue != 'SW'">
+
+          <!------------------------------------------------PACKAGES------------------------------------------------------------------------------------------>
+            <!-- <ion-card style="box-shadow:none !important;background:transparent;margin-bottom:3px;">
+                <ion-card-header style="padding:0px;text-align:center">
+                    <ion-label style="font-family: 'HelveticaNeueLTStd-Bd';margin-bottom:0px;" *ngIf="selected_deptid==0" >Packages:</ion-label>
+                    <ion-label style="font-family: 'HelveticaNeueLTStd-Bd';margin-bottom:0px;" *ngIf="selected_deptid>0" >{{lbldeptname}}</ion-label>
+                  </ion-card-header>
+             <ion-card-content style="padding:0px;margin:0px;max-height:225px;overflow:auto;" *ngIf="totalpackages?.length>0">
+                 <ion-grid style="padding:0px;margin:0px;">
+                    <ion-row style="padding:0px;margin:0px;">
+                      <ion-col col-6  *ngFor="let package of totalpackages;let i=index" (ionItemReorder)="reorderItems($event);">
+                          <ion-item style="padding:0px;margin:0px;border-radius:4px;font-size:1.2rem;text-align:center" (click)="changePackage(package,i)" [ngClass]="(package.pkgselected==true) && 'packageactive' || 'packageinactive'">
+                          <ion-label style="padding:0px;margin:0px;white-space:pre-line"  >{{package.TITLE}}</ion-label>
+                         </ion-item>
+                      </ion-col>
+                     </ion-row>
+                   </ion-grid>
+                </ion-card-content>
+                <ion-card-content *ngIf="(totalpackages?.length==0) && (intialserve==1)" style="padding:0px;text-align:center">
+                    <ion-label style="color:black;font-size:1.6rem;font-family: 'HelveticaNeueLTStd-Bd'">No packages found</ion-label>
+              </ion-card-content>
+             </ion-card> -->
+        
+     <!---------------------------------------------------- New Departments block------------------------------------------------------- -->
+
+     <!-- <ion-card style="box-shadow:none !important;background:transparent;margin-bottom:3px;border-top:0.5px solid grey;" *ngIf="selected_deptid>0">
+      <ion-card-header style="padding:0px;text-align:center">
+          <ion-label (click)="changedept()" style="font-family: 'HelveticaNeueLTStd-Bd';margin-bottom:0px;color:dodgerblue;text-decoration:underline">Change Department</ion-label>
+       </ion-card-header>
+       
+   <ion-card-content style="padding:0px;margin:0px;max-height:200px;overflow:auto;" *ngIf="departments_select?.length>0">
+      <ion-grid style="padding:0px;margin:0px;">
+          <ion-row style="padding:0px;margin:0px;">
+            <ion-col col-6   *ngFor="let dept of departments_select,let i=index" >
+                <ion-item style="padding:0px;margin:0px;border-radius:4px;font-size:1.2rem;text-align:center" (click)="selectDepartmentdiv(dept)" [ngClass]="(changev==dept.DEPARTMENT) && 'vehicleactive' || 'vehicleinactive'">
+                <ion-label style="padding:0px;margin:0px;white-space:pre-line"  >{{dept.DEPARTMENT}}</ion-label>
+               </ion-item>
+            </ion-col>
+           </ion-row>
+         </ion-grid>
+  </ion-card-content>
+   <ion-card-content *ngIf="(departments_select?.length==0) && (intialserve==1)" style="padding:0px;text-align:center">
+      <ion-label style="color:black;font-size:1.6rem;font-family: 'HelveticaNeueLTStd-Bd'">No departments found for this user</ion-label>
+</ion-card-content>
+   </ion-card> -->
+
+<!-- <ion-card style="box-shadow:none !important;background:transparent;margin-bottom:3px;">
+  <ion-card-header  style="padding:0px;text-align:center">
+      <ion-label style="font-family: 'HelveticaNeueLTStd-Bd';margin-bottom:0px;" >Departments:</ion-label>
+  </ion-card-header>
+  <ion-card-content>
+      <ion-row style="background: white;">
+          <ion-col>
+            <div style="background: white;">
+                <div style="padding:0px;margin:0px;overflow:auto;height:auto;" *ngIf="newDeptslist?.length>0">
+                    <ion-grid style="padding:0px;margin:0px;">
+                        <ion-row style="padding:0px;margin:0px;">
+                          <ion-col col-6   *ngFor="let dept of newDeptslist,let i=index" >
+                              <ion-item style="padding:0px;margin:0px;border-radius:4px;font-size:1.2rem;text-align:center" (click)="selectDepartmentdiv(dept)" [ngClass]="(dept.isChecked==true) && 'vehicleactive' || 'vehicleinactive'">
+                              <ion-label style="padding:0px;margin:0px;white-space:pre-line"  >{{dept.departmentTitle}}</ion-label>
+                             </ion-item>
+                          </ion-col>
+                         </ion-row>
+                       </ion-grid>
+                  </div>
+                  <div *ngIf="(newDeptslist?.length==0)" style="padding:0px;text-align:center">
+                      <ion-label style="color:black;font-size:1.6rem;font-family: 'HelveticaNeueLTStd-Bd'">No departments found </ion-label>
+                  </div>        
+            </div>
+          </ion-col>
+        </ion-row>
+  </ion-card-content>
+</ion-card> -->
+
+
+<ion-card style="box-shadow:none !important;background:#e6eff5;margin-bottom:3px;" *ngIf="swValue != 'SW'">
+    <ion-card-header  style="padding:0px;text-align:center">
+        <ion-label style="font-family: 'HelveticaNeueLTStd-Bd';margin-bottom:0px;" >Departments:</ion-label>
+    </ion-card-header>
+    <ion-card-content>
+        <ion-row >
+            <ion-col>
+              <div >
+                  <div style="padding:0px;margin:0px;overflow:auto;height:auto;" *ngIf="newDeptslist?.length>0">
+                      <ion-grid style="padding:0px;margin:0px;">
+                          <ion-row style="padding:0px;margin:0px;">
+                            <ion-col col-6   *ngFor="let dept of newDeptslist,let i=index"  >
+                                <ion-item [ngClass]="(dept.selected==true) && 'packageactive' || 'packageinactive'" style="padding:0px;margin:0px;border-radius:4px;font-size:1.2rem;text-align:center" (click)="selectDepartmentdiv(dept)" >
+                                <ion-label style="padding:0px;margin:0px;white-space:pre-line"  >{{dept.DEPARTMENT}}</ion-label>
+                               </ion-item>
+                            </ion-col>
+                           </ion-row>
+                         </ion-grid>
+                    </div>
+                    <div *ngIf="(newDeptslist?.length==0)" style="padding:0px;text-align:center">
+                        <ion-label style="color:black;font-size:1.6rem;font-family: 'HelveticaNeueLTStd-Bd'">No departments found </ion-label>
+                    </div>        
+              </div>
+            </ion-col>
+          </ion-row>
+    </ion-card-content>
+  </ion-card>
+   
+
+
+     <!------------------------------------------------PACKAGES for new depts------------------------------------------------------------------------------------------>
+            <ion-card style="box-shadow:none !important;background:#e6eff5;margin-bottom:3px;" *ngIf="newpkgblock!=false" >
+                <ion-card-header style="padding:0px;text-align:center">
+                    <ion-card-header style="padding:0px;text-align:center">
+                        <ion-label style="font-family: 'HelveticaNeueLTStd-Bd';margin-bottom:0px;" *ngIf="selected_deptid>0  && swValue != 'SW'" > Packages:</ion-label>
+                        <!-- <ion-label style="font-family: 'HelveticaNeueLTStd-Bd';margin-bottom:0px;" *ngIf="selected_deptid>0" >{{lbldeptname}}</ion-label> -->
+                      </ion-card-header>
+                  </ion-card-header>
+             <ion-card-content style="padding:0px;margin:0px;max-height:225px;overflow:auto;" *ngIf="totalpackages?.length>0">
+                 <ion-grid style="padding:0px;margin:0px;">
+                    <ion-row style="padding:0px;margin:0px;">
+                      <ion-col  col-6   *ngFor="let package of totalpackages;let i=index" (ionItemReorder)="reorderItems($event);">
+                          <ion-item   [ngClass]="(package.pkgselected==true) && 'packageactive' || 'packageinactive'"  style="padding:0px;margin:0px;border-radius:4px;font-size:1.2rem;text-align:center" (click)="changePackage(package,i)">
+                          <ion-label style="padding:0px;margin:0px;white-space:pre-line"  >{{package.TITLE}}</ion-label>
+                         </ion-item>
+                      </ion-col>
+                     </ion-row>
+                   </ion-grid>
+                </ion-card-content>
+                <ion-card-content *ngIf="(totalpackages?.length==0) && (intialserve==1)" style="padding:0px;text-align:center">
+                    <ion-label style="color:black;font-size:1.6rem;font-family: 'HelveticaNeueLTStd-Bd'">No packages found</ion-label>
+              </ion-card-content>
+             </ion-card>
+
+
+
+
+               <!-----------------------------------------------------SERVICES-------------------------------------------------------------------------------------->
+               <ion-card style="box-shadow:none !important;background:transparent;display:none">
+                 <ion-card-header style="padding:0px;text-align:center">
+                    <ion-label style="font-family: 'HelveticaNeueLTStd-Bd'">Select Services:</ion-label>
+                 </ion-card-header>
+                 <ion-card-content style="padding:0px;margin:0px;max-height:400px;overflow:auto;" *ngIf="services_select?.length>0">
+                   <ion-grid style="padding:0px;margin:0px;">
+                    <ion-row style="padding:0px;margin:0px;">
+                      
+                        <ion-col col-6  *ngFor="let service of services_select;let i=index" >
+   
+                        <ion-item style="padding:0px;margin:0px;border-radius:4px;font-size:1.2rem;text-align:center" (click)="selectedService(service)" [ngClass]="(service.selected==true)&& 'buttonactive' || 'buttoninactive'">
+                          <ion-label style="padding:0px;margin:0px;white-space:pre-line"  >{{service.MASKNAME}}</ion-label>
+                        </ion-item>
+                      </ion-col>
+                     </ion-row>
+                   </ion-grid>
+                 </ion-card-content>
+                 <ion-card-content *ngIf="(services_select?.length==0) && (intialserve==1)" style="padding:0px;text-align:center">
+                       <ion-label style="color:black;font-size:1.6rem;font-family: 'HelveticaNeueLTStd-Bd'">No services found</ion-label>
+                 </ion-card-content>
+               </ion-card>
+         </ion-row>
+        <!------------------------------------------------------------------------------------------------------------------------------------------------------------------------>
+
+
+         <ion-row style="background-color:white;color:black" *ngIf="swValue != 'SW'">
+            <ion-col>
+                <ion-label style="color:black;margin:13px 8px 0px 15px;font-size:1.6rem; font-family: 'HelveticaNeueLTStd-Md'">
+                    <span style="color:red">*</span> Due By:
+                 </ion-label>
+            <div style="float:left;width:60%;padding-right:3px;">
+              <button ion-button icon-only (click)="showDatePicker()" style="background:transparent;float:left;box-shadow:none !important;margin-left:4px;height:3.2rem;"><ion-icon name="calendar" style="color:black;padding:0 0.2em;"></ion-icon></button>
+            <span (click)="showDatePicker()"> <ion-label style="float:left;">{{date}}</ion-label></span>
+              <img src="assets/imgs/create_workorder/timer_icon.png"  (click)="showTimePicker()"  style="float:left;padding:10px 5px 0px 0px"/>
+               <ion-input type="text" name="time" [(ngModel)]="time" (click)="showTimePicker()" disabled="true" ng-readonly class="timerclass" style="float:left;max-width:40%;width: calc(100% - 10px - 145px);font-size:1.2rem;margin-top:4px;" ></ion-input>
+          </div>
+              
+                <div  class="QA_Info" style="border-left:0.5px solid gray;float:left;width:37%;padding:1px 0px 0px 5px">
+                    <ul style="margin:0px;list-style:none" class="info">
+                      <li  (click)="changeDueBy('waiting')" [ngClass]="(changedue=='waiting') && 'duebyactive' || 'duebyinactive'"  style="width:auto;padding:10px;font-size:1.2rem">Waiting</li>
+                      <li  (click)="changeDueBy('spot')"  [ngClass]="(changedue=='spot') && 'duebyactive' || 'duebyinactive'"  style="width:auto;padding:10px;font-size:1.2rem" >Spot</li>
+                      
+                    </ul>
+                 </div>
+           
+            </ion-col>
+           </ion-row>
+         
+       <ion-row style="background-color:white;" *ngIf="empdeptid=='6'">
+         <ion-col>
+           
+             <ion-label style="color:black;float:left;margin:13px 8px 13px 15px;font-size:1.6rem; font-family: 'HelveticaNeueLTStd-Md'">  
+                               Requested By: 
+             </ion-label>
+            
+             <ion-select interface="popover" style="color:black;border-radius:5px;border:0.5px solid gray;text-align:center" [(ngModel)]="requestddl">
+              <ion-option  *ngFor="let user of requestBy"       value="{{user.id}}" (ionSelect)="changeddlrequestedby(user)">{{user.name}}</ion-option>
+              
+            </ion-select>           
+          
+         </ion-col>
+         </ion-row>    
+         <ion-row style="background:white" *ngIf="swValue != 'SW'">
+           <ion-col>
+             <ion-label style="color:black;padding-left:15px;font-size:1.6rem; font-family: 'HelveticaNeueLTStd-Md'">Notes:</ion-label>
+             <textarea  [(ngModel)]="note" style="border:0.5px solid gray;border-radius:4px;color:black;width:94%;padding:10px;margin-left:14px" rows="10">
+             </textarea>
+    
+           </ion-col>
+         </ion-row>
+         <ion-row style="background:white" [ngClass]="{'marginTop_SW': swValue=='SW'}">
+           <ion-col style="align-items:center;display:flex;justify-content:center" >
+               <button  ion-button block (click)="submitWorkOrder()" style="max-width:70%;text-transform:capitalize;font-family: 'HelveticaNeueLTStd-Bd'" [disabled]="isenabled">Submit Work Order</button>
+           </ion-col>
+         </ion-row>
+    
+    </ion-content>
+    

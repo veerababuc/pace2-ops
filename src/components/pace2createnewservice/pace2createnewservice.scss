@@ -1,0 +1,173 @@
+pace2createnewservice {
+    .card-content {
+        padding: 0 !important;
+        
+    }
+    .card-header {
+        padding: 0 !important;
+    }
+    .head{
+        background-color: #076bd0;
+        font-size: 1.6rem !important;
+        font-weight: 600 !important;
+       
+        .tit{
+            font-size: 1.6rem !important;
+            font-weight: 600 !important;
+            color:white;
+            
+        }
+    }
+    .main{
+        background-color: #e6eff5 !important;
+        padding-bottom: 15px;
+        padding-top: 5px;
+        height: 60vh;
+    }
+    .main1{
+        background-color: #e6eff5 !important;
+        padding-bottom: 5px;
+        padding-top: 5px;
+       
+    }
+    .txtarea{
+        width: 100% !important;
+        height: 100% !important;
+        border:1px solid lightgrey;
+        border-radius: 4px;
+        background-color: white !important;
+    }
+    .txt{
+        font-size:1.3rem;
+        margin-top: 4px;
+        margin-left: 8px;
+    }
+    .exp{
+        font-size:1.4rem;
+        margin-left: 5px;
+         font-size: 1.4rem !important;
+            font-weight: 500;  
+         
+    }
+    .txtarea {
+        //padding: 7px 90px 0px 6px !important;
+        border: 1px solid lightgrey !important;
+        max-width: 85% !important;
+        color: #495057;
+       margin-top: 5px;
+       background-color: white !important;
+       
+      }
+      .not{
+          color:black !important;
+          margin-top: 6px;
+          .spn{
+            
+            margin-left: 25px;
+            font-size: 1.4rem !important;
+            font-weight: 500; 
+          }
+          
+      }
+      .btn{
+        background-color: #076bd0 !important;
+        color:white !important;
+        font-size: 1.2rem !important;
+        text-transform: capitalize;
+    }
+    .btn1{
+        background-color: #ffc107 !important;
+        color:black !important;
+        font-size: 1.2rem !important;
+        text-transform: capitalize;
+    }
+    .tlb_hd{
+        font-size: 1.2rem;
+    background-color: #076bd0;
+    color: white;
+    line-height: 0.7 !important;
+    padding:3px;
+    }
+    .tld_bd{
+        font-size: 1.1rem;
+        background-color: white !important;
+        border-bottom: 1px solid lightgray;
+        padding-left:2px;
+    }
+    .ico{
+        font-size: 1.1rem;
+       
+    }
+    .select {
+        padding: 5px 6px 0px 6px !important;
+        max-width: 75% !important;
+        color: #495057;
+        background-color: #fff;
+        margin-bottom: 5%;
+      }
+      .vin{
+        margin: 0 !important; 
+    }
+    .check1{
+    text-align: center;
+    padding: 4px;
+    border-radius: 3px;
+    background-color: #076bd0 !important;
+    color:white !important;
+    font-size: 1.2rem !important;
+    text-transform: capitalize;
+    }
+    .check2{
+        text-align: center;
+        padding: 4px;
+        border-radius: 3px;
+        background-color: white !important;
+        color:black !important;
+        font-size: 1.2rem !important;
+        text-transform: capitalize;
+    }
+    .nmlb{
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+    .nameinput {
+        height: 28px;
+        background: white;
+        border-radius: 3px !important;
+        .text-input {
+            margin: -4px 2px;
+            padding: 0;
+            width: calc(100% - 8px - 8px);
+        }
+        ion-input {
+            font-size: 1.35rem !important;
+        }
+    } 
+    .searchbar .searchbar-search-icon {
+        background-image: none !important;
+    }
+.searchbar{
+    padding: 0 !important;
+}
+.sele{
+    max-width: 34% !important;
+}
+.searchbar .searchbar-input {
+    padding: 3px !important;
+    font-size:1.2rem !important;
+    line-height: 2 !important;
+    box-shadow: none !important;
+    
+}
+.list{
+    margin-top: 5px;
+    background-color: white;
+    font-size: 1rem;
+}
+.txt{
+    font-size:1.3rem;
+    margin-top: 4px;
+    margin-left: 8px;
+    padding-bottom: 5px;
+}
+}

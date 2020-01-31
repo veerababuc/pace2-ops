@@ -1,0 +1,418 @@
+page-workorder-queue {
+  .select {
+    padding: 5px 6px 3px 6px !important;
+    max-width: 100% !important;
+    // margin-top: 0.5rem !important;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+  }
+
+
+  .pagenation {
+    background: white !important;
+
+    .select {
+      padding: 5px 6px 0px 6px !important;
+      border-bottom: 1px solid black !important;
+      max-width: 100% !important;
+      color: #495057;
+      background-color: #fff;
+      margin-bottom: 5%;
+    }
+
+    .mainclass {
+      padding: 0px !important;
+
+      .itemsperpage {
+        font-size: 1.2rem;
+        color: black;
+        margin: 3px;
+        padding-top: 5% !important;
+      }
+
+      ion-icon {
+        color: #00000099;
+        margin-top: 0.56rem;
+      }
+    }
+  }
+
+  .gheader {
+
+
+    .button {
+      font-size: 1rem !important;
+      margin: 0px !important;
+      padding: 4px 6px 3px 6px !important;
+      height: 2.9rem;
+      border-radius: 0.3rem;
+    }
+
+    .searchtext {
+      color: #495057;
+      background-color: #fff;
+      border-radius: 3px;
+      text-align: left;
+      border: 1px solid #ced4da;
+      height: 100%;
+      padding: 0 3px;
+      padding-top: 4px;
+
+      p {
+        margin: 0px !important;
+        color: #495057;
+      }
+
+      .text-input {
+        margin-top: 2% !important;
+        margin-bottom: 2% !important;
+      }
+    }
+  }
+
+  .workorderspinner {
+    text-align: center !important;
+    margin-top: 5% !important;
+  }
+
+  .workorder {
+
+    .card {
+      margin: 0px !important;
+      width: 100% !important;
+      // border-radius: 0px !important;
+    }
+
+    .card-header {
+      padding: 0px !important;
+    }
+
+    .card-content {
+      padding: 0px !important;
+    }
+
+    .workodcard {
+      margin-bottom: 0.6rem;
+
+      .cardheader {
+        background: #1960be !important;
+
+        .vin {
+          color: white !important;
+          font-size: 1.2rem !important;
+          text-transform: uppercase !important;
+        }
+
+        .bdleft {
+          border-left: 1px solid rgba(239, 237, 237, 0.369);
+        }
+      }
+
+      .cardcontent {
+        color: #707a8e;
+
+        [col-8] {
+          padding: 0px !important;
+        }
+
+        .brtocar {
+          border-right: 1px solid rgba(0, 0, 0, 0.122) !important;
+          padding: 0px !important;
+        }
+        
+
+        .packagebg {
+          // font-size: 1.2rem;
+          background: #e6eff5 !important;
+
+          .packgediv {
+            position: absolute;
+            right: 36%;
+            top: 24%;
+          }
+        }
+         .textcenter {
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center  !important;
+         }
+        .ptextalign {
+          text-align: center !important;
+        }
+
+        .ptextsmallsize {
+          font-size: 1.2rem;
+        }
+        .hasException {
+          color: red !important;
+        }
+
+        .woseboader {
+          border-bottom: 1px solid rgba(0, 0, 0, 0.188) !important;
+        }
+
+        .selectedPackegebg {
+          // border-bottom: 1px solid#1264c4 !important;
+        }
+
+        .selectedPackegefont {
+          font-weight: 500 !important;
+          color: #1264c4 !important;
+        }
+        .carimage {
+          padding: 3% !important;
+        }
+
+        .comp {
+          text-align: center !important;
+          color: #1264c4 !important;
+          font-size: 1.15rem !important;
+        }
+
+        .iconcol {
+          text-align: center;
+          margin-top: 15%;
+        }
+
+        .cre {
+          text-align: center !important;
+          color: #333 !important;
+
+          img {
+            width: 24% !important;
+            border-radius: 50% !important;
+            height: 76% !important;
+            margin-left: 4% !important;
+            
+          }
+          .subimage{
+            width: 16% !important;
+            border-radius: 50% !important;
+            height: 76% !important;
+            margin-left: 4% !important;
+          }
+
+        }
+
+        .item-cover {
+          height: unset !important;
+        }
+
+        .wo_lftBorder_blue{
+          float: left !important;
+              height: 100%!important;
+              position: absolute!important;
+              border-left: 3px solid #599bb3!important;
+          }
+          
+          .wo_lftBorder_yellow{
+          float: left!important;
+              height: 100%!important;
+              position: absolute!important;
+              border-left: 3px solid #ffab23!important;
+          }
+          
+          .wo_lftBorder_green{
+          float: left!important;
+              height: 100%!important;
+              position: absolute!important;
+              border-left: 3px solid #44c767!important;
+          }
+          
+          .wo_lftBorder_greenone{
+            float: left!important;
+                height: 100%!important;
+                position: absolute!important;
+                border-left: 3px solid #44c767!important;
+            }
+      }
+
+      .cardfooter {
+        background: rgb(230, 239, 245) !important;
+        // margin-top: 2% !important;
+
+        img {
+          width: 19% !important;
+          border-radius: 50%;
+          border: 1px solid rgba(0, 0, 0, 0.51);
+          // margin-top: 6%;
+          //height: 76%;
+          margin-left: 4%;
+        }
+
+        [col-2] {
+          padding: 0px;
+        }
+
+        .cre {
+          text-align: center !important;
+          color: #333 !important;
+
+
+        }
+
+        p {
+          margin-top: 0.3rem !important;
+        }
+      }
+
+      .workordermoreinfo {
+        padding: 2% !important;
+        border-top: 1px solid rgba(0, 0, 0, 0.631) !important;
+
+        .col {
+          padding: 0px !important;
+        }
+
+        .work {
+          font-size: 1.2rem !important;
+        }
+
+        .smalltext {
+          font-size: 1.2rem !important;
+        }
+
+        .appflexbox {
+          display: flex;
+          flex-wrap: nowrap;
+
+          .button {
+            margin: 0 2% 0 0 !important;
+            color: #fff !important;
+            background-color: #007bff !important;
+            border-color: #007bff !important;
+            width: 8rem !important;
+          }
+
+          .button-small {
+            height: 3em !important;
+            font-size: 1rem !important;
+            font-weight: bolder !important;
+            padding-left: 5% !important;
+            padding-right: 5% !important;
+            padding-top: 3% !important;
+            padding-bottom: 2% !important;
+          }
+        }
+
+
+      }
+
+      .workorderboarder {
+        border-top: 2px solid #1264c4 !important;
+      }
+    }
+
+  }
+
+  .bodyDiv {
+    // height: 100%;
+    // display: flex;
+    // flex-flow: column;
+    margin: 8px 5px;
+  }
+  #empList custom-select .md-select [type=button]{
+    color: #000000 !important;
+    padding: 4px;
+  }
+   #empList_1  custom-select .md-select [type=button]{
+    color: #000000 !important;
+    padding: 4px;
+  }
+  #empList_0  custom-select .md-select [type=button]{
+    color: #000000 !important;
+    padding: 4px;
+  }
+  #empList custom-select .md-select, #empList_1  custom-select .md-select, #empList_0  custom-select .md-select, #empList_text custom-select .md-select {
+  
+    border: 1px solid #000;
+  }
+  #empList_text custom-select .md-select [type=button]{
+    color: #000000 !important;
+    padding: 4px;
+  }
+  #empList_0 custom-select .md-select{
+    background: url('../../assets/imgs/Dwn_arrw_black_new.png');
+    background-size: 12px;
+    background-position: calc(100% - 6px) center;
+    background-repeat: no-repeat;
+    background-position-y: 13px;
+  }
+  #empList_1 custom-select .md-select{
+    background: url('../../assets/imgs/Dwn_arrw_black_new.png');
+    background-size: 12px;
+    background-position: calc(100% - 6px) center;
+    background-repeat: no-repeat;
+    background-position-y: 13px;
+  }
+  #empList custom-select .md-select{
+    background: url('../../assets/imgs/Dwn_arrw_black_new.png');
+    background-size: 12px;
+    background-position: calc(100% - 6px) center;
+    background-repeat: no-repeat;
+    background-position-y: 13px;
+  }
+  #empList_text custom-select .md-select{
+    background: url('../../assets/imgs/Dwn_arrw_black_new.png');
+    background-size: 12px;
+    background-position: calc(100% - 6px) center;
+    background-repeat: no-repeat;
+    background-position-y: 13px;
+  }
+  #dataOpt_1 custom-select .md-select ul[role=listbox]{
+    top:84px !important;
+  }
+  #dataOpt_0 custom-select .md-select ul[role=listbox]{
+    top:63px !important;
+  }
+  #dataOpt_2 custom-select .md-select ul[role=listbox]{
+    top:84px !important;
+  }
+  #dataOpt_2,  #dataOpt_0 custom-select .md-select [type=button]{
+    height:31px !important;
+  }
+  #dataOpt_1  custom-select .md-select [type=button]{
+    height:31px !important;
+  }
+  .veh2_brandname{
+    width: 100%;
+    font-size: 12px;
+    margin: 2% auto;
+    color: #333;
+    text-align: center;
+  }
+
+  //added by Vishnut
+  .rating {
+    float: left;
+}
+.rating:not(:checked) > input {
+  position: absolute;
+  top: -9999px;
+  clip: rect(0,0,0,0);
+}
+.rating:not(:checked) > label {
+  float: right;
+  width: 1em;
+  padding: .1em;
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: pointer;
+  font-size: 145%;
+  line-height: 1.2;
+  color: #ddd;
+  background: none !important;
+}
+
+.rating:not(:checked) > label:before {
+    content: '★ ';
+}
+
+.rating > input[type=radio]:checked ~ label {
+  color: #f70;
+}
+
+}

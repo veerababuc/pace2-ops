@@ -1,0 +1,43 @@
+
+
+<ion-header [ngClass]="(platform_tabclass==true)&& 'homeheaderclass-ios' || 'homeheaderclass-an'" >
+     <ion-searchbar  [(ngModel)]="searchTerm"  (ionInput)="setFilter()" (ionFocus)="hideButtons('Y')" (ionBlur)="hideButtons('N')"></ion-searchbar>  
+  </ion-header>
+  
+<!--   
+  <ion-content padding style="background:white !important; margin-bottom:unset !important" > -->
+    <ion-content padding style="background:white !important;" >
+  <ion-row>
+    <ion-col>
+        
+        <ion-list radio-group *ngIf="resultsite?.length>0">
+          
+          <ion-item *ngFor="let item of resultsite; let i =index" >
+            <ion-label>  {{item.siteTitle}}</ion-label>
+             <ion-radio  value="{{item.siteId}}"  (click)="CheckedSite(item)" item-left [checked]="item.status==true" style="margin-right:10px !important"></ion-radio>
+            
+          </ion-item>
+     
+      </ion-list>
+      <ion-list *ngIf="resultsite?.length==0">
+        
+        <ion-item no-lines>
+          <ion-label> No data found</ion-label>
+       </ion-item>
+   
+    </ion-list>
+    </ion-col>
+  </ion-row>
+  </ion-content>
+  <!-- <ion-footer style="background:white !important" *ngIf=" this.hide_buttons=='N'"  > -->
+      <!-- <ion-footer [hidden]="this.hide_buttons=='N'"  > -->
+<ion-footer [hidden]=" this.hide_buttons=='Y'" style="background:white!important" no-border>
+    <ion-row  >
+      <ion-col>
+        <button ion-button (click)="saveSite()" block>Done</button>
+      </ion-col>
+      <ion-col>
+          <button ion-button (click)="closeModal()" block>Cancel</button>
+      </ion-col>
+    </ion-row>
+  </ion-footer>

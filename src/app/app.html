@@ -1,0 +1,16 @@
+<ion-menu [content]="content" persistent="true" >
+  <ion-content style="background-color:black;color:white">
+    <ion-list style="background:black;color:white;" [ngClass]="(platform_menulist==true)&& 'menu_list-ios' || 'menu_list-android'  " >
+        <button menuToggle ion-item *ngFor="let p of pages" (click)="openPage(p)" style="background:black;color:white;border-bottom:1px solid #2f2e2e" no-lines detail-none>
+            <ion-icon name="{{p.name}}" style="background:transparent;color:#208cae"></ion-icon>&nbsp;&nbsp;{{p.title}}
+        </button>
+        <button menuToggle ion-item (click)="Logout()" style="background:black;color:white;" no-lines detail-none>
+              <ion-icon name="log-out"  style="float:left"> </ion-icon>
+              &nbsp;&nbsp;Log out <span style="color:#208cae;font-size:1.5rem;float:right;margin:1px;">Ver: 0.0.1</span>                   
+        </button>
+       
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

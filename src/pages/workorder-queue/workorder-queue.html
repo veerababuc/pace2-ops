@@ -1,0 +1,613 @@
+<!--
+  Generated template for the WorkorderQueuePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header [ngClass]="(platform_tabclass==true)&& 'homeheaderclass-ios' || 'homeheaderclass-an'">
+  <ion-row>
+    <ion-col style="padding:0px;">
+      <pace2header [siteNameInHeader]="true" [headerName]="headerName"></pace2header>
+    </ion-col>
+  </ion-row>
+
+</ion-header>
+<ion-content [ngClass]="{'pagemargin':dataOptions.searchtype!='0'}">
+
+  <div class="bodyDiv">
+    <div style="margin-bottom: 4px; position: sticky;top: 0px;z-index: 1000;">
+
+      <div
+        style="background-image: linear-gradient(to top left,#225ab4,#0365c7);justify-content: center;align-items: center;display: flex;padding: 2px 5px;flex-wrap: wrap;"
+        class="gheader">
+
+        <div style="width: 97px;flex-grow: 1;padding: 3px;" id="dataOpt_0">
+          <custom-select class="gheader" name="dataOption" defaultOptTxt="Select" [(optSelectActive)]="selectOptions"
+            [(value)]="dataOptionsText" [optionsModel]="dataOptionsModel" (change)="selectDataOpt($event)">
+          </custom-select>
+        </div>
+
+        <div class="searchtext" *ngIf="dataOptions.searchtype!='0'">
+          <ion-input type="text" [(ngModel)]="dataOptions.searchtext"
+            placeholder="{{dataOptions.searchtype=='V'?'VIN':dataOptions.searchtype=='S'?'Stock':'Work Order'}} #">
+          </ion-input>
+        </div>
+
+
+        <div style="width: 122px;color: white;flex-grow: 1;padding: 3px;" id="dataOpt_1">
+          <custom-select class="gheader" name="dataOpt" [(value)]="dataOptions.searchstatus"
+            [optionsModel]="dataSearchModel">
+          </custom-select>
+        </div>
+
+
+        <div style="padding: 3px !important;">
+          <button ion-button color="primary" (click)="search()">Search</button>
+        </div>
+        <div style="padding: 0px !important;">
+          <button ion-button color="danger" (click)="cancel()">Cancel</button>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div style="flex-grow: 1;overflow: auto;">
+      <div class="workorderspinner" *ngIf="workOrders == 'No Data Found'">
+        <!-- <ion-spinner name="bubbles" color="light" *ngIf="workOrders.length==0"></ion-spinner> -->
+        <p style="color:red">No Data Found</p>
+      </div>
+      <div class="workorder" *ngIf="workOrders != 'No Data Found'">
+        <div class="workodcard" *ngFor="let wo of workOrders;let i=index">
+          <ion-card>
+            <div class="cardheader"
+              (click)="wo.expanded == false?expand(wo,i,serviceindex,true):expand(wo,i,serviceindex,false)">
+              <ion-row>
+                <ion-col col-6>
+                  <p class="vin">VIN#: <strong>{{wo.VINID}}</strong></p>
+                </ion-col>
+                <ion-col col class="bdleft">
+                  <p class="vin"><span>STOCK#: <strong>{{wo.STOCKID}}</strong></span></p>
+                </ion-col>
+                <ion-col col-1 *ngIf="wo.SUBWORKORDER.length>0">
+                  <div class="packgediv">
+                    <ion-icon name="ios-arrow-up" *ngIf="wo.expanded == false"> </ion-icon>
+                    <ion-icon name="ios-arrow-down" *ngIf="wo.expanded == true"></ion-icon>
+                  </div>
+                </ion-col>
+              </ion-row>
+            </div>
+            <div class="cardcontent">
+              <ion-row>
+                <ion-col col-4 class="brtocar">
+                  <div [ngClass]="{'wo_lftBorder_blue' : wo.ACTIVE == 'O', 
+                                  'wo_lftBorder_yellow' : (wo.ACTIVE == 'I' || wo.ACTIVE == 'C') && wo.ISCOMPLETED != 'Y', 
+                                  'wo_lftBorder_green' : wo.ACTIVE == 'C' && wo.ISCOMPLETED == 'Y',                               
+                                  'wo_lftBorder_greenone' : wo.ACTIVE == 'P' && wo.ISCOMPLETED == 'P' }"></div>
+                  <ion-row  (click)="wo.HASEXCEPTION=='Y'?exceptionFixes(wo.WOID,wo.DEPARTMENT,wo.DEPTID):false">
+                    <ion-col col-2  *ngIf="wo.HASEXCEPTION=='Y'">
+                      <ion-icon style="
+                    font-size: 2em;
+                    color: red;
+                    margin-right: 8%;" name="ios-warning">
+                      </ion-icon>
+                    </ion-col>
+                    <ion-col>
+                      <p class="comp"> <strong>{{wo.DEPARTMENT}}</strong></p>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row *ngIf="wo.VININFO.length != 0">
+                    <ion-col>
+                      <img src="{{wo.VININFO[0].IMAGE}}" class="carimage" />
+                      <div class="veh2_brandname">{{wo.VININFO[0].YEAR}} {{wo.VININFO[0].NAME}} {{wo.VININFO[0].MODEL}}
+                        {{wo.VININFO[0].STYLENAME}}</div>
+                    </ion-col>
+                  </ion-row>
+                  <div *ngIf="wo.VININFO.length == 0">
+                    <img src=" assets/imgs/workorderqueue/NoCarIcon.png" class="carimage" />
+                  </div>
+                  <p class="comp">Due By:</p>
+                  <p class="comp"><strong>{{wo.REQDATE}} @ {{wo.REQTIME}}</strong></p>
+                  <ion-row class="packagebg">
+                    <ion-col>
+                      <p class="ptextalign"><strong>Package(s)</strong></p>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row *ngIf="(wo.RATINGREQ =='Y' ||wo.RATINGREQ =='0')&& (wo.ACTIVE=='C') && workOrderPermission.RATING=='Y' ">
+                      <ion-col col-12>
+                        <div  class="rating">
+                          <input  type="radio" value="5" [name]="5" [checked]="wo.RATING=='5'? true : false"><label (click)='onClick(5,wo)'>5 stars</label>
+                          <input  type="radio" value="4" [name]="4" [checked]="wo.RATING=='4'? true : false"><label (click)='onClick(4,wo)'>4 stars</label>
+                          <input  type="radio" value="3" [name]="3" [checked]="wo.RATING=='3'? true : false "><label (click)='onClick(3,wo)'>3 stars</label>
+                          <input  type="radio" value="2" [name]="2" [checked]="wo.RATING=='2'? true : false"><label (click)='onClick(2,wo)'>2stars</label>
+                          <input  type="radio" value="1" [name]="1" [checked]="wo.RATING=='1'? true : false"><label (click)='onClick(1,wo)'>1 star</label>
+                        </div>
+                    </ion-col>
+                    <!-- <ion-col>
+                        <div _ngcontent-vts-c4="" style="text-align:center;font-size: 12px;color: #006ba2;font-weight:bold;" (click)="openFeedBack(wo)">
+                          <span _ngcontent-vts-c4="" style="cursor:pointer;padding-right:2%;">Feedback</span><span style="float: right;padding-right: 5%;">
+                          <img src ="../../assets/imgs/fa-book.png"  style="cursor: pointer;width: 12px;"></span></div>
+                    </ion-col> -->
+                    <ion-col  (click)="openFeedBack(wo)" style="text-align:center;">
+                      <p style="font-size: 12px;color: #006ba2;font-weight:bold;">Feedback <img src="../../assets/imgs/fa-book.png"  style="cursor: pointer;width: 12px;float: right;position: relative;right: 17%;margin-top: 3px"></p>
+                    </ion-col>
+                    </ion-row>
+                  <div style="height: 8rem !important; overflow: auto !important;">
+                    <ion-row *ngFor="let woservice of wo.UniquePackeges ; let woSindex=index; let last = last"
+                      [ngClass]="{'woseboader':!last,'selectedPackegefont':woSindex==wo.selectedPackege&&last,'selectedPackegebg':woSindex==wo.selectedPackege&&!last}"
+                      (click)="selectedPackege(i,woservice,woSindex);">
+                      <ion-col>
+                        <p
+                          [ngClass]="{'ptextalign':true,'ptextsmallsize':true,'selectedPackegefont':woSindex==wo.selectedPackege}">
+                          <span [ngClass]="{'hasException':wo.HASEXCEPTION=='Y'}">{{woservice.PACKAGENAME}}</span> </p>
+                      </ion-col>
+                    </ion-row>
+                  </div>
+
+                </ion-col>
+                <ion-col col-8>
+                  <ion-row class="packagebg">
+                    <ion-col col-6>
+                      <p class="ptextalign"><strong>Service Items</strong></p>
+                    </ion-col>
+                    <ion-col col-6>
+                      <p class="ptextalign"><strong>Status</strong></p>
+                    </ion-col>
+
+                  </ion-row>
+                  <!-- selectedPackege -->
+                  <div>
+                    <ion-row *ngFor="let package of wo.filterPackeges;let serviceindex=index; let last = last"
+                      [ngClass]="{'woseboader':!last}">
+                      <ion-col col-6 class="textcenter">
+                        <p [ngClass]="{'ptextalign':true,'ptextsmallsize':true,'hasException':wo.HASEXCEPTION=='Y'}">
+                          {{package.MASKNAME =="" ? package.SERVICEITEM : package.MASKNAME  }}</p>
+                      </ion-col>
+                      <ion-col col-6>
+                        <p style="display: flex;justify-content: center;align-items: center;"><span
+                            style="color: #007bff !important;">{{package.STATUS=='O'?'OPEN':package.STATUS=='I'?'IN-PROGRESS':package.STATUS=='A'?'ACTIVE':package.STATUS=='C'?'COMPLETED':''}}</span>
+                        </p>
+                      </ion-col>
+                      <ion-col col-6 *ngIf="package.HASEXCEPTION=='N' && package.WOSTYPE=='S'">
+                        <div *ngIf="workOrderPermission.PICKUP=='Y' && package.ASSIGNMENTID == 0">
+                          <p style="font-size: 1.2rem !important;
+                          font-weight: 500;display: flex; justify-content: center;align-items: center;">Assigned To:
+                          </p>
+                          <div id="empList_text">
+                            <custom-select *ngIf="workOrderPermission.ASSIGN=='Y' || emplogtype=='C'"
+                              [optionsModel]="empListModel" defaultOptTxt='Select Employee' [(value)]="selectedEmpId"
+                              (change)="empSelection(package,$event,i,serviceindex)"></custom-select>
+                          </div>
+                          <!-- <ion-select [(ngModel)]="package.empid" (ionChange)="empSelection(package,i,serviceindex)"
+                            *ngIf="workOrderPermission.ASSIGN=='Y' || emplogtype=='C'">
+                            <ion-option value="--Select--">--Select--</ion-option>
+                            <ion-option [value]="emp.EID" *ngFor="let emp of emplist">{{emp.NAME}}</ion-option>
+                          </ion-select> -->
+
+
+                        </div>
+                        <div
+                          *ngIf="package.ASSIGNMENTID!=0  && package.ASSIGNMENTINFO.LENGTH!=0 && package.STATUS=='A' ">
+                          <div
+                            *ngIf="package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid && package.STATUS=='A' && package.ASSIGNMENTINFO[0].ASSIGNEDTOLOGTYPE==emplogtype && package.ASSIGNMENTINFO[0].ASSIGNEDBY==dataOptions.eid">
+                            <div *ngFor="let woassign of package.ASSIGNMENTINFO">
+                              <p class="ptextalign ptextsmallsize">{{woassign.ASSIGNEDTONAME}}</p>
+                              <p class="ptextsmallsize ptextalign">{{woassign.ASSIGNEDDATE | date:'MM.dd.yy'}}
+                                {{woassign.ASSIGNEDDATE | date:'h:mm a'}}</p>
+
+                            </div>
+                          </div>
+                          <div
+                            *ngIf="package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid && package.ASSIGNMENTINFO[0].ASSIGNEDBY!=dataOptions.eid">
+                            <div *ngFor="let woassign of package.ASSIGNMENTINFO">
+                              <p class="ptextalign ptextsmallsize">{{woassign.ASSIGNEDTONAME}}</p>
+                              <p class="ptextsmallsize ptextalign">{{woassign.ASSIGNEDDATE | date:'MM.dd.yy'}}
+                                {{woassign.ASSIGNEDDATE | date:'h:mm a'}}</p>
+
+                            </div>
+                          </div>
+                          <div
+                            *ngIf="!(package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid && package.STATUS=='A' && package.ASSIGNMENTINFO[0].ASSIGNEDTOLOGTYPE==emplogtype)">
+                            <p style="font-size: 1.2rem !important;
+                          font-weight: 500;display: flex; justify-content: center;align-items: center;"
+                              *ngIf="(workOrderPermission.ASSIGN=='Y' || emplogtype=='C') && package.ASSIGNMENTINFO[0].ASSIGNEDBY==dataOptions.eid">
+                              Assigned To:</p>
+                            <!-- <ion-select [(ngModel)]="package.ASSIGNMENTINFO[0].ASSIGNEDTO"
+                              (ionChange)="empSelectionUpdate(package,i,serviceindex,package.ASSIGNMENTINFO[0].ASSIGNEDTO)"
+                              *ngIf="(workOrderPermission.ASSIGN=='Y' || emplogtype=='C') && package.ASSIGNMENTINFO[0].ASSIGNEDBY==dataOptions.eid">
+                              <ion-option value="--Select--">--Select--</ion-option>
+                              <ion-option [value]="emp.EID" *ngFor="let emp of emplist">{{emp.NAME}}</ion-option>
+                            </ion-select> -->
+                            <div id="empList">
+                              <custom-select
+                                *ngIf="(workOrderPermission.ASSIGN=='Y' || emplogtype=='C') && package.ASSIGNMENTINFO[0].ASSIGNEDBY==dataOptions.eid"
+                                [optionsModel]="empListModel" defaultOptTxt='Select Employee' [(optColor)]='black'
+                                [(value)]="package.ASSIGNMENTINFO[0].ASSIGNEDTO"
+                                (change)="empSelectionUpdate(package,i,serviceindex,$event,package.ASSIGNMENTINFO[0].ASSIGNEDTO)">
+                              </custom-select>
+                            </div>
+                          </div>
+                          <div
+                            *ngIf="package.ASSIGNMENTINFO[0].ASSIGNEDTO !=dataOptions.eid && package.ASSIGNMENTINFO[0].ASSIGNEDBY!=dataOptions.eid">
+                            <div *ngFor="let woassign of package.ASSIGNMENTINFO">
+                              <p class="ptextalign ptextsmallsize">{{woassign.ASSIGNEDTONAME}}{{'hh'}}</p>
+                              <p class="ptextsmallsize ptextalign">{{woassign.ASSIGNEDDATE | date:'MM.dd.yy'}}
+                                {{woassign.ASSIGNEDDATE | date:'h:mm a'}}</p>
+                            </div>
+                          </div>
+
+                        </div>
+                        <div *ngIf="package.STATUS=='C'">
+                          <div *ngFor="let woassign of package.ASSIGNMENTINFO">
+                            <p class="ptextalign ptextsmallsize">{{woassign.ASSIGNEDTONAME}}</p>
+                            <p class="ptextsmallsize ptextalign">{{woassign.PICKEDDATETIME | date:'MM.dd.yy'}}
+                              {{woassign.PICKEDDATETIME | date:'h:mm a'}}</p>
+                          </div>
+                        </div>
+                        <div
+                          *ngIf="package.ASSIGNMENTID!=0  && package.ASSIGNMENTINFO.LENGTH!=0 && package.STATUS=='I' ">
+                          <div *ngFor="let woassign of package.ASSIGNMENTINFO">
+                            <p class="ptextalign ptextsmallsize">{{woassign.ASSIGNEDTONAME}}</p>
+                            <p class="ptextsmallsize ptextalign">{{woassign.ASSIGNEDDATE | date:'MM.dd.yy'}}
+                              {{woassign.ASSIGNEDDATE | date:'h:mm a'}}</p>
+                            <!-- ASSIGNMENTINFO[0].ASSIGNEDTO=LOGGED EMP ID AND STATUS=’I’ AND ASSIGNEDLOGTYPE=LOGGED EMP LOG TYPE -->
+                          </div>
+
+                        </div>
+
+                      </ion-col>
+                      <ion-col col-6 *ngIf="package.HASEXCEPTION=='N' && package.WOSTYPE=='S'">
+                        <div *ngIf="workOrderPermission.PICKUP=='Y' && package.ASSIGNMENTID == 0">
+
+                          <p
+                            style="font-size: 1.2rem !important;
+                          font-weight: 500;display: flex; justify-content: center;align-items: center; color: transparent;">
+                            ' '</p>
+                          <p class="cre" style="display: flex;justify-content: center;"
+                            (click)="pickService(package,i,serviceindex,'P')"
+                            *ngIf="workOrderPermission.PICKUP=='Y' && package.ASSIGNMENTID == 0">
+                            <img src="../../assets/imgs/workorderqueue/Service_PickUp.png">
+                          </p>
+
+                        </div>
+                        <div
+                          *ngIf="package.ASSIGNMENTID!=0  && package.ASSIGNMENTINFO.LENGTH!=0 && package.STATUS=='A' ">
+                          <div
+                            *ngIf="package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid && package.STATUS=='A' && package.ASSIGNMENTINFO[0].ASSIGNEDTOLOGTYPE==emplogtype && package.ASSIGNMENTINFO[0].ASSIGNEDBY==dataOptions.eid">
+                            <div *ngFor="let woassign of package.ASSIGNMENTINFO">
+
+                              <p class="cre" style="display: flex;justify-content: space-around;">
+                                <img src="../../assets/imgs/workorderqueue/service_Cancel.png"
+                                  (click)="pickService(package,i,serviceindex,'D')">
+                                <img src="../../assets/imgs/workorderqueue/service_Completed.png"
+                                  (click)="pickService(package,i,serviceindex,'C')">
+                              </p>
+                            </div>
+                          </div>
+                          <div
+                            *ngIf="package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid && package.ASSIGNMENTINFO[0].ASSIGNEDBY!=dataOptions.eid">
+                            <div *ngFor="let woassign of package.ASSIGNMENTINFO">
+
+                              <p class="cre" style="display: flex;justify-content: space-around;"
+                                (click)="pickService(package,i,serviceindex,'P')">
+                                <img src="../../assets/imgs/workorderqueue/Service_PickUp.png">
+                              </p>
+                            </div>
+                          </div>
+
+
+                        </div>
+                        <div
+                          *ngIf="package.ASSIGNMENTID!=0  && package.ASSIGNMENTINFO.LENGTH!=0 && package.STATUS=='I' ">
+                          <p class="cre" style="display: flex;justify-content: space-around;"
+                            *ngIf="package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid && package.STATUS=='I' && package.ASSIGNMENTINFO[0].ASSIGNEDTOLOGTYPE==emplogtype &&  package.ASSIGNMENTINFO[0].ASSIGNEDBY==package.ASSIGNMENTINFO[0].ASSIGNEDTO">
+                            <img src="../../assets/imgs/workorderqueue/service_Cancel.png"
+                              (click)="pickService(package,i,serviceindex,'D')">
+                            <img src="../../assets/imgs/workorderqueue/service_Completed.png"
+                              (click)="pickService(package,i,serviceindex,'C')">
+                          </p>
+                          <p class="cre" style="display: flex;justify-content: space-around;"
+                            *ngIf="package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid && package.ASSIGNMENTINFO[0].ASSIGNEDBY!=dataOptions.eid">
+                            <img src="../../assets/imgs/workorderqueue/service_Completed.png"
+                              (click)="pickService(package,i,serviceindex,'C')">
+                          </p>
+                        </div>
+
+                      </ion-col>
+
+                      <ion-col col-12>
+                        <p style="font-size: 1.2rem !important;
+                        font-weight: 500;" *ngIf="wo.HASEXCEPTION=='Y'">Exception Status : <span style="font-size: 1.2rem !important;
+                        font-weight: 400;">{{package.EXCEPTIONTITLE}}</span>
+                        </p>
+                      </ion-col>
+
+                    </ion-row>
+
+                  </div>
+                </ion-col>
+
+              </ion-row>
+
+            </div>
+
+            <!-- <div *ngIf="wo.expanded==true" class="workordermoreinfo"> -->
+            <div class="workordermoreinfo">
+              <ion-row>
+                <ion-col col-4>
+                  <p class="work">WO#: <strong>{{wo.WONUMBER}}</strong></p>
+                </ion-col>
+                <ion-col col-4>
+                  <p class="work">RO#: <strong>{{wo.RO}}</strong></p>
+                </ion-col>
+                <ion-col col-4>
+                  <p class="work">PO#: <strong>{{wo.PO}}</strong></p>
+                </ion-col>
+              </ion-row>
+              <!-- <ion-row> -->
+              <!-- <ion-col col-12>
+              <p>Service Items: <span class="smalltext"
+                  *ngFor="let seritem of wo.packageS; let last= last">{{seritem?.SERVICEITEM.trim()}}{{last?'':', '}}</span>
+              </p>
+            </ion-col> -->
+              <!-- </ion-row> -->
+              <ion-row>
+                <ion-col col-3 (click)="NotesModal('notes',wo,'W',i)">
+                  <p>Notes: <ion-icon name="md-document" style="margin-right: 4%;"></ion-icon><span
+                      *ngIf="getlength('W',wo.WONOTES)>0" style="position: absolute;top: 0px;">
+                      {{getlength('W',wo.WONOTES)}}</span></p>
+                </ion-col>
+                <ion-col col-6 *ngIf="getlength('E',wo.WONOTES)>0" (click)="NotesModal('notes',wo,'E',i)">
+                  <p>Exception Notes: <ion-icon name="md-document" style="margin-right: 4%;"></ion-icon><span
+                      *ngIf="wo.WONOTES.length>0" style="position: absolute;top: 0px;">
+                      {{getlength('E',wo.WONOTES)}}</span></p>
+                </ion-col>
+                <ion-col col-12 *ngIf="wo?.WOSERVICES?.length>0">
+                  <div class="appflexbox" >
+                    <button ion-button small *ngIf="(workOrderPermission.WOEDIT=='Y' || wo?.INSERTEDBY == loggedEmp) && (wo?.ACTIVE ==='O' || wo?.ACTIVE == 'I')"
+                      (click)="edit(wo,i,'edit')">Edit</button>
+                    <button ion-button small *ngIf="(workOrderPermission.WODELETE=='Y' || wo?.INSERTEDBY == loggedEmp) && (wo?.ACTIVE=='O')" 
+                      (click)="edit(wo,i,'void')">Void</button>
+                    <button ion-button small *ngIf="(wo?.HASEXCEPTION=='N' && wo?.INSERTEDBY == loggedEmp) && (wo?.ACTIVE ==='O' || wo?.ACTIVE == 'I')"
+                      (click)="edit(wo,i,'addparts')">Add Parts</button>
+                    
+                      <button ion-button small *ngIf="(workOrderPermission.APPROVE=='Y' && wo?.APPROVALREQ == 'Y' && wo?.APPROVEDBY =='0') && (wo?.ACTIVE == 'O' || wo?.ACTIVE == 'I' || wo?.ACTIVE == 'C')"
+                      (click)="ApproveClick(wo,i,'Approve')">Approve</button>
+                    
+                  </div>
+                </ion-col>
+                <!-- <ion-col col-5 *ngIf="wo?.WOSERVICES?.length>0">
+                  <div class="appflexbox">
+                    <div *ngIf="wo?.ACTIVE == 'O' || wo?.ACTIVE == 'I' || wo?.ACTIVE == 'C'">
+                      <button ion-button small
+                        *ngIf="workOrderPermission.APPROVE=='Y' && wo?.APPROVALREQ == 'Y' && wo?.APPROVEDBY =='0'"
+                        (click)="ApproveClick(wo,i,'Approve')">Approve</button>
+                    </div>
+                  </div>m
+                </ion-col> -->
+              </ion-row>
+              <!-- <ion-row>
+              <ion-col col-12>
+                  <p class="cre" style="display: flex;">
+                      <span>Actions: </span> <img
+                        src="../../assets/imgs/workorderqueue/Service_PickUp.png">
+                    </p>
+                </ion-col>
+          </ion-row> -->
+            </div>
+            <div *ngIf="wo.expanded==true">
+              <div *ngFor="let subOrder of wo.SUBWORKORDER;let subWoindex=index let sublast = last"
+                [ngClass]="{'woseboader':!sublast}" class="cardcontent workorderboarder">
+                <ion-row>
+                  <ion-col>
+                    <p style="font-size: 1.2rem !important;">WORK ORDER:<strong> {{subOrder.WONUMBER}}</strong></p>
+                  </ion-col>
+                </ion-row>
+                <ion-row class="packagebg">
+                  <ion-col col-3>
+                    <p class="ptextalign"><strong>Package</strong></p>
+                  </ion-col>
+                  <ion-col col-3>
+                    <p class="ptextalign"><strong>Service Items</strong></p>
+                  </ion-col>
+                  <ion-col col-5>
+                    <p class="ptextalign"><strong>Assigned To</strong></p>
+                  </ion-col>
+
+                </ion-row>
+                <div>
+
+                  <ion-row *ngFor="let package of subOrder.WOSERVICES;let serviceindex=index; let last = last"
+                    [ngClass]="{'woseboader':!last}">
+                    <ion-col col-3 class="textcenter">
+                      <p class="ptextsmallsize"
+                        style="display: flex !important;justify-content: center !important;text-align: center;">
+                        {{package.PACKAGENAME}}</p>
+                    </ion-col>
+                    <ion-col col-3 class="textcenter">
+                      <p class="ptextalign ptextsmallsize">{{package.MASKNAME =="" ? package.SERVICEITEM : package.MASKNAME  }}</p>
+                    </ion-col>
+                    <ion-col col-5 *ngIf="package.HASEXCEPTION=='N' && package.WOSTYPE=='S'">
+                      <div *ngIf="workOrderPermission.PICKUP=='Y' && package.ASSIGNMENTID == 0">
+                        <!-- <ion-select [(ngModel)]="package.empid"
+                          (ionChange)="empSelection(package,i,serviceindex,true,subWoindex)"
+                          *ngIf="workOrderPermission.ASSIGN=='Y' || emplogtype=='C'">
+                          <ion-option value="--Select--">--Select--</ion-option>
+                          <ion-option [value]="emp.EID" *ngFor="let emp of emplist">{{emp.NAME}}</ion-option>
+                        </ion-select> -->
+                        <div id="empList_1">
+                          <custom-select *ngIf="workOrderPermission.ASSIGN=='Y' || emplogtype=='C'"
+                            [optionsModel]="empListModel" [(value)]="selectedEmpId" defaultOptTxt='Select Employee'
+                            (change)="empSelection(package,$event,i,serviceindex)"></custom-select>
+                        </div>
+                        <p class="cre" style="display: flex;justify-content: center;"
+                          (click)="pickService(package,i,serviceindex,'P')"
+                          *ngIf="workOrderPermission.PICKUP=='Y' && package.ASSIGNMENTID == 0">
+                          <img class="subimage" src="../../assets/imgs/workorderqueue/Service_PickUp.png">
+                        </p>
+
+                      </div>
+                      <div *ngIf="package.ASSIGNMENTID!=0  && package.ASSIGNMENTINFO.LENGTH!=0 && package.STATUS=='A' ">
+                        <div
+                          *ngIf="package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid && package.STATUS=='A' && package.ASSIGNMENTINFO[0].ASSIGNEDTOLOGTYPE==emplogtype && package.ASSIGNMENTINFO[0].ASSIGNEDBY==dataOptions.eid">
+                          <div *ngFor="let woassign of package.ASSIGNMENTINFO">
+                            <p class="ptextalign ptextsmallsize">{{woassign.ASSIGNEDTONAME}}</p>
+                            <p class="ptextsmallsize ptextalign">{{woassign.ASSIGNEDDATE | date:'MM.dd.yy'}}
+                              {{woassign.ASSIGNEDDATE | date:'h:mm a'}}</p>
+                            <p class="cre" style="display: flex;justify-content: space-around;">
+                              <img class="subimage" src="../../assets/imgs/workorderqueue/service_Cancel.png"
+                                (click)="pickService(package,i,serviceindex,'D')">
+                              <img class="subimage" src="../../assets/imgs/workorderqueue/service_Completed.png"
+                                (click)="pickService(package,i,serviceindex,'C')">
+                            </p>
+                          </div>
+                        </div>
+                        <div
+                          *ngIf="package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid && package.ASSIGNMENTINFO[0].ASSIGNEDBY!=dataOptions.eid">
+                          <div *ngFor="let woassign of package.ASSIGNMENTINFO">
+                            <p class="ptextalign ptextsmallsize">{{woassign.ASSIGNEDTONAME}}</p>
+                            <p class="ptextsmallsize ptextalign">{{woassign.ASSIGNEDDATE | date:'MM.dd.yy'}}
+                              {{woassign.ASSIGNEDDATE | date:'h:mm a'}}</p>
+                            <p class="cre" style="display: flex;justify-content: space-around;"
+                              (click)="pickService(package,i,serviceindex,'P')">
+                              <img class="subimage" src="../../assets/imgs/workorderqueue/Service_PickUp.png">
+                            </p>
+                          </div>
+                        </div>
+                        <div
+                          *ngIf="!(package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid && package.STATUS=='A' && package.ASSIGNMENTINFO[0].ASSIGNEDTOLOGTYPE==emplogtype)">
+                          <!-- <ion-select [(ngModel)]="package.ASSIGNMENTINFO[0].ASSIGNEDTO"
+                            (ionChange)="empSelectionUpdate(package,i,serviceindex,package.ASSIGNMENTINFO[0].ASSIGNEDTO,true,subWoindex)"
+                            *ngIf="workOrderPermission.ASSIGN=='Y' || emplogtype=='C'">
+                            <ion-option value="--Select--">--Select--</ion-option>
+                            <ion-option [value]="emp.EID" *ngFor="let emp of emplist">{{emp.NAME}}</ion-option>
+                          </ion-select> -->
+                          <div id="empList_0">
+                            <custom-select *ngIf="workOrderPermission.ASSIGN=='Y' || emplogtype=='C'"
+                              [optionsModel]="empListModel" defaultOptTxt='Select'
+                              [(value)]="package.ASSIGNMENTINFO[0].ASSIGNEDTO"
+                              (change)="empSelectionUpdate(package,i,serviceindex,$event,package.ASSIGNMENTINFO[0].ASSIGNEDTO,true,subWoindex)">
+                            </custom-select>
+                          </div>
+                        </div>
+                        <div
+                          *ngIf="package.ASSIGNMENTINFO[0].ASSIGNEDTO !=dataOptions.eid && package.ASSIGNMENTINFO[0].ASSIGNEDBY!=dataOptions.eid">
+                          <div *ngFor="let woassign of package.ASSIGNMENTINFO">
+                            <p class="ptextalign ptextsmallsize">{{woassign.ASSIGNEDTONAME}}</p>
+                            <p class="ptextsmallsize ptextalign">{{woassign.ASSIGNEDDATE | date:'MM.dd.yy'}}
+                              {{woassign.ASSIGNEDDATE | date:'h:mm a'}}</p>
+                          </div>
+                        </div>
+
+                      </div>
+                      <div *ngIf="package.STATUS=='C'">
+                        <div *ngFor="let woassign of package.ASSIGNMENTINFO">
+                          <p class="ptextalign ptextsmallsize">{{woassign.ASSIGNEDTONAME}}</p>
+                          <p class="ptextsmallsize ptextalign">{{woassign.ASSIGNEDDATE | date:'MM.dd.yy'}}
+                            {{woassign.ASSIGNEDDATE | date:'h:mm a'}}</p>
+                        </div>
+                      </div>
+                      <div *ngIf="package.ASSIGNMENTID!=0  && package.ASSIGNMENTINFO.LENGTH!=0 && package.STATUS=='I' ">
+                        <div *ngFor="let woassign of package.ASSIGNMENTINFO">
+                          <p class="ptextalign ptextsmallsize">{{woassign.ASSIGNEDTONAME}}</p>
+                          <p class="ptextsmallsize ptextalign">{{woassign.ASSIGNEDDATE | date:'MM.dd.yy'}}
+                            {{woassign.ASSIGNEDDATE | date:'h:mm a'}}</p>
+                          <!-- ASSIGNMENTINFO[0].ASSIGNEDTO=LOGGED EMP ID AND STATUS=’I’ AND ASSIGNEDLOGTYPE=LOGGED EMP LOG TYPE -->
+                        </div>
+                        <p class="cre" style="display: flex;justify-content: space-around;"
+                          *ngIf="package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid && package.STATUS=='I' && package.ASSIGNMENTINFO[0].ASSIGNEDTOLOGTYPE==emplogtype &&  package.ASSIGNMENTINFO[0].ASSIGNEDBY==package.ASSIGNMENTINFO[0].ASSIGNEDTO">
+                          <img class="subimage" src="../../assets/imgs/workorderqueue/service_Cancel.png"
+                            (click)="pickService(package,i,serviceindex,'D')">
+                          <img class="subimage" src="../../assets/imgs/workorderqueue/service_Completed.png"
+                            (click)="pickService(package,i,serviceindex,'C')">
+                        </p>
+                        <p class="cre" style="display: flex;justify-content: space-around;"
+                          *ngIf="package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid && package.ASSIGNMENTINFO[0].ASSIGNEDBY!=dataOptions.eid">
+                          <img class="subimage" src="../../assets/imgs/workorderqueue/service_Completed.png"
+                            (click)="pickService(package,i,serviceindex,'C')">
+                        </p>
+                      </div>
+
+                    </ion-col>
+                    <ion-col col-1 class="textcenter" (click)="NotesModal('notes',wo,'S',i)" *ngIf="emplogtype=='C'">
+                      <p>
+                        <ion-icon name="md-document"></ion-icon><span *ngIf="getlength('S',wo.WONOTES)>0" style="position: absolute;top: 4px;
+                          right: 2px;">
+                          {{getlength('S',wo.WONOTES)}}</span>
+                      </p>
+                    </ion-col>
+                    <ion-col col-12>
+                      <p style="font-size: 1.2rem !important;font-weight: 500;">Status : <span
+                          style="color: #007bff !important;">{{package.STATUS=='O'?'OPEN':package.STATUS=='I'?'IN-PROGRESS':package.STATUS=='A'?'ACTIVE':package.STATUS=='C'?'COMPLETED':''}}</span>
+                      </p>
+                    </ion-col>
+
+                  </ion-row>
+
+                </div>
+                <!-- </ion-col> -->
+                <!-- </ion-row> -->
+              </div>
+            </div>
+
+            <div class="cardfooter">
+              <ion-row style="justify-content: center;align-items: center;"
+                *ngIf="(wo.APPROVEDBY != '0' && wo.APPROVALREQ =='Y')">
+                <ion-col col-6>
+                  <!-- <p class="cre">
+                    Created by:
+                  </p> -->
+                  <p class="cre" style="display: flex;justify-content: center;">
+                    <span style="margin-top: 3%;">Approved by: </span> <img
+                      [src]="wo.INSERTEDBYIMAGE != '' ? paceEnv.Paceimg+'/profile/'+wo.INSERTEDBYIMAGE : NoImg">
+                  </p>
+                </ion-col>
+              </ion-row>
+              <ion-row style="justify-content: center;align-items: center;"
+                *ngIf="(wo.APPROVEDBY == '0' && wo.APPROVALREQ =='Y' && wo?.APPROVEDBYNAME =='')">
+                <ion-col col-8>
+                  <!-- <p class="cre">
+                      Created by:
+                    </p> -->
+                  <p class="cre" style="display: flex;justify-content: center;">
+                    <span style="margin-top: 3%;"> Approved by: </span>&nbsp; <span style="margin-top: 3%;">Waiting for
+                      approval</span>
+                  </p>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col col-6>
+                  <!-- <p class="cre">
+                Created by:
+              </p> -->
+                  <p class="cre" style="display: flex;">
+                    <span style="margin-top: 3%;">Created by: </span> <img
+                      [src]="wo.INSERTEDBYIMAGE != '' ? paceEnv.Paceimg+'/profile/'+wo.INSERTEDBYIMAGE : NoImg">
+                  </p>
+                </ion-col>
+                <!-- <ion-col col-2>
+              <img [src]="wo.INSERTEDBYIMAGE != '' ? paceEnv.Paceimg+'/profile/'+wo.INSERTEDBYIMAGE : NoImg">
+            </ion-col> -->
+                <ion-col col-6>
+                  <p class="cre" style="display: flex;">
+                    <span style="margin-top: 4%;">Requested by: </span> <img
+                      [src]="wo.INSERTEDBYIMAGE != '' ? paceEnv.Paceimg+'/profile/'+wo.INSERTEDBYIMAGE : NoImg">
+                  </p>
+                </ion-col>
+                <!-- <ion-col col-2>
+             
+            </ion-col> -->
+              </ion-row>
+
+            </div>
+          </ion-card>
+        </div>
+        <ion-infinite-scroll (ionInfinite)="doInfinite($event,selection)">
+          <ion-infinite-scroll-content loadingSpinner="circles" loadingText="Loading more data...">
+          </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+      </div>
+    </div>
+  </div>
+</ion-content>
+<!-- W -->

@@ -1,0 +1,224 @@
+workorderedit {
+  .flex-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    flex-grow: 1;
+  }
+
+  
+  .card-md{
+    flex-grow: 1;
+    display: flex;
+    flex-flow: column;
+}
+  .item.item-block .item-inner {
+    border-bottom: unset !important;
+  }
+
+  .item {
+    padding-left: 0px !important;
+  }
+
+
+
+  .mainclass {
+    // display: flex !important;
+    // flex-direction: column !important;
+    // align-items: stretch !important;
+    background: white !important;
+    // margin: 5% !important;
+    // padding: 5% !important;
+    // border-radius: 2% !important;
+
+    .mainheader {
+      background-color: #076bd0 !important;
+      padding-top: 3%;
+      padding-bottom: 2%;
+      padding-left: 3%;
+      // border-top-left-radius: 2%;
+      // border-top-right-radius: 2%;
+
+      p {
+        margin: 0px !important;
+        color: white !important;
+        font-size: 1.65rem !important;
+      }
+    }
+
+    .maincontent {
+      p {
+        color: black;
+      }
+
+      margin-left: 3% !important;
+      margin-right: 3% !important;
+
+      #rounded {
+        width: 100%;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+
+        .text-input {
+          margin: 13% 1% 13% 5% !important;
+          font-size: 1.5rem !important;
+          text-transform: uppercase !important;
+        }
+      }
+
+      .item-block {
+        min-height: 3.8rem !important;
+        max-height: 3.8rem !important;
+      }
+
+
+
+      .note {
+        #rounded2 {
+          width: 100% !important;
+          color: #495057;
+          background-color: #fff;
+          background-clip: padding-box;
+          border: 1px solid #ced4da;
+          border-radius: .25rem;
+        }
+
+        .item-block {
+          min-height: 4.4rem !important;
+          max-height: 4.4rem !important;
+        }
+
+        text-input {
+          margin: 13px 8px !important;
+        }
+      }
+
+      .buttonslist {
+        text-align: center !important;
+
+        .btninline {
+          display: inline !important;
+
+          .button {
+            border-radius: 2px;
+            height: 3rem !important;
+            font-size: 1.4rem;
+            font-weight: 500 !important;
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+            padding-top: 0.2rem !important;
+            text-transform: capitalize !important;
+          }
+
+          .btn-warning {
+            color: #212529;
+            background-color: #ffc107;
+            border-color: #ffc107;
+          }
+        }
+
+      }
+
+      .addpartsheader {
+        margin-top:10px;
+        // padding-left: 2%;
+        // padding-right: 2%;
+
+        .col {
+          padding: 0% !important;
+          padding-left: 3% !important;
+          padding-top: 1% !important;
+          padding-bottom: 1% !important;
+          background-color: #1264c4;
+          color: #fff;
+        }
+
+        p {
+          margin: 0px !important;
+          color: white;
+          font-weight: 600;
+        }
+      }
+
+      .addpartsbody {
+        margin-top:5px;
+        margin-bottom :15px;
+        // padding-left: 2%;
+        // padding-right: 2%;
+
+        .col {
+          padding: 0% !important;
+          padding-left: 3% !important;
+          padding-top: 1% !important;
+          padding-bottom: 1% !important;
+        }
+
+        p {
+          margin: 0px !important;
+        }
+
+        ion-icon {
+          color: black !important;
+        }
+
+        .woseboader {
+          border-bottom: 1px solid rgba(0, 0, 0, 0.188) !important;
+        }
+      }
+
+
+    }
+  }
+
+  .confirmmain {
+    background: white !important;
+    margin: 5% !important;
+    padding: 5% !important;
+
+    p {
+      color: black;
+      margin: 2% 0% 2% 0% !important;
+    }
+
+    .title {
+      padding: 3% 3% 3% 2%;
+      border-bottom: 1px solid #d2d2d2de;
+
+      .ttext {
+        font-size: 2rem;
+      }
+    }
+
+    .buttonslist {
+      text-align: right !important;
+
+      .btninline {
+        display: inline !important;
+
+        .button {
+          border-radius: 2px;
+          height: 3rem !important;
+          font-size: 1.4rem;
+          font-weight: 500 !important;
+          color: #fff;
+          background-color: #007bff;
+          border-color: #007bff;
+          padding-top: 0.2rem !important;
+          text-transform: capitalize !important;
+        }
+
+        .btn-warning {
+          color: #fff;
+          background-color: #dc3545;
+          border-color: #dc3545;
+        }
+      }
+
+    }
+  }
+}
