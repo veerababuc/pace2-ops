@@ -36,6 +36,7 @@ export class WorkorderQueuePage {
     searchstatus: 'A',
     searchtype: 0
   }
+  
   addinfinitescroll: boolean = false;
   infintescrollevent: any;
   selectemp = {
@@ -355,7 +356,7 @@ export class WorkorderQueuePage {
     if (this.selectpackege == true) {
       this.selectpackege = false;
     } else {
-      if (empId !== '0') {
+      if (woService.empId !== '0') {
         woService.empid = empId;
         this.assigment(woService, empId,woIndex, serviceIndex, subWorkorder, subWoindex);
       } else {
@@ -380,7 +381,7 @@ export class WorkorderQueuePage {
         for(let i= 0; i <self.emplist.length; i++  ){
         this.empListModel.push({name:self.emplist[i].NAME,value:self.emplist[i].EID})
         }
-        //console.log(this.empListModel);
+        console.log(this.empListModel);
         
         self.employeeWorkOrderPermissionforactions();
       }
@@ -411,8 +412,18 @@ export class WorkorderQueuePage {
             let result = JSON.parse(serviceres[0].result);
             console.log('sub workorder', subWorkorder);
             if (subWorkorder == true) {
+              ///this.getWorkOrders();
               console.log('sub workorder true', subWorkorder);
-              self.workOrders[woindex].SUBWORKORDER[subWoindex].WOSERVICES[serviceindex] = Object.assign({}, result[0].SERVICEITEM[0]);
+              self.workOrders[woindex].WOSERVICES[serviceindex] = Object.assign({}, result[0].SERVICEITEM[0]);
+              setTimeout(() => {
+                this.paceEnv.startLoading();
+                this.workOrders = [];
+                this.getWorkOrders();  
+              }, 1000);
+              this.paceEnv.stopLoading();
+              console.log("Vishnu",self.workOrders);
+
+              
             } else {
               console.log('sub workorder else', subWorkorder);
               // self.workOrders[woindex].SUBWORKORDER[0].WOSERVICES[serviceindex] = Object.assign({}, result[0].SERVICEITEM[0]);
@@ -549,14 +560,14 @@ export class WorkorderQueuePage {
     );
     return newArray;
   }
-  valueChange(selectedemp, xxxx,spackage, i, serviceindex, subWorkorder = false, subWoindex = 0) {
-    console.log('selectedemp', selectedemp, spackage, i, serviceindex);
-    spackage.empid = selectedemp.empid;
-    if (selectedemp.type == 'NEW')
-      this.empSelection(spackage,xxxx, i, serviceindex, subWorkorder, subWoindex);
-    if (selectedemp.type == 'UPDATE')
-      this.empSelectionUpdate(spackage, i, serviceindex, spackage.empid, subWorkorder, subWoindex);
-  }
+  // valueChange(selectedemp,spackage, i, serviceindex, subWorkorder = false, subWoindex = 0) {
+  //   console.log('selectedemp', selectedemp, spackage, i, serviceindex);
+  //   spackage.empid = selectedemp.empid;
+  //   if (selectedemp.type == 'NEW')
+  //     this.empSelection(spackage, i, serviceindex, subWorkorder, subWoindex);
+  //   if (selectedemp.type == 'UPDATE')
+  //     this.empSelectionUpdate(spackage, i, serviceindex, spackage.empid, subWorkorder, subWoindex);
+  // }
 
   selectDataOpt(data){
            // console.log(data);

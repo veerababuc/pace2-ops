@@ -175,7 +175,7 @@
                           </p>
                           <div id="empList_text">
                             <custom-select *ngIf="workOrderPermission.ASSIGN=='Y' || emplogtype=='C'"
-                              [optionsModel]="empListModel" defaultOptTxt='Select Employee' [(value)]="selectedEmpId"
+                              [optionsModel]="empListModel" defaultOptTxt='Select Employee' 
                               (change)="empSelection(package,$event,i,serviceindex)"></custom-select>
                           </div>
                           <!-- <ion-select [(ngModel)]="package.empid" (ionChange)="empSelection(package,i,serviceindex)"
@@ -223,7 +223,7 @@
                                 *ngIf="(workOrderPermission.ASSIGN=='Y' || emplogtype=='C') && package.ASSIGNMENTINFO[0].ASSIGNEDBY==dataOptions.eid"
                                 [optionsModel]="empListModel" defaultOptTxt='Select Employee' [(optColor)]='black'
                                 [(value)]="package.ASSIGNMENTINFO[0].ASSIGNEDTO"
-                                (change)="empSelectionUpdate(package,i,serviceindex,$event,package.ASSIGNMENTINFO[0].ASSIGNEDTO)">
+                                (change)="empSelectionUpdate(package,i,serviceindex,$event,package.ASSIGNMENTINFO[0].ASSIGNEDTO,true,subWoindex)">
                               </custom-select>
                             </div>
                           </div>
@@ -256,7 +256,7 @@
                         </div>
 
                       </ion-col>
-                      <ion-col col-6 *ngIf="package.HASEXCEPTION=='N' && package.WOSTYPE=='S'">
+                      <ion-col col-6 *ngIf="(package.HASEXCEPTION=='N' && package.WOSTYPE=='S') && (package.ASSIGNMENTINFO.LENGTH == 0) ">
                         <div *ngIf="workOrderPermission.PICKUP=='Y' && package.ASSIGNMENTID == 0">
 
                           <p
@@ -312,7 +312,6 @@
                               (click)="pickService(package,i,serviceindex,'C')">
                           </p>
                         </div>
-
                       </ion-col>
 
                       <ion-col col-12>
