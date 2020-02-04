@@ -323,7 +323,7 @@ export class CreateWorkorderPage {
       value.pkgselected=false;
     }
     else{
-      this.reorderItems(value.SSIID,i);
+      // this.reorderItems(value.SSIID,i);
       this.siidlist.push(value.SSIID);
       this.pkg_service_list.push(value);
       console.log('siidlist'+JSON.stringify(this.siidlist));

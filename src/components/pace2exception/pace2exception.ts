@@ -68,27 +68,29 @@ export class Pace2exceptionComponent {
     this.ViewCtrl.dismiss();
   }
   AddService(type,fcid){
-    console.log('dept id ....', this.Depid);
     let Modal = this.modalctrl.create('TestPage',{'type':type ,'Data':this.workid,'DeptName':this.Depname,'DeptId':this.Depid,'FCID':fcid},{ cssClass: "full-height-modal" });
     Modal.onDidDismiss((data) => {
-      console.log('in exceptions page' ,data);
-      this.ViewCtrl.dismiss(data);
-    });
+      if(typeof(data) != 'undefined'){
+        this.ViewCtrl.dismiss(data);
+      }
+    }); 
     Modal.present();
   }
   Delete(type){
     let Modal = this.modalctrl.create('TestPage',{'type':type ,'Data':this.workid,},{ cssClass: "full-height-modal" });
-    Modal.onDidDismiss(() => {
-      console.log('in exceptions page');
-      this.ViewCtrl.dismiss();
+    Modal.onDidDismiss((data) => {
+      if(typeof(data) != 'undefined'){
+      this.ViewCtrl.dismiss(data);
+      }
     });
     Modal.present();
   }
   Process(type){
     let Modal = this.modalctrl.create('TestPage',{'type':type ,'Data':this.workid,},{ cssClass: "full-height-modal" });
     Modal.onDidDismiss((data) => {
-      console.log('in exceptions page...Process',data);
-      this.ViewCtrl.dismiss();
+      if(typeof(data) != 'undefined'){
+      this.ViewCtrl.dismiss(data);
+      }
     });
     Modal.present();
   

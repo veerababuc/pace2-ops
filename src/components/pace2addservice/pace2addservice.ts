@@ -39,39 +39,73 @@ export class Pace2addserviceComponent {
   constructor(public toastController: ToastController,public loadcntrl: LoadingServiceProvider,private appconst:PaceEnvironment,private db:DatabaseProvider,public OdsService: OdsServiceProvider,public ViewCtrl: ViewController,) {
   
   }
-  ngOnInit(){
-    
+  ngOnInit(){  
     let self = this;
     this.db.getAllUsers().then(emdata=>{
       this.SitId = emdata[0].SiteNumber; 
       this.Eid = emdata[0].EmpId; 
       this.LogType = emdata[0].LogType; 
-      console.log('from addservices.....',emdata,self.Depid,self.Depname,self.FCID,self.SitId);
-      let packageOptions = {
-        SiteId: emdata[0].SiteNumber,
-        loggedInEmpId: emdata[0].EmpId,
-        EmplogTypeCode: emdata[0].LogType
-      }
-
+      let packageOptions =`<Info>
+            <s_id>${emdata[0].SiteNumber}</s_id>
+            <type>M</type>
+            <dept_id>${self.FCID}</dept_id>
+            <e_id>${emdata[0].EmpId}</e_id>
+            <logtype>${emdata[0].LogType}</logtype>
+          </Info>`
       this.loadcntrl.presentLoadingCustom();
-      self.OdsService.GetPackages(packageOptions).subscribe((data) => {
-        self.Service = JSON.parse(data[0].result);
-        self.ServiceData = this.Service[0].PACKAGES; 
-        self.ServiceData.forEach(element => {
-          element.selection = "--Select--";
-          element.SITESERVICEDEPARTMENTS.forEach(ele => {
-           if(ele.SDID == this.Depid) {
-            this.AddServiceData.push({name:element.TITLE,value:element.SSIID,SERVICEITEMS:element.SERVICEITEMS});
-            this.AddAllServiceData.push(element);
-           }
-          });
-        });
-        this.loadcntrl.hideloader();     
-        console.log('getpacks data...', data,this.AddServiceData );    
-       
+      self.OdsService.GetrelatedPackages(packageOptions).subscribe((data) => {
+        let body = JSON.parse(data._body);
+        let body1 = JSON.parse(body[0].result);
+        let body2 = body1[0].PACKAGES;
+        self.Service = body1;
+        self.ServiceData = body2; 
+        self.ServiceData.filter(element => {
+        this.AddServiceData.push({name:element.TITLE,value:element.SSIID,SERVICEITEMS:element.SERVICEITEMS});
+        this.AddAllServiceData.push(element);
       });
+      this.loadcntrl.hideloader();            
     });
-  }
+  });
+}
+
+  // ngOnInit(){
+    
+  //   let self = this;
+  //   this.db.getAllUsers().then(emdata=>{
+  //     this.SitId = emdata[0].SiteNumber; 
+  //     this.Eid = emdata[0].EmpId; 
+  //     this.LogType = emdata[0].LogType; 
+  //     console.log('from addservices.....',emdata,self.Depid,self.Depname,self.FCID,self.SitId);
+  //     let packageOptions = {
+  //       SiteId: emdata[0].SiteNumber,
+  //       loggedInEmpId: emdata[0].EmpId,
+  //       EmplogTypeCode: emdata[0].LogType
+  //     }
+
+  //     this.loadcntrl.presentLoadingCustom();
+  //     self.OdsService.GetPackages(packageOptions).subscribe((data) => {
+  //       self.Service = JSON.parse(data[0].result);
+  //       self.ServiceData = this.Service[0].PACKAGES; 
+  //       console.log(self.ServiceData);
+  //       self.ServiceData.forEach(element => {
+  //         element.selection = "--Select--";
+  //         element.SITESERVICEDEPARTMENTS.forEach(ele => {
+  //           console.log(element);
+  //           console.log(ele);
+  //           console.log(ele.SDID,this.Depid);
+  //          if(ele.SDID == this.Depid) {
+  //           this.AddServiceData.push({name:element.TITLE,value:element.SSIID,SERVICEITEMS:element.SERVICEITEMS});
+  //           this.AddAllServiceData.push(element);
+  //           console.log(this.AddServiceData);
+  //          }
+  //         });
+  //       });
+  //       this.loadcntrl.hideloader();     
+  //       console.log('getpacks data...', data,this.AddServiceData );    
+       
+  //     });
+  //   });
+  // }
   
   Cancel() {
     this.ViewCtrl.dismiss();

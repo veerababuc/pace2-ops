@@ -55,7 +55,7 @@ woservices= ""
 
 this.OdsService.DeleteworkOrderException(woinfo,wonotes,woparts,woservices).subscribe((data) => {
   console.log('delete work order exp...', data);
-  this.ViewCtrl.dismiss();
+  this.ViewCtrl.dismiss("Success");
 })
   }
 }
@@ -74,7 +74,7 @@ woinfo = `<Info><woid>${this.workid}</woid><eid>${this.Eid}</eid><etype>${this.L
 wonotes = this.notes;
 this.OdsService.FixExceptions(woinfo,wonotes).subscribe((data) => {
 console.log('delete work order exp...', data);
-this.ViewCtrl.dismiss();
+this.ViewCtrl.dismiss("Success");
 })
 }
 }

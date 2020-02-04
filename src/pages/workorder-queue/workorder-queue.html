@@ -558,10 +558,17 @@
                     Created by:
                   </p> -->
                   <p class="cre" style="display: flex;justify-content: center;">
-                    <span style="margin-top: 3%;">Approved by: </span> <img
-                      [src]="wo.INSERTEDBYIMAGE != '' ? paceEnv.Paceimg+'/profile/'+wo.INSERTEDBYIMAGE : NoImg">
+                    <span style="margin-top: 4%;white-space: nowrap;">Approved by: </span> <img
+                      [src]="wo.APPROVEDBYIMAGE != '' ? paceEnv.Paceimg+'/profile/'+wo.APPROVEDBYIMAGE : NoImg">
+                      <span style="margin-top: 4%;margin-left: 2%;"
+                      >{{wo.APPROVEDBYNAME}} </span>
                   </p>
                 </ion-col>
+                <ion-row style="justify-content: center;width: 100%;">
+                  <ion-col col-8 class="col-centered">
+                    <div style="border-bottom: 1px solid rgba(0, 0, 0, 0.188) !important;"></div>
+                  </ion-col>
+                </ion-row>
               </ion-row>
               <ion-row style="justify-content: center;align-items: center;"
                 *ngIf="(wo.APPROVEDBY == '0' && wo.APPROVALREQ =='Y' && wo?.APPROVEDBYNAME =='')">
@@ -569,11 +576,16 @@
                   <!-- <p class="cre">
                       Created by:
                     </p> -->
-                  <p class="cre" style="display: flex;justify-content: center;">
-                    <span style="margin-top: 3%;"> Approved by: </span>&nbsp; <span style="margin-top: 3%;">Waiting for
+                    <p class="cre" style="display: flex;justify-content: center;width: 100%;">
+                      <span style="margin-top: 3%;white-space: nowrap;"> Approved by: </span>&nbsp; <span style="margin-top: 3%;">Waiting for
                       approval</span>
                   </p>
                 </ion-col>
+                <ion-row style="justify-content: center;width: 100%;">
+                  <ion-col col-8 class="col-centered">
+                    <div style="border-bottom: 1px solid rgba(0, 0, 0, 0.188) !important;"></div>
+                  </ion-col>
+                </ion-row>
               </ion-row>
               <ion-row>
                 <ion-col col-6>
@@ -581,8 +593,10 @@
                 Created by:
               </p> -->
                   <p class="cre" style="display: flex;">
-                    <span style="margin-top: 3%;">Created by: </span> <img
+                    <span style="margin-top: 4%;white-space: nowrap;">Created by: </span> <img
                       [src]="wo.INSERTEDBYIMAGE != '' ? paceEnv.Paceimg+'/profile/'+wo.INSERTEDBYIMAGE : NoImg">
+                      <span style="margin-top: 4%; text-overflow: ellipsis;overflow: hidden;white-space: nowrap;margin-left: 2%;">
+                        {{wo.INSERTEDBYNAME}} </span>
                   </p>
                 </ion-col>
                 <!-- <ion-col col-2>
@@ -590,8 +604,10 @@
             </ion-col> -->
                 <ion-col col-6>
                   <p class="cre" style="display: flex;">
-                    <span style="margin-top: 4%;">Requested by: </span> <img
-                      [src]="wo.INSERTEDBYIMAGE != '' ? paceEnv.Paceimg+'/profile/'+wo.INSERTEDBYIMAGE : NoImg">
+                    <span style="margin-top: 4%;white-space: nowrap;">Requested by: </span> <img
+                      [src]="wo.REQUESTEDBYIMAGE != '' ? paceEnv.Paceimg+'/profile/'+wo.REQUESTEDBYIMAGE : NoImg">
+                      <span style="margin-top: 4%; text-overflow: ellipsis;overflow: hidden;white-space: nowrap;margin-left: 2%;
+                      ">{{wo.REQUESTEDBYNAME}} </span>
                   </p>
                 </ion-col>
                 <!-- <ion-col col-2>
