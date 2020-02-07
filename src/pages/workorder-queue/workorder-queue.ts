@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, NgZone } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, AlertController, ToastController } from 'ionic-angular';
 import { OdsServiceProvider } from '../../providers/ods-service/ods-service';
 import { PaceEnvironment } from '../../common/PaceEnvironment';
@@ -63,7 +63,8 @@ export class WorkorderQueuePage {
     public alert: AlertController,
     private loadingSrv: LoadingServiceProvider,
     public toastCtrl: ToastController,
-    public changeDetectorRef:ChangeDetectorRef) {
+    public changeDetectorRef:ChangeDetectorRef,
+    private zone: NgZone,) {
     this.db.getAllUsers().then(emdata => {
       console.log('emdata', emdata);
       this.dataOptions.siteid = emdata[0].SiteNumber;
@@ -107,6 +108,12 @@ export class WorkorderQueuePage {
   }
 
   getWorkOrders() {
+    // if(searchText == ''){
+    //   this.dataOptions.searchtext = searchText;
+    // }
+    // else{
+    //   this.dataOptions.searchtext = searchText;
+    // }
     let searchOptions: string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>${this.dataOptions.pageNumber}</pageNumber><pageSize>${this.dataOptions.pageSize}</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>${this.dataOptions.searchtype}</searchtype><searchtext>${this.dataOptions.searchtext}</searchtext><searchstatus>${this.dataOptions.searchstatus}</searchstatus></Info>`.trim();
     this.OdsSvc.GetWorkOrderStatus(searchOptions).subscribe(Response => {
       console.log('getworkOrder Queue', Response);
@@ -374,6 +381,7 @@ export class WorkorderQueuePage {
 
   getAssigmentlist() {
     let self = this;
+    this.empListModel =[];
     this.OdsSvc.getAssignmentEmployeeList(this.dataOptions).subscribe(Response => {
       if (Response[0].result !== '') {
         let result = JSON.parse(Response[0].result);
@@ -384,6 +392,7 @@ export class WorkorderQueuePage {
         console.log(this.empListModel);
         
         self.employeeWorkOrderPermissionforactions();
+        //self.getWorkOrders();
       }
     }, (err) => {
       console.log('err', err);
@@ -391,7 +400,7 @@ export class WorkorderQueuePage {
   }
 
   assigment(woservice,selectedEmpid, woindex, serviceindex, subWorkorder = false, subWoindex = 0) {
-    let self = this;
+    //let self = this;
     let servive: any = {
       eid: this.dataOptions.eid,
       assigneid: selectedEmpid,
@@ -406,37 +415,55 @@ export class WorkorderQueuePage {
     this.OdsSvc.assignWOItem(servive).subscribe(Response => {
       if (Response[0].errorId > 0 ) {
         console.log(Response);
-        self.OdsSvc.refreshServiceItems(servive.serid).subscribe(serviceres => {
+        this.OdsSvc.refreshServiceItems(servive.serid).subscribe(serviceres => {
           this.paceEnv.stopLoading();
           if (serviceres[0].result !== '') {
             let result = JSON.parse(serviceres[0].result);
             console.log('sub workorder', subWorkorder);
             if (subWorkorder == true) {
               ///this.getWorkOrders();
-              console.log('sub workorder true', subWorkorder);
-              self.workOrders[woindex].WOSERVICES[serviceindex] = Object.assign({}, result[0].SERVICEITEM[0]);
-              setTimeout(() => {
-                this.paceEnv.startLoading();
-                this.workOrders = [];
-                this.getWorkOrders();  
-              }, 1000);
-              this.paceEnv.stopLoading();
-              console.log("Vishnu",self.workOrders);
+              console.log('sub workorder true', serviceindex,woindex);
+              //this.workOrders[woindex].WOSERVICES[serviceindex] =  result[0].SERVICEITEM[0];
+              //this.workOrders[woindex].filterPackeges[serviceindex] =  result[0].SERVICEITEM[0];
+              this.workOrders[woindex].filterPackeges[serviceindex]="Vishnu"
+              //this.workOrders[woindex].WOSERVICES[serviceindex] = JSON.stringify(result[0].SERVICEITEM[0]);
+              //this.workOrders[woindex].WOSERVICES[serviceindex] =  result[0].SERVICEITEM[0];
+              // setTimeout(() => {
+              //   this.paceEnv.startLoading();
+              //   this.workOrders = [];
+              //   this.getWorkOrders();  
+              // }, 2000);
+              // this.paceEnv.stopLoading();
+              this.employeeWorkOrderPermissionforactions();
+              let arry = JSON.stringify(result[0].SERVICEITEM[0])
+              this.zone.run(() => { this.workOrders[woindex].filterPackeges[serviceindex] =  JSON.parse(arry)});
+              console.log("Vishnu",this.workOrders);
+              console.log(result[0].SERVICEITEM[0]);
+              
 
               
             } else {
+
               console.log('sub workorder else', subWorkorder);
               // self.workOrders[woindex].SUBWORKORDER[0].WOSERVICES[serviceindex] = Object.assign({}, result[0].SERVICEITEM[0]);
               console.log('sub workorder ', subWorkorder);
-              let woserviceindex = self.workOrders[woindex].WOSERVICES.findIndex(service => {
+              let woserviceindex = this.workOrders[woindex].WOSERVICES.findIndex(service => {
                 return service.WOSID === woservice.WOSID
               });
-              self.workOrders[woindex].WOSERVICES[woserviceindex] = Object.assign({}, result[0].SERVICEITEM[0]);
-              self.workOrders[woindex].filterPackeges[serviceindex] = Object.assign({}, result[0].SERVICEITEM[0]);
-              let packegeindex = self.workOrders[woindex].UniquePackeges.findIndex(p => {
-                return p.SSIID === self.workOrders[woindex].filterPackeges[serviceindex].SSIID;
+              
+              this.workOrders[woindex].WOSERVICES[woserviceindex] =  result[0].SERVICEITEM[0];
+              this.workOrders[woindex].filterPackeges[serviceindex] =  result[0].SERVICEITEM[0];
+              let packegeindex = this.workOrders[woindex].UniquePackeges.findIndex(p => {
+                return p.SSIID === this.workOrders[woindex].filterPackeges[serviceindex].SSIID;
               })
-              self.workOrders[woindex].selectedPackege = packegeindex;
+              this.workOrders[woindex].selectedPackege = packegeindex;
+              // setTimeout(() => {
+              //   this.paceEnv.startLoading();
+              //   this.workOrders = [];
+              //   this.getWorkOrders(this.dataOptions.searchtext);  
+              // }, 2000);
+              // this.paceEnv.stopLoading();
+              
             }
 
           }
