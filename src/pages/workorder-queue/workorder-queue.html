@@ -249,6 +249,27 @@
                             </div>
                           </div>
                           <div
+                            *ngIf="(package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid) && (package.STATUS=='A') && (package.ASSIGNMENTINFO[0].ASSIGNEDTOLOGTYPE==emplogtype)">
+                            <p style="font-size: 1.2rem !important;
+                          font-weight: 500;display: flex; justify-content: center;align-items: center;"
+                              *ngIf="(workOrderPermission.ASSIGN=='Y' || emplogtype=='C') && package.ASSIGNMENTINFO[0].ASSIGNEDBY==dataOptions.eid">
+                              Assigned To:</p>
+                            <!-- <ion-select [(ngModel)]="package.ASSIGNMENTINFO[0].ASSIGNEDTO"
+                              (ionChange)="empSelectionUpdate(package,i,serviceindex,package.ASSIGNMENTINFO[0].ASSIGNEDTO)"
+                              *ngIf="(workOrderPermission.ASSIGN=='Y' || emplogtype=='C') && package.ASSIGNMENTINFO[0].ASSIGNEDBY==dataOptions.eid">
+                              <ion-option value="--Select--">--Select--</ion-option>
+                              <ion-option [value]="emp.EID" *ngFor="let emp of emplist">{{emp.NAME}}</ion-option>
+                            </ion-select> -->
+                            <div id="empList">
+                              <custom-select
+                                *ngIf="(workOrderPermission.ASSIGN=='Y' && package.ASSIGNMENTINFO[0].ASSIGNEDBYLOGTYPE=='C') && (package.ASSIGNMENTINFO[0].ASSIGNEDBY==dataOptions.eid && package.STATUS == 'A')"
+                                [optionsModel]="empListModel" defaultOptTxt='Select Employee' [(optColor)]='black'
+                                [(value)]="package.ASSIGNMENTINFO[0].ASSIGNEDTO"
+                                (change)="empSelectionUpdate(package,i,serviceindex,$event,package.ASSIGNMENTINFO[0].ASSIGNEDTO,true,subWoindex)">
+                              </custom-select>
+                            </div>
+                          </div>
+                          <div
                             *ngIf="package.ASSIGNMENTINFO[0].ASSIGNEDTO !=dataOptions.eid && package.ASSIGNMENTINFO[0].ASSIGNEDBY!=dataOptions.eid">
                             <div *ngFor="let woassign of package.ASSIGNMENTINFO">
                               <p class="ptextalign ptextsmallsize">{{woassign.ASSIGNEDTONAME}}{{'hh'}}</p>
