@@ -252,7 +252,7 @@
                           <div
                             *ngIf="package.ASSIGNMENTINFO[0].ASSIGNEDTO !=dataOptions.eid && package.ASSIGNMENTINFO[0].ASSIGNEDBY!=dataOptions.eid">
                             <div *ngFor="let woassign of package.ASSIGNMENTINFO">
-                              <p class="ptextalign ptextsmallsize">{{woassign.ASSIGNEDTONAME}}{{'hh'}}</p>
+                              <p class="ptextalign ptextsmallsize">{{woassign.ASSIGNEDTONAME}}</p>
                               <p class="ptextsmallsize ptextalign">{{woassign.ASSIGNEDDATE | date:'MM.dd.yy'}}
                                 {{woassign.ASSIGNEDDATE | date:'h:mm a'}}</p>
                             </div>
