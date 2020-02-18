@@ -187,7 +187,7 @@
 
                         </div>
                         <div
-                          *ngIf="package.ASSIGNMENTID!=0  && package.ASSIGNMENTINFO.LENGTH!=0">
+                          *ngIf="package.ASSIGNMENTID!=0  && package.ASSIGNMENTINFO.LENGTH!=0  && package.STATUS=='A'">
                           <div
                             *ngIf="package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid && package.STATUS=='I' && package.ASSIGNMENTINFO[0].ASSIGNEDTOLOGTYPE==emplogtype && package.ASSIGNMENTINFO[0].ASSIGNEDBY==dataOptions.eid">
                             <div *ngFor="let woassign of package.ASSIGNMENTINFO">
@@ -338,7 +338,7 @@
 
                       <ion-col col-12>
                         <p style="font-size: 1.2rem !important;
-                        font-weight: 500;" *ngIf="wo.HASEXCEPTION=='Y'">Exception Status : <span style="font-size: 1.2rem !important;
+                        font-weight: 500;" *ngIf="wo.HASEXCEPTION=='Y' && package.EXCEPTIONTITLE!=''">Exception Status : <span style="font-size: 1.2rem !important;
                         font-weight: 400;">{{package.EXCEPTIONTITLE}}</span>
                         </p>
                       </ion-col>
