@@ -127,7 +127,7 @@ export class WorkorderQueuePage {
           this.infinitescrollactions(false, false, true);
         } else {
           let result = JSON.parse(body[0].result);
-          console.log('workorder', result);
+          ///console.log('workorder', result);
           result.forEach((element, index) => {
             element.expanded = false;
             element.selectedPackege = 0;
@@ -575,7 +575,7 @@ export class WorkorderQueuePage {
   }
 
   selectedPackege(workOderIndex, packege, woSindex = 0) {
-    console.log('woSindex', woSindex);
+    //console.log('woSindex', woSindex);
     this.workOrders[workOderIndex].selectedPackege = woSindex;
     this.workOrders[workOderIndex].filterPackeges = this.workOrders[workOderIndex].WOSERVICES.filter(data => {
       return data.SSIID == packege.SSIID;
