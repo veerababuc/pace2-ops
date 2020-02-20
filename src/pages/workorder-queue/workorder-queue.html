@@ -469,7 +469,7 @@
                         </p>
 
                       </div>
-                      <div *ngIf="package.ASSIGNMENTID!=0  && package.ASSIGNMENTINFO.LENGTH!=0 && package.STATUS=='I' ">
+                      <div *ngIf="package.ASSIGNMENTID!=0  && package.ASSIGNMENTINFO.LENGTH!=0 && package.STATUS=='A' ">
                         
                         <div
                           *ngIf="(package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid && package.STATUS=='I') && (package.ASSIGNMENTINFO[0].ASSIGNEDTOLOGTYPE==emplogtype) && (package.ASSIGNMENTINFO[0].ASSIGNEDBY==dataOptions.eid || package.ASSIGNMENTINFO[0].ASSIGNEDBY!=dataOptions.eid)">
@@ -486,11 +486,11 @@
                           </div>
                         </div>
                         <div
-                          *ngIf="package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid && package.ASSIGNMENTINFO[0].ASSIGNEDBY!=dataOptions.eid">
+                        *ngIf="package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid && package.ASSIGNMENTINFO[0].ASSIGNEDBY==dataOptions.eid">
                           <div *ngFor="let woassign of package.ASSIGNMENTINFO">
-                            <p class="ptextalign ptextsmallsize">{{woassign.ASSIGNEDTONAME}}</p>
+                            <!-- <p class="ptextalign ptextsmallsize">{{woassign.ASSIGNEDTONAME}}</p>
                             <p class="ptextsmallsize ptextalign">{{woassign.ASSIGNEDDATE | date:'MM.dd.yy'}}
-                              {{woassign.ASSIGNEDDATE | date:'h:mm a'}}</p>
+                              {{woassign.ASSIGNEDDATE | date:'h:mm a'}}</p> -->
                             <p class="cre" style="display: flex;justify-content: space-around;"
                               (click)="pickService(package,i,serviceindex,'P')">
                               <img class="subimage" src="../../assets/imgs/workorderqueue/Service_PickUp.png">
@@ -498,7 +498,7 @@
                           </div>
                         </div>
                         <div
-                          *ngIf="!(package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid && package.STATUS=='A' && package.ASSIGNMENTINFO[0].ASSIGNEDTOLOGTYPE==emplogtype)">
+                          *ngIf="(package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid || package.ASSIGNMENTINFO[0].ASSIGNEDTO != dataOptions.eid ) && (package.ASSIGNMENTINFO[0].ASSIGNEDBY!=dataOptions.eid || package.ASSIGNMENTINFO[0].ASSIGNEDBY == dataOptions.eid)">
                           <!-- <ion-select [(ngModel)]="package.ASSIGNMENTINFO[0].ASSIGNEDTO"
                             (ionChange)="empSelectionUpdate(package,i,serviceindex,package.ASSIGNMENTINFO[0].ASSIGNEDTO,true,subWoindex)"
                             *ngIf="workOrderPermission.ASSIGN=='Y' || emplogtype=='C'">
