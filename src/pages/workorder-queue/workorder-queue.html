@@ -464,7 +464,7 @@
                         </div>
                         <p class="cre" style="display: flex;justify-content: center;"
                           (click)="pickService(package,i,serviceindex,'P')"
-                          *ngIf="workOrderPermission.PICKUP=='Y' && package.ASSIGNMENTID == 0">
+                          *ngIf="workOrderPermission.PICKUP=='Y' && package.ASSIGNMENTID != 0 ">
                           <img class="subimage" src="../../assets/imgs/workorderqueue/Service_PickUp.png">
                         </p>
 
