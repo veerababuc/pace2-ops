@@ -233,7 +233,7 @@
                             <p style="font-size: 1.2rem !important;
                           font-weight: 500;display: flex; justify-content: center;align-items: center;"
                               *ngIf="(workOrderPermission.ASSIGN=='Y' || emplogtype=='C')  && (package.ASSIGNMENTINFO[0].ASSIGNEDBY==dataOptions.eid || package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid)">
-                              Assigned To:</p>
+                              Assigned To :</p>
                             <!-- <ion-select [(ngModel)]="package.ASSIGNMENTINFO[0].ASSIGNEDTO"
                               (ionChange)="empSelectionUpdate(package,i,serviceindex,package.ASSIGNMENTINFO[0].ASSIGNEDTO)"
                               *ngIf="(workOrderPermission.ASSIGN=='Y' || emplogtype=='C') && package.ASSIGNMENTINFO[0].ASSIGNEDBY==dataOptions.eid">
@@ -280,7 +280,7 @@
 
                       </ion-col>
                       <ion-col col-6 *ngIf="(package.HASEXCEPTION=='N' && package.WOSTYPE=='S')">
-                        <div *ngIf="workOrderPermission.PICKUP=='Y' && package.ASSIGNMENTID != 0 && package.STATUS=='A'">
+                        <div *ngIf="(workOrderPermission.PICKUP=='Y') && (package.ASSIGNMENTID == 0 || package.ASSIGNMENTINFO[0].ASSIGNEDTO == dataOptions.eid) && (package.STATUS=='A')">
 
                           <p
                             style="font-size: 1.2rem !important;
@@ -308,7 +308,7 @@
                             </div>
                           </div>
                           <div
-                            *ngIf="package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid && package.ASSIGNMENTINFO[0].ASSIGNEDBY==dataOptions.eid">
+                            *ngIf="package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid && package.ASSIGNMENTINFO[0].ASSIGNEDBY==dataOptions.eid && package.STATUS == 'A'">
                             <div *ngFor="let woassign of package.ASSIGNMENTINFO">
 
                               <p class="cre" style="display: flex;justify-content: space-around;"
