@@ -254,15 +254,15 @@ export class WorkorderQueuePage {
     let type = 'woexp';
     let Modal = this.modalctrl.create('TestPage', { 'Data': woid, 'type': type, 'DeptName': deptname, 'DeptId': deptid }, { cssClass: "full-height-modal" });
     Modal.onDidDismiss((data) => {
+      this.paceEnv.startLoading();
       if(data == "Success"){
-        setTimeout(() => {
-          this.paceEnv.startLoading();
+        setTimeout(() => {         
           this.workOrders = [];
           this.getWorkOrders();  
         }, 2000);
         this.paceEnv.stopLoading();
       }else{
-        
+        this.paceEnv.stopLoading();
       }
       //this.ViewCtrl.dismiss();
       console.log('in workorderqueu page');

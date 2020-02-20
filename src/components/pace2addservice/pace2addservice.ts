@@ -186,7 +186,7 @@ export class Pace2addserviceComponent {
     let wofixnotes: any = '';
     woinfo = `<Info>
     <woid>${this.workid}</woid>
-    <siteid>3269</siteid>
+    <siteid>${this.SitId}</siteid>
     <eid>${this.Eid}</eid>
     <logtype>${this.LogType}</logtype>
     <ipaddress>${this.appconst.ipAddress}</ipaddress>
@@ -200,13 +200,10 @@ export class Pace2addserviceComponent {
     ///console.log(this.SelectService);
     
     wofixnotes = this.notes;
-    //console.log(woservices, "" ,woinfo);
-    
     this.OdsService.GetFixDeliveryWoExceptions(woinfo, woservices, wofixnotes).subscribe((data) => {
       console.log('save work order exp...', data);
       this.ViewCtrl.dismiss("Success");
-    })
-
+    });
   }
 } 
     // GetFixDeliveryWoExceptions
