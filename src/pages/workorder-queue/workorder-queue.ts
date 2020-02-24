@@ -399,8 +399,10 @@ export class WorkorderQueuePage {
     })
   }
 
-  assigment(woservice,selectedEmpid, woindex, serviceindex, subWorkorder = false, subWoindex = 0) {
-    //let self = this;
+  assigment(woservice,selectedEmpid, woindex, serviceindex, subWorkorder:boolean, subWoindex = 0) {
+    //let self = this;   
+     console.log(woservice);
+
     let servive: any = {
       eid: this.dataOptions.eid,
       assigneid: selectedEmpid,
@@ -412,6 +414,8 @@ export class WorkorderQueuePage {
       action: 'A'
     };
     this.paceEnv.startLoading();
+    console.log(subWorkorder);
+    
     this.OdsSvc.assignWOItem(servive).subscribe(Response => {
       if (Response[0].errorId > 0 ) {
         console.log(Response);
@@ -421,11 +425,11 @@ export class WorkorderQueuePage {
             let result = JSON.parse(serviceres[0].result);
             console.log('sub workorder', subWorkorder);
             if (subWorkorder == true) {
-              ///this.getWorkOrders();
+              //this.workOrders[woindex].SUBWORKORDER[serviceindex].WOSERVICES[serviceindex] = result[0].SERVICEITEM[0];
               console.log('sub workorder true', serviceindex,woindex);
               //this.workOrders[woindex].WOSERVICES[serviceindex] =  result[0].SERVICEITEM[0];
               //this.workOrders[woindex].filterPackeges[serviceindex] =  result[0].SERVICEITEM[0];
-              this.workOrders[woindex].filterPackeges[serviceindex]="Vishnu"
+              //this.workOrders[woindex].filterPackeges[serviceindex]="Vishnu"
               //this.workOrders[woindex].WOSERVICES[serviceindex] = JSON.stringify(result[0].SERVICEITEM[0]);
               //this.workOrders[woindex].WOSERVICES[serviceindex] =  result[0].SERVICEITEM[0];
               // setTimeout(() => {
@@ -457,6 +461,8 @@ export class WorkorderQueuePage {
                 return p.SSIID === this.workOrders[woindex].filterPackeges[serviceindex].SSIID;
               })
               this.workOrders[woindex].selectedPackege = packegeindex;
+              console.log('Vishnu1',this.workOrders);
+              
               // setTimeout(() => {
               //   this.paceEnv.startLoading();
               //   this.workOrders = [];
@@ -575,10 +581,14 @@ export class WorkorderQueuePage {
   }
 
   selectedPackege(workOderIndex, packege, woSindex = 0) {
-    console.log('woSindex', woSindex);
+    //console.log('woSindex', woSindex);
+    //let loader = this.loadingSrv.createLoader();
+    //loader.present();
     this.workOrders[workOderIndex].selectedPackege = woSindex;
     this.workOrders[workOderIndex].filterPackeges = this.workOrders[workOderIndex].WOSERVICES.filter(data => {
+      //loader.dismiss();
       return data.SSIID == packege.SSIID;
+      
     });
   }
   getPackeges(workOrder: any) {
