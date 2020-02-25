@@ -127,7 +127,6 @@ export class WorkorderQueuePage {
           this.infinitescrollactions(false, false, true);
         } else {
           let result = JSON.parse(body[0].result);
-          console.log('workorder', result);
           result.forEach((element, index) => {
             element.expanded = false;
             element.selectedPackege = 0;
@@ -152,11 +151,11 @@ export class WorkorderQueuePage {
               this.selectedPackege(odIndex, selectOd.UniquePackeges[0]);
               
             });
-
           });
           this.infinitescrollactions(true, false, false);
           this.woqEmpty();
         }
+        console.log('workorder end', this.workOrders);
       } else {
         this.woqEmpty();
       }
@@ -344,7 +343,7 @@ export class WorkorderQueuePage {
   
   }
 
-  empSelection(woService,selcEmpId, woIndex, serviceIndex, subWorkorder = false, subWoindex = 0) {
+  empSelection(woService,selcEmpId, woIndex, serviceIndex, subWorkorder, subWoindex) {
     if (this.selectpackege == true) {
       this.selectpackege = false;
     } else {
@@ -358,7 +357,7 @@ export class WorkorderQueuePage {
     }
 
   }
-  empSelectionUpdate(woService, woIndex, serviceIndex, empId, subWorkorder = false, subWoindex = 0) {
+  empSelectionUpdate(woService, woIndex, serviceIndex, empId, subWorkorder, subWoindex) {
     console.log('emp update', woService, woIndex, serviceIndex, empId);
     if (this.selectpackege == true) {
       this.selectpackege = false;
@@ -405,9 +404,9 @@ export class WorkorderQueuePage {
     })
   }
 
-  assigment(woservice,selectedEmpid, woindex, serviceindex, subWorkorder:boolean, subWoindex = 0) {
+  assigment(woservice,selectedEmpid, woindex, serviceindex, subWorkorder, subWoindex) {
     //let self = this;   
-     console.log(woservice);
+     console.log('testggggggggggg',woservice,selectedEmpid, woindex, serviceindex, subWorkorder, subWoindex);
 
     let servive: any = {
       eid: this.dataOptions.eid,
@@ -446,7 +445,7 @@ export class WorkorderQueuePage {
               // this.paceEnv.stopLoading();
               this.employeeWorkOrderPermissionforactions();
               let arry = JSON.stringify(result[0].SERVICEITEM[0])
-              this.zone.run(() => { this.workOrders[woindex].filterPackeges[serviceindex] =  JSON.parse(arry)});
+              this.zone.run(() => { this.workOrders[woindex].SUBWORKORDER[subWoindex].WOSERVICES[serviceindex] =  JSON.parse(arry)});
               console.log("Vishnu",this.workOrders);
               console.log(result[0].SERVICEITEM[0]);
               
