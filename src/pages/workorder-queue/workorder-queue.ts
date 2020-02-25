@@ -271,11 +271,11 @@ export class WorkorderQueuePage {
     });
     Modal.present();
   }
-  NotesModal(notes, wo, notetype, woIndex) {
-    console.log('subworkorder note', notes, wo, notetype);
+  NotesModal(notes, wo, notetype, woIndex,SId) {
+    console.log('subworkorder note', notes, wo, notetype,SId);
     // let loader = this.loadingSrv.createLoader();
     // loader.present();
-    let Modal = this.modalctrl.create('TestPage', { 'type': notes, 'Wodata': wo, 'NType': notetype }, { cssClass: "full-height-modal" });
+    let Modal = this.modalctrl.create('TestPage', { 'type': notes, 'Wodata': wo, 'NType': notetype, 'SId':SId }, { cssClass: "full-height-modal" });
     Modal.onDidDismiss((val) => {
       //this.ViewCtrl.dismiss();
       if(val==1){
@@ -374,9 +374,15 @@ export class WorkorderQueuePage {
 
   }
 
-  getlength(ex, list) {
-    let newlist = list.filter((x: any) => { return x.TYPE === ex; })
-    return newlist.length;
+  getlength(ex, list, SId) {
+    if(ex == 'S'){
+      let newlist = list.filter((x: any) => { if( x.WOSID == SId) return x.TYPE === ex; })
+      return newlist.length;
+    }
+    else{
+      let newlist = list.filter((x: any) => { return x.TYPE === ex; })
+      return newlist.length;
+    }  
   }
 
   getAssigmentlist() {

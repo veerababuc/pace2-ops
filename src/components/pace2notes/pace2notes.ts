@@ -18,6 +18,7 @@ export class Pace2notesComponent {
  // @Input() workid: any;
   @Input() Wodata: any;
   @Input() NoteType: any;
+  @Input() SId: any;
   show: boolean;
   Notes: any;
   Result: any;
@@ -64,24 +65,30 @@ export class Pace2notesComponent {
    
     //this.NotesData = this.Wodata.WONOTES;
    this.Wosid = this.Wodata.WOSID;
-    
-    
     let self = this;
     console.log('all data....',this.LogType,this.Wodata.SUBWORKORDER.length,this.NoteType);
     if(this.LogType == 'C' && this.Wodata.SUBWORKORDER.length != 0 && this.NoteType == 'S'){
     console.log('in if.....');
-    self.Wodata.SUBWORKORDER.forEach(element => {
-      element.WOSERVICES.forEach(ele => {
-        self.wossid = ele.WOSID;
-       
+    if(this.SId == 0){
+      self.Wodata.SUBWORKORDER.forEach(element => {
+        element.WOSERVICES.forEach(ele => {
+          self.wossid = ele.WOSID;
+         
+        });
+        self.workid = element.WOID;
+        console.log('sub work wosid...',self.workid);
       });
-      self.workid = element.WOID;
-      console.log('sub work wosid...',self.workid);
-    });
-    self.wsi = self.wossid;
-    console.log('wsi..if.', self.wsi);
+      self.wsi = self.wossid;
+      console.log('wsi..if.', self.wsi);
+      this.GetOrders(this.workid,self.wsi,this.NoteType);
+    }
+    else {
+      self.workid = this.Wodata.WOID;
+      self.wsi = this.SId;
+      this.GetOrders(this.workid,self.wsi,this.NoteType);
+    }
     
-    this.GetOrders(this.workid,self.wsi,this.NoteType);
+    
     
       // if(this.NotesData.length == 0){
       //   this.hide = true;

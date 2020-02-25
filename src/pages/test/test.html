@@ -12,7 +12,7 @@
                     <pace2createnewservice [workid]="woid" [NotesData]="notes"></pace2createnewservice>
                 </div>
                 <div *ngIf="type == 'notes'" class="flexclass">
-                        <pace2notes  [Wodata]="Wodata" [NoteType]="NoteType"></pace2notes>
+                        <pace2notes [SId]="SId"  [Wodata]="Wodata" [NoteType]="NoteType"></pace2notes>
                     </div>
                     <div *ngIf="type == 'dept'" class="flexclass1">
                         <pace2selectdepartment [Departments]="Deptdata" [modalno]="modalno" [PackId]="Packid"></pace2selectdepartment>
