@@ -324,11 +324,15 @@ page-workorder-queue {
     color: #000000 !important;
     padding: 4px;
   }
-  #empList_0  custom-select .md-select [type=button]{
+  #empList_ADMIN  custom-select .md-select [type=button]{
     color: #000000 !important;
     padding: 4px;
   }
-  #empList custom-select .md-select, #empList_1  custom-select .md-select, #empList_0  custom-select .md-select, #empList_text custom-select .md-select {
+  #empList_dealer  custom-select .md-select [type=button]{
+    color: #000000 !important;
+    padding: 4px;
+  }
+  #empList custom-select .md-select, #empList_1  custom-select .md-select, #empList_ADMIN custom-select .md-select, #empList_text custom-select .md-select, #empList_dealer custom-select .md-select {
   
     border: 1px solid #000;
   }
