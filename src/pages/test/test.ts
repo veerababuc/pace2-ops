@@ -29,6 +29,7 @@ Deptdata:any=[];
 notes :any;
 Packid:any;
 NoteType:any;
+SId:any;
 loggedEmp:any;
 Type:any;
 wodataObj:any;
@@ -40,6 +41,7 @@ wodataObj:any;
     this.fcid = this.navParams.get('FCID');
     this.Wodata= this.navParams.get('Wodata');
     this.NoteType = this.navParams.get('NType');
+    this.SId = this.navParams.get('SId');
     this.Dname = this.navParams.get('DeptName');
     this.Did = this.navParams.get('DeptId');
     this.Deptdata = this.navParams.get('Dept');
@@ -49,7 +51,7 @@ wodataObj:any;
     // this.wodataObj = this.navParams.get('workOrderObj');
     // this.Type = this.navParams.get('type');
     // this.loggedEmp = this.navParams.get('logged');
-    console.log(' TestPage  empid.....', this.Type,this.woid,this.wodataObj,this.NoteType );
+    console.log(' TestPage  empid.....', this.Type,this.woid,this.wodataObj,this.NoteType,this.SId );
   }
 
   ionViewDidLoad() {

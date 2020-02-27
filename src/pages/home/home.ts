@@ -134,7 +134,7 @@ export class HomePage {
 
 
                 this.db.UpdateSiteInfo_EMP(this.dealersiteId, siteLogo, this.dlrname, this.empresult.EmpId, this.sitecount, this.sitenumber, stockcount, po, ro, create).then((data) => {
-
+                  
                 })
               }
               else {
@@ -185,7 +185,7 @@ export class HomePage {
         }
 
       }
-      this.appconst.stopLoading();
+      // this.appconst.stopLoading();
       let modal = this.modalctrl.create('page-sitesearch', { 'Data': site });
       modal.present();
 
@@ -233,14 +233,14 @@ export class HomePage {
                 }
 
                 this.db.UpdateSiteInfo_EMP(this.dealersiteId, data.sitesearchresult.siteLogo, this.dlrname, this.empresult.EmpId, this.sitecount, this.sitenumber, stockcount, po, ro, create).then((data) => {
-
+                  this.appconst.stopLoading();
                 })
               }
               else {
                 this.access_permission = "N";
                 this.events.publish("permission:N");
                 this.db.UpdateSiteInfo_EMP(this.dealersiteId, data.sitesearchresult.siteLogo, this.dlrname, this.empresult.EmpId, this.sitecount, this.sitenumber, stockcount, po, ro, 'N').then((data) => {
-
+                  this.appconst.stopLoading();
                 })
 
 

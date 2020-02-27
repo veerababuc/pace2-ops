@@ -127,7 +127,6 @@ export class WorkorderQueuePage {
           this.infinitescrollactions(false, false, true);
         } else {
           let result = JSON.parse(body[0].result);
-          ///console.log('workorder', result);
           result.forEach((element, index) => {
             element.expanded = false;
             element.selectedPackege = 0;
@@ -152,11 +151,11 @@ export class WorkorderQueuePage {
               this.selectedPackege(odIndex, selectOd.UniquePackeges[0]);
               
             });
-
           });
           this.infinitescrollactions(true, false, false);
           this.woqEmpty();
         }
+        console.log('workorder end', this.workOrders);
       } else {
         this.woqEmpty();
       }
@@ -254,15 +253,15 @@ export class WorkorderQueuePage {
     let type = 'woexp';
     let Modal = this.modalctrl.create('TestPage', { 'Data': woid, 'type': type, 'DeptName': deptname, 'DeptId': deptid }, { cssClass: "full-height-modal" });
     Modal.onDidDismiss((data) => {
+      this.paceEnv.startLoading();
       if(data == "Success"){
-        setTimeout(() => {
-          this.paceEnv.startLoading();
+        setTimeout(() => {         
           this.workOrders = [];
           this.getWorkOrders();  
         }, 2000);
         this.paceEnv.stopLoading();
       }else{
-        
+        this.paceEnv.stopLoading();
       }
       //this.ViewCtrl.dismiss();
       console.log('in workorderqueu page');
@@ -271,11 +270,11 @@ export class WorkorderQueuePage {
     });
     Modal.present();
   }
-  NotesModal(notes, wo, notetype, woIndex) {
-    console.log('subworkorder note', notes, wo, notetype);
+  NotesModal(notes, wo, notetype, woIndex,SId) {
+    console.log('subworkorder note', notes, wo, notetype,SId);
     // let loader = this.loadingSrv.createLoader();
     // loader.present();
-    let Modal = this.modalctrl.create('TestPage', { 'type': notes, 'Wodata': wo, 'NType': notetype }, { cssClass: "full-height-modal" });
+    let Modal = this.modalctrl.create('TestPage', { 'type': notes, 'Wodata': wo, 'NType': notetype, 'SId':SId }, { cssClass: "full-height-modal" });
     Modal.onDidDismiss((val) => {
       //this.ViewCtrl.dismiss();
       if(val==1){
@@ -344,7 +343,7 @@ export class WorkorderQueuePage {
   
   }
 
-  empSelection(woService,selcEmpId, woIndex, serviceIndex, subWorkorder = false, subWoindex = 0) {
+  empSelection(woService,selcEmpId, woIndex, serviceIndex, subWorkorder, subWoindex) {
     if (this.selectpackege == true) {
       this.selectpackege = false;
     } else {
@@ -358,7 +357,7 @@ export class WorkorderQueuePage {
     }
 
   }
-  empSelectionUpdate(woService, woIndex, serviceIndex, empId, subWorkorder = false, subWoindex = 0) {
+  empSelectionUpdate(woService, woIndex, serviceIndex, empId, subWorkorder, subWoindex) {
     console.log('emp update', woService, woIndex, serviceIndex, empId);
     if (this.selectpackege == true) {
       this.selectpackege = false;
@@ -374,9 +373,15 @@ export class WorkorderQueuePage {
 
   }
 
-  getlength(ex, list) {
-    let newlist = list.filter((x: any) => { return x.TYPE === ex; })
-    return newlist.length;
+  getlength(ex, list, SId) {
+    if(ex == 'S'){
+      let newlist = list.filter((x: any) => { if( x.WOSID == SId) return x.TYPE === ex; })
+      return newlist.length;
+    }
+    else{
+      let newlist = list.filter((x: any) => { return x.TYPE === ex; })
+      return newlist.length;
+    }  
   }
 
   getAssigmentlist() {
@@ -399,8 +404,10 @@ export class WorkorderQueuePage {
     })
   }
 
-  assigment(woservice,selectedEmpid, woindex, serviceindex, subWorkorder = false, subWoindex = 0) {
-    //let self = this;
+  assigment(woservice,selectedEmpid, woindex, serviceindex, subWorkorder, subWoindex) {
+    //let self = this;   
+     console.log('testggggggggggg',woservice,selectedEmpid, woindex, serviceindex, subWorkorder, subWoindex);
+
     let servive: any = {
       eid: this.dataOptions.eid,
       assigneid: selectedEmpid,
@@ -412,6 +419,8 @@ export class WorkorderQueuePage {
       action: 'A'
     };
     this.paceEnv.startLoading();
+    console.log(subWorkorder);
+    
     this.OdsSvc.assignWOItem(servive).subscribe(Response => {
       if (Response[0].errorId > 0 ) {
         console.log(Response);
@@ -421,11 +430,11 @@ export class WorkorderQueuePage {
             let result = JSON.parse(serviceres[0].result);
             console.log('sub workorder', subWorkorder);
             if (subWorkorder == true) {
-              ///this.getWorkOrders();
+              //this.workOrders[woindex].SUBWORKORDER[serviceindex].WOSERVICES[serviceindex] = result[0].SERVICEITEM[0];
               console.log('sub workorder true', serviceindex,woindex);
               //this.workOrders[woindex].WOSERVICES[serviceindex] =  result[0].SERVICEITEM[0];
               //this.workOrders[woindex].filterPackeges[serviceindex] =  result[0].SERVICEITEM[0];
-              this.workOrders[woindex].filterPackeges[serviceindex]="Vishnu"
+              //this.workOrders[woindex].filterPackeges[serviceindex]="Vishnu"
               //this.workOrders[woindex].WOSERVICES[serviceindex] = JSON.stringify(result[0].SERVICEITEM[0]);
               //this.workOrders[woindex].WOSERVICES[serviceindex] =  result[0].SERVICEITEM[0];
               // setTimeout(() => {
@@ -436,7 +445,7 @@ export class WorkorderQueuePage {
               // this.paceEnv.stopLoading();
               this.employeeWorkOrderPermissionforactions();
               let arry = JSON.stringify(result[0].SERVICEITEM[0])
-              this.zone.run(() => { this.workOrders[woindex].filterPackeges[serviceindex] =  JSON.parse(arry)});
+              this.zone.run(() => { this.workOrders[woindex].SUBWORKORDER[subWoindex].WOSERVICES[serviceindex] =  JSON.parse(arry)});
               console.log("Vishnu",this.workOrders);
               console.log(result[0].SERVICEITEM[0]);
               
@@ -457,6 +466,8 @@ export class WorkorderQueuePage {
                 return p.SSIID === this.workOrders[woindex].filterPackeges[serviceindex].SSIID;
               })
               this.workOrders[woindex].selectedPackege = packegeindex;
+              console.log('Vishnu1',this.workOrders);
+              
               // setTimeout(() => {
               //   this.paceEnv.startLoading();
               //   this.workOrders = [];
@@ -576,9 +587,13 @@ export class WorkorderQueuePage {
 
   selectedPackege(workOderIndex, packege, woSindex = 0) {
     //console.log('woSindex', woSindex);
+    //let loader = this.loadingSrv.createLoader();
+    //loader.present();
     this.workOrders[workOderIndex].selectedPackege = woSindex;
     this.workOrders[workOderIndex].filterPackeges = this.workOrders[workOderIndex].WOSERVICES.filter(data => {
+      //loader.dismiss();
       return data.SSIID == packege.SSIID;
+      
     });
   }
   getPackeges(workOrder: any) {
