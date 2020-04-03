@@ -368,12 +368,22 @@ page-workorder-queue {
     background-repeat: no-repeat;
     background-position-y: 13px;
   }
+ // #dataOpt_1 custom-select .md-select ul[role=listbox]{
+ //   top:84px !important;
+//  }
   #dataOpt_1 custom-select .md-select ul[role=listbox]{
-    top:84px !important;
+    top:130px !important;
   }
+
+  // #dataOpt_0 custom-select .md-select ul[role=listbox]{
+  //   top:63px !important;
+  // }
+
+  
   #dataOpt_0 custom-select .md-select ul[role=listbox]{
-    top:63px !important;
+    top:100px !important;
   }
+  
   #dataOpt_2 custom-select .md-select ul[role=listbox]{
     top:84px !important;
   }
