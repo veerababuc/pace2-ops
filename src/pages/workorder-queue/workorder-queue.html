@@ -113,7 +113,10 @@
                       <p class="ptextalign"><strong>Package(s)</strong></p>
                     </ion-col>
                   </ion-row>
-                  <ion-row *ngIf="(wo.RATINGREQ =='Y' ||wo.RATINGREQ =='0')&& (wo.ACTIVE=='C') && workOrderPermission.RATING=='Y' ">
+                <!--  <ion-row *ngIf="(wo.RATINGREQ =='Y' ||wo.RATINGREQ =='0')&& (wo.ACTIVE=='C') && workOrderPermission.RATING=='Y' ">-->
+
+
+                      <ion-row >
                       <ion-col col-12>
                         <div  class="rating">
                           <input  type="radio" value="5" [name]="5" [checked]="wo.RATING=='5'? true : false"><label (click)='onClick(5,wo)'>5 stars</label>
