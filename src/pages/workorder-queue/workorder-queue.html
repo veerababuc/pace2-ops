@@ -113,10 +113,7 @@
                       <p class="ptextalign"><strong>Package(s)</strong></p>
                     </ion-col>
                   </ion-row>
-                <!--  <ion-row *ngIf="(wo.RATINGREQ =='Y' ||wo.RATINGREQ =='0')&& (wo.ACTIVE=='C') && workOrderPermission.RATING=='Y' ">-->
-
-
-                      <ion-row >
+                  <ion-row *ngIf="(wo.RATINGREQ =='Y' ||wo.RATINGREQ =='0')&& (wo.ACTIVE=='C') && workOrderPermission.RATING=='Y' ">
                       <ion-col col-12>
                         <div  class="rating">
                           <input  type="radio" value="5" [name]="5" [checked]="wo.RATING=='5'? true : false"><label (click)='onClick(5,wo)'>5 stars</label>
@@ -150,7 +147,7 @@
                 </ion-col>
                 <ion-col col-8>
                   <ion-row class="packagebg">
-                    <ion-col col-6>
+                    <ion-col col-5>
                       <p class="ptextalign"><strong>Service Items</strong></p>
                     </ion-col>
                     <ion-col col-5>
@@ -162,7 +159,7 @@
                   <div>
                     <ion-row *ngFor="let package of wo.filterPackeges;let serviceindex=index; let last = last"
                       [ngClass]="{'woseboader':!last}">
-                      <ion-col col-6 class="textcenter">
+                      <ion-col col-5 class="textcenter">
                         <p [ngClass]="{'ptextalign':true,'ptextsmallsize':true,'hasException':wo.HASEXCEPTION=='Y'}">
                           {{package.MASKNAME =="" ? package.SERVICEITEM : package.MASKNAME  }}</p>
                       </ion-col>
@@ -171,7 +168,7 @@
                             style="color: #007bff !important;">{{package.STATUS=='O'?'OPEN':package.STATUS=='I'?'IN-PROGRESS':package.STATUS=='A'?'ACTIVE':package.STATUS=='C'?'COMPLETED':''}}</span>
                         </p>
                       </ion-col>
-                      <ion-col col-1 class="textcenter" (click)="NotesModal('notes',wo,'S',i,package.WOSID)" *ngIf="emplogtype=='C'">
+                      <ion-col col-2 class="textcenter" (click)="NotesModal('notes',wo,'S',i,package.WOSID)" *ngIf="emplogtype=='C'">
                         <p>
                           <ion-icon name="md-document"></ion-icon>
                           <span *ngIf="getlength('S',wo.WONOTES,package.WOSID)>0" style="position: absolute;top: 4px;

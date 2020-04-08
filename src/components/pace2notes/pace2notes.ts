@@ -65,6 +65,7 @@ export class Pace2notesComponent {
    
     //this.NotesData = this.Wodata.WONOTES;
    this.Wosid = this.Wodata.WOSID;
+   console.log(this.Wosid);
     let self = this;
     console.log('all data....',this.LogType,this.Wodata.SUBWORKORDER.length,this.NoteType);
     if(this.LogType == 'C' && this.Wodata.SUBWORKORDER.length != 0 && this.NoteType == 'S'){
@@ -96,7 +97,8 @@ export class Pace2notesComponent {
       //   this.hide = false;
       // }
   }else{
-    self.wsi = 0;
+    //self.wsi = 0;
+    self.wsi= this.SId;
     this.workid = this.Wodata.WOID;
     console.log('wsi..else.', self.wsi);
     this.GetOrders(this.workid,self.wsi,this.NoteType);
@@ -268,7 +270,7 @@ export class Pace2notesComponent {
           this.Notes = '';
           this.WonId = wonid;
           this.body = {
-            "strSearchString": `<Info><eid>${this.EmpId}</eid><logtype>${this.LogType}</logtype><serviceid>${this.wsi}</serviceid><date>${this.date}</date><time>${this.ActualTime}</time><ip>${this.appconst.ipAddress}</ip><type>${this.NoteType}</type><action>D</action><wonid>${this.WonId}</wonid><woid>${this.workid}</woid><notes>${this.Notes}</notes></Info>`
+            "strSearchString": `<Info><eid>${this.EmpId}</eid><logtype>${this.LogType}</logtype><serviceid>${this.Wosid}</serviceid><date>${this.date}</date><time>${this.ActualTime}</time><ip>${this.appconst.ipAddress}</ip><type>${this.NoteType}</type><action>D</action><wonid>${this.WonId}</wonid><woid>${this.workid}</woid><notes>${this.Notes}</notes></Info>`
           }
           this.OdsService.CreateWorkOrderNotes(this.body).subscribe((data) => {
             if (data[0].errorId == 3){
