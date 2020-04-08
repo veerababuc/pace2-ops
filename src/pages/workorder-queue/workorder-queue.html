@@ -116,15 +116,16 @@
                 <!--  <ion-row *ngIf="(wo.RATINGREQ =='Y' ||wo.RATINGREQ =='0')&& (wo.ACTIVE=='C') && workOrderPermission.RATING=='Y' ">-->
 
 
-                      <ion-row >
+                      <ion-row *ngIf="(wo.RATINGREQ =='Y' ||wo.RATINGREQ =='0')&& (wo.ACTIVE=='C') && workOrderPermission.RATING=='Y'">
                       <ion-col col-12>
                         <div  class="rating">
-                          <input  type="radio" value="5" [name]="5" [checked]="wo.RATING=='5'? true : false"><label (click)='onClick(5,wo)'>5 stars</label>
-                          <input  type="radio" value="4" [name]="4" [checked]="wo.RATING=='4'? true : false"><label (click)='onClick(4,wo)'>4 stars</label>
-                          <input  type="radio" value="3" [name]="3" [checked]="wo.RATING=='3'? true : false "><label (click)='onClick(3,wo)'>3 stars</label>
-                          <input  type="radio" value="2" [name]="2" [checked]="wo.RATING=='2'? true : false"><label (click)='onClick(2,wo)'>2stars</label>
-                          <input  type="radio" value="1" [name]="1" [checked]="wo.RATING=='1'? true : false"><label (click)='onClick(1,wo)'>1 star</label>
+                          <input  type="radio" value="5" [name]="5" [checked]='wo.RATING=="5"? true : false'><label (click)='onClick(5,wo)'>5 stars</label>
+                          <input  type="radio" value="4" [name]="4" [checked]='wo.RATING=="4"? true : false'><label (click)='onClick(4,wo)'>4 stars</label>
+                          <input  type="radio" value="3" [name]="3" [checked]='wo.RATING=="3"? true : false'><label (click)='onClick(3,wo)'>3 stars</label>
+                          <input  type="radio" value="2" [name]="2" [checked]='wo.RATING=="2"? true : false'><label (click)='onClick(2,wo)'>2 stars</label>
+                          <input  type="radio" value="1" [name]="1" [checked]='wo.RATING=="1"? true : false'><label (click)='onClick(1,wo)'>1 star</label>
                         </div>
+                        
                     </ion-col>
                     <!-- <ion-col>
                         <div _ngcontent-vts-c4="" style="text-align:center;font-size: 12px;color: #006ba2;font-weight:bold;" (click)="openFeedBack(wo)">
