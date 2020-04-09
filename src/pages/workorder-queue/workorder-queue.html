@@ -171,9 +171,8 @@
                       </ion-col>
                       <ion-col col-2 class="textcenter" (click)="NotesModal('notes',wo,'S',i,package.WOSID)" *ngIf="emplogtype=='C'">
                         <p>
-                          <ion-icon name="md-document"></ion-icon>
-                          <span *ngIf="getlength('S',wo.WONOTES,package.WOSID)>0" style="position: absolute;top: 4px;
-                            right: 2px;">
+                          <ion-icon name="md-document" style="float: left;"></ion-icon>
+                          <span *ngIf="getlength('S',wo.WONOTES,package.WOSID)>0" class="badge countNotes">
                             {{getlength('S',wo.WONOTES,package.WOSID)}}</span>
                         </p>
                       </ion-col>
