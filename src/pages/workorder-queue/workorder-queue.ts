@@ -673,7 +673,7 @@ export class WorkorderQueuePage {
     }else{
       let loader = this.loadingSrv.createLoader();
     loader.present();
-    let Modal = this.modalctrl.create(FeedBackComponent, {workOrderObj: woList,logged:this.loggedEmp,type:'feedBack' }, { cssClass: "full-height-modal" });
+    let Modal = this.modalctrl.create(FeedBackComponent, {workOrderObj: woList,logged:this.loggedEmp,type:'feedBack'}, { cssClass: "full-height-modal" });
     Modal.present().then(val => {
       loader.dismiss();
     }).catch(err => {
