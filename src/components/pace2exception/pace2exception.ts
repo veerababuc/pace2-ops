@@ -46,15 +46,19 @@ export class Pace2exceptionComponent {
           if( this.ExpData[0].EXCEPTIONDETAILS.length > 0){
             this.loadcntrl.hideloader();
           console.log('expdata..', this.ExpData);
+          if(this.ExpData[0].EXCEPTIONDETAILS.length != 0 ){
           this.ImgUrl = this.appconst.Paceimg + /profile/;
           this.EmpList = this.ExpData[0].EXCEPTIONDETAILS[0].EXCEPTIONFIXEMPLOYEES;
+          if(this.ExpData[0].EXCEPTIONDETAILS[0].EXCEPTIONRULEDETAILS.length != 0){
           this.ExceptionName = this.ExpData[0].EXCEPTIONDETAILS[0].EXCEPTIONRULEDETAILS[0].NAME;
           this.ExceptionNotes = this.ExpData[0].EXCEPTIONDETAILS[0].EXCEPTIONRULEDETAILS[0].NOTES;
+          }
           this.ExceptionVin = this.ExpData[0].EXCEPTIONDETAILS[0].VIN;
           this.ExceptionPack = this.ExpData[0].EXCEPTIONDETAILS[0].PACKAGENAME;
           this.ExceptionService = this.ExpData[0].EXCEPTIONDETAILS[0].SERVICEITEM;
           this.ExceptionWonum = this.ExpData[0].EXCEPTIONDETAILS[0].WONUM;
           this.ExceptionFixes = this.ExpData[0].EXCEPTIONDETAILS[0].EXCEPTIONRULEFIXES
+          }
           }
           else{
             this.loadcntrl.hideloader();
