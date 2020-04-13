@@ -9,7 +9,7 @@
   
      
         <div *ngIf="NotesData != 'No Data Found'">
-          <div style="height:57vh;overflow-y: scroll;position: relative;display: block;">
+          <div style="height:47vh;overflow-y: scroll;position: relative;display: block;">
            <div style="overflow-y: scroll;min-height:50vh !important;">
             <div *ngFor="let item of NotesData; let i = index;let last = last">
               <div *ngIf="item.TYPE == NoteType">
