@@ -23,6 +23,7 @@ import { FeedBackComponent } from '../../components/feed-back/feed-back';
 })
 export class WorkorderQueuePage {
   public workOrders: any = [];
+  public cloneWorkOrders: any = [];
   public currentWoQ: any;
   public previousIndex: any;
   public NoImg: string = "../../assets/imgs/workorderqueue/no-user-image.png";
@@ -124,7 +125,7 @@ export class WorkorderQueuePage {
         //console.log(body);
 
         if (body[0].result === '') {
-          this.woqEmpty();
+          this.woqEmpty('');
           this.infinitescrollactions(false, false, true);
         } else {
           let result = JSON.parse(body[0].result);
@@ -151,22 +152,22 @@ export class WorkorderQueuePage {
             this.workOrders.push(Object.assign({}, element));
             this.workOrders.forEach((selectOd, odIndex) => {
               this.changeDetectorRef.detectChanges();
-              this.selectedPackege(odIndex, selectOd.UniquePackeges[0]);
+              this.selectedPackege(odIndex, selectOd.UniquePackeges[0],0,'Y');
               
             });
           });
           this.infinitescrollactions(true, false, false);
-          this.woqEmpty();
+          this.woqEmpty('');
         }
         console.log('workorder end', this.workOrders);
        
       } else {
-        this.woqEmpty();
+        this.woqEmpty('');
       }
     }, (err) => {
       console.log('get order err', err);
       this.paceEnv.stopLoading();
-      this.woqEmpty();
+      this.woqEmpty('');
     });
   }
 
@@ -205,6 +206,7 @@ export class WorkorderQueuePage {
     this.dataOptions.pageNumber = this.dataOptions.pageNumber + 1;
     this.dataOptions.pageSize = this.pageSize;
     this.getWorkOrders();
+    //this.cloneGetWorkOrders();
   }
 
 
@@ -221,10 +223,17 @@ export class WorkorderQueuePage {
   }
 
 
-  woqEmpty() {
+  woqEmpty(flag) {
+    if(flag !="C"){
     if (this.workOrders.length == 0) {
       this.workOrders = 'No Data Found';
     }
+  }
+  else{
+    if (this.cloneWorkOrders.length == 0) {
+      this.workOrders = 'No Data Found';
+    }
+  }
   }
 
 
@@ -237,9 +246,9 @@ export class WorkorderQueuePage {
         if (action != 'edit') {
           this.dataOptions.pageNumber = 1;
           this.dataOptions.pageSize = this.workOrders.length;
-          this.workOrders = [];
-          this.getWorkOrders();
-          //this.cloneGetWorkOrders(wo,i);
+          //this.workOrders = [];
+          //this.getWorkOrders();
+          this.cloneGetWorkOrders();
         } else {
           this.workOrders[i] = Object.assign({}, data.woorder);
         }
@@ -261,8 +270,9 @@ export class WorkorderQueuePage {
       this.paceEnv.startLoading();
       if(data == "Success"){
         setTimeout(() => {         
-          this.workOrders = [];
-          this.getWorkOrders();  
+          //this.workOrders = [];
+          //this.getWorkOrders();  
+          this.cloneGetWorkOrders()
         }, 2000);
         this.paceEnv.stopLoading();
       }else{
@@ -292,7 +302,7 @@ export class WorkorderQueuePage {
           let body = JSON.parse(Response._body);
 
           if (body[0].result === '') {
-            this.woqEmpty();
+            this.woqEmpty('');
             this.infinitescrollactions(false, false, true);
           } else {
             let result = JSON.parse(body[0].result);
@@ -318,20 +328,20 @@ export class WorkorderQueuePage {
               this.workOrders[woIndex] = result[0];
               this.workOrders.forEach((selectOd, odIndex) => {
                 this.changeDetectorRef.detectChanges();
-                this.selectedPackege(odIndex, selectOd.UniquePackeges[0]);
+                this.selectedPackege(odIndex, selectOd.UniquePackeges[0],0,'Y');
               });
 
             });
             this.infinitescrollactions(true, false, false);
-            this.woqEmpty();
+            this.woqEmpty('');
           }
         } else {
-          this.woqEmpty();
+          this.woqEmpty('');
         }
       }, (err) => {
         console.log('get order err', err);
         this.paceEnv.stopLoading();
-        this.woqEmpty();
+        this.woqEmpty('');
       });
     }
     });
@@ -606,16 +616,26 @@ export class WorkorderQueuePage {
     toast.present();
   }
 
-  selectedPackege(workOderIndex, packege, woSindex = 0) {
+  selectedPackege(workOderIndex, packege, woSindex = 0,flagValue) {
     //console.log('woSindex', workOderIndex,packege);
     //let loader = this.loadingSrv.createLoader();
     //loader.present();
+    if(flagValue != "C"){
     this.workOrders[workOderIndex].selectedPackege = woSindex;
     this.workOrders[workOderIndex].filterPackeges = this.workOrders[workOderIndex].WOSERVICES.filter(data => {
       //loader.dismiss();
       return data.SSIID == packege.SSIID;
       
     });
+  }
+  else if(flagValue == "C"){
+    this.cloneWorkOrders[workOderIndex].selectedPackege = woSindex;
+    this.cloneWorkOrders[workOderIndex].filterPackeges = this.cloneWorkOrders[workOderIndex].WOSERVICES.filter(data => {
+      //loader.dismiss();
+      return data.SSIID == packege.SSIID;
+      
+    });
+  }
   }
   getPackeges(workOrder: any) {
     let newArray = workOrder.WOSERVICES.reduce(
@@ -653,9 +673,9 @@ export class WorkorderQueuePage {
       if(approveData[0].errorId > 0){
         setTimeout(() => {
           //this.paceEnv.startLoading();
-          this.workOrders = [];
-          this.getWorkOrders(); 
-          //this.cloneGetWorkOrders(wo,i);
+          //this.workOrders = [];
+          //this.getWorkOrders(); 
+          this.cloneGetWorkOrders();
         }, 2000);
         //this.paceEnv.stopLoading();
       }   
@@ -684,11 +704,11 @@ export class WorkorderQueuePage {
      if(body[0].errorId > 0){
       // setTimeout(() => {
       //   this.paceEnv.startLoading();
-       this.workOrders = [];
-      this.getWorkOrders();  
+       //this.workOrders = [];
+      //this.getWorkOrders();  
       // }, 2000);
        // this.paceEnv.stopLoading();
-      // this.cloneGetWorkOrders(list,'');
+      this.cloneGetWorkOrders();
 
      }
    })
@@ -711,9 +731,9 @@ export class WorkorderQueuePage {
   }
     
 }
-
-cloneGetWorkOrders(woObj,Woindex){
-  console.log(woObj);
+////clone get workOrders
+cloneGetWorkOrders(){
+  //console.log(woObj);
   
    // if(searchText == ''){
     //   this.dataOptions.searchtext = searchText;
@@ -721,7 +741,8 @@ cloneGetWorkOrders(woObj,Woindex){
     // else{
     //   this.dataOptions.searchtext = searchText;
     // }
-    let cloneWorkOrder:any=[];
+    
+    
     this.paceEnv.startLoading();
     let searchOptions: string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>${this.dataOptions.pageNumber}</pageNumber><pageSize>${this.dataOptions.pageSize}</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>${this.dataOptions.searchtype}</searchtype><searchtext>${this.dataOptions.searchtext}</searchtext><searchstatus>${this.dataOptions.searchstatus}</searchstatus></Info>`.trim();
     this.OdsSvc.GetWorkOrderStatus(searchOptions).subscribe(Response => {
@@ -732,7 +753,7 @@ cloneGetWorkOrders(woObj,Woindex){
         //console.log(body);
 
         if (body[0].result === '') {
-          this.woqEmpty();
+          this.woqEmpty('');
           this.infinitescrollactions(false, false, true);
         } else {
           let result = JSON.parse(body[0].result);
@@ -756,30 +777,38 @@ cloneGetWorkOrders(woObj,Woindex){
               });
 
             }
-            cloneWorkOrder.push(Object.assign({}, element));
-            cloneWorkOrder.forEach((selectOd, odIndex) => {
+            this.cloneWorkOrders=[];
+            this.cloneWorkOrders.push(Object.assign({}, element));
+            
+            this.cloneWorkOrders.forEach((selectOd, odIndex) => {
               this.changeDetectorRef.detectChanges();
-              //this.selectedPackege(Woindex, woObj.UniquePackeges[0]);
+              this.selectedPackege(odIndex, selectOd.UniquePackeges[0],0,"C");
               
             });
           });
-          this.selectedPackege(Woindex, woObj.UniquePackeges[0]);
+          //this.selectedPackege(Woindex, woObj.UniquePackeges[0]);
           this.infinitescrollactions(true, false, false);
-          this.woqEmpty();
+          this.woqEmpty("C");
         }
-        this.workOrders = [...cloneWorkOrder]
-        console.log('workorder end', this.workOrders,'cloneObj',cloneWorkOrder);
+        if(this.workOrders.length == 20){
+        this.workOrders = [...this.cloneWorkOrders]
+        }
+        else{
+          this.workOrders.concat(this.cloneWorkOrders)
+        }
+        console.log('workorder end', this.workOrders,'cloneObj',this.cloneWorkOrders);
        
       } else {
-        this.woqEmpty();
+        this.woqEmpty("C");
       }
     }, (err) => {
       console.log('get order err', err);
       this.paceEnv.stopLoading();
-      this.woqEmpty();
+      this.woqEmpty("C");
     });
 
 }
+///
   
   
 }
