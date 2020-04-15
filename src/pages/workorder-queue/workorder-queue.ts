@@ -430,6 +430,7 @@ export class WorkorderQueuePage {
             let result = JSON.parse(serviceres[0].result);
             console.log('sub workorder', subWorkorder);
             if (subWorkorder == true) {
+            //if (subWorkorder != "0") {
               //this.workOrders[woindex].SUBWORKORDER[serviceindex].WOSERVICES[serviceindex] = result[0].SERVICEITEM[0];
               console.log('sub workorder true', serviceindex,woindex);
               //this.workOrders[woindex].WOSERVICES[serviceindex] =  result[0].SERVICEITEM[0];

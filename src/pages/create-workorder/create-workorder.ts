@@ -455,7 +455,8 @@ export class CreateWorkorderPage {
     this.vin = "";
     this.stock = "";
     this.options = {
-      prompt: "Place a barcode inside the viewfinder rectangle to scan it"
+      prompt: "Place a barcode inside the viewfinder rectangle to scan it",
+      orientation : 'landscape'
     }
     this.scanner.scan(this.options).then((data) => {
 
