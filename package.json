@@ -1,6 +1,6 @@
 {
   "name": "PACE-EMPLOYEE",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "author": "Ionic Framework",
   "homepage": "http://ionicframework.com/",
   "private": true,
@@ -46,6 +46,7 @@
     "cordova-sqlite-storage": "^3.4.0",
     "ionic-angular": "3.9.5",
     "ionicons": "3.0.0",
+    "lab": "18.0.2",
     "moment": "^2.24.0",
     "phonegap-plugin-barcodescanner": "^8.1.0",
     "rxjs": "5.5.11",

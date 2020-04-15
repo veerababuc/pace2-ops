@@ -69,7 +69,7 @@ addErrorMessage(msg) {
        <div class="loading-body"> Loading... </div>
        </div>
      </div>`,
-     duration:5000
+     duration:1000*50
      });
      this.loadingPopup.present();
    }

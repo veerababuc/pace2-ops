@@ -312,7 +312,7 @@
                         <div
                           *ngIf="package.ASSIGNMENTID!=0  && package.ASSIGNMENTINFO.LENGTH!=0 && package.STATUS=='I' ">
                           <div
-                            *ngIf="package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid && package.STATUS=='I' && package.ASSIGNMENTINFO[0].ASSIGNEDTOLOGTYPE==emplogtype && package.ASSIGNMENTINFO[0].ASSIGNEDBY!=dataOptions.eid">
+                            *ngIf="package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid && package.STATUS=='I' && package.ASSIGNMENTINFO[0].ASSIGNEDBY!=dataOptions.eid">
                             <div *ngFor="let woassign of package.ASSIGNMENTINFO">
 
                               <p class="cre" style="display: flex;justify-content: space-around;">
@@ -338,8 +338,9 @@
                         </div>
                         <div
                           *ngIf="package.ASSIGNMENTID!=0  && package.ASSIGNMENTINFO.LENGTH!=0 && package.STATUS=='I' ">
+                          
                           <p class="cre" style="display: flex;justify-content: space-around;"
-                            *ngIf="package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid && package.STATUS=='I' && package.ASSIGNMENTINFO[0].ASSIGNEDTOLOGTYPE==emplogtype &&  package.ASSIGNMENTINFO[0].ASSIGNEDBY==package.ASSIGNMENTINFO[0].ASSIGNEDTO">
+                            *ngIf="package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid && package.STATUS=='I' &&  package.ASSIGNMENTINFO[0].ASSIGNEDBY==dataOptions.eid">
                             <img src="../../assets/imgs/workorderqueue/service_Cancel.png"
                               (click)="pickService(package,i,serviceindex,'D')">
                             <img src="../../assets/imgs/workorderqueue/service_Completed.png"

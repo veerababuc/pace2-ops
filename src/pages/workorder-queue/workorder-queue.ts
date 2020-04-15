@@ -75,7 +75,7 @@ export class WorkorderQueuePage {
       if (this.headerName.length > 15) {
         this.headerName = this.headerName.substring(0, 15) + "..";
       }
-      this.paceEnv.startLoading();
+      //this.paceEnv.startLoading();
       this.getAssigmentlist();
     });
     this.PageNo = this.navParams.get('itm');
@@ -114,6 +114,7 @@ export class WorkorderQueuePage {
     // else{
     //   this.dataOptions.searchtext = searchText;
     // }
+    this.paceEnv.startLoading();
     let searchOptions: string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>${this.dataOptions.pageNumber}</pageNumber><pageSize>${this.dataOptions.pageSize}</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>${this.dataOptions.searchtype}</searchtype><searchtext>${this.dataOptions.searchtext}</searchtext><searchstatus>${this.dataOptions.searchstatus}</searchstatus></Info>`.trim();
     this.OdsSvc.GetWorkOrderStatus(searchOptions).subscribe(Response => {
       console.log('getworkOrder Queue', Response);
@@ -127,6 +128,8 @@ export class WorkorderQueuePage {
           this.infinitescrollactions(false, false, true);
         } else {
           let result = JSON.parse(body[0].result);
+          console.log(result,'vv');
+          
           result.forEach((element, index) => {
             element.expanded = false;
             element.selectedPackege = 0;
@@ -156,6 +159,7 @@ export class WorkorderQueuePage {
           this.woqEmpty();
         }
         console.log('workorder end', this.workOrders);
+       
       } else {
         this.woqEmpty();
       }
@@ -168,7 +172,7 @@ export class WorkorderQueuePage {
 
 
   search() {
-    this.paceEnv.startLoading();
+   // this.paceEnv.startLoading();
     this.workOrders = [];
     this.infinitescrollactions(false, false, true);
     this.infinitescrollactions(false, true, false);
@@ -235,6 +239,7 @@ export class WorkorderQueuePage {
           this.dataOptions.pageSize = this.workOrders.length;
           this.workOrders = [];
           this.getWorkOrders();
+          //this.cloneGetWorkOrders(wo,i);
         } else {
           this.workOrders[i] = Object.assign({}, data.woorder);
         }
@@ -338,7 +343,7 @@ export class WorkorderQueuePage {
       
     }).catch(err => {
       console.log(err);
-      this.paceEnv.startLoading();
+      this.paceEnv.stopLoading();
     });
   
   }
@@ -387,7 +392,12 @@ export class WorkorderQueuePage {
   getAssigmentlist() {
     let self = this;
     this.empListModel =[];
+    //this.paceEnv.startLoading();
+    let loader = this.loadingSrv.createLoader();
+    loader.present();
     this.OdsSvc.getAssignmentEmployeeList(this.dataOptions).subscribe(Response => {
+      loader.dismiss();
+      //this.paceEnv.stopLoading();
       if (Response[0].result !== '') {
         let result = JSON.parse(Response[0].result);
         self.emplist = result[0].EMPLOYEES;
@@ -516,19 +526,24 @@ export class WorkorderQueuePage {
               ip: this.paceEnv.ipAddress,
               isscanned: 'N'
             };
-            self.paceEnv.startLoading();
+            let loader = this.loadingSrv.createLoader();
+            loader.present();
             self.OdsSvc.pickUpService(servive).subscribe(Response => {
+            loader.dismiss();
               if (Response[0].status > 0) {
                 self.OdsSvc.refreshServiceItems(servive.serid).subscribe(serviceres => {
                   if (serviceres[0].result !== '') {
-                    // let result = JSON.parse(serviceres[0].result);
-                    // console.log('serviceres1', result[0].SERVICEITEM[0],serviceobj, woindex, serviceindex, action);
-                    // self.workOrders[woindex].WOSERVICES[serviceindex] =Object.assign({},result[0].SERVICEITEM[0]);
-                    console.log('emp data empid, this.emplogtype', self.dataOptions.eid, self.emplogtype);
-                    self.workOrders = [];
-                    self.paceEnv.stopLoading();
-                    self.paceEnv.startLoading();
-                    self.getWorkOrders();
+                    let result = JSON.parse(serviceres[0].result);
+                    console.log('serviceres1', result[0].SERVICEITEM[0],serviceobj);
+                    console.log('index',woindex, serviceindex, action)
+                     this.workOrders[woindex].filterPackeges[serviceindex] =Object.assign({},result[0].SERVICEITEM[0]);
+                     this.zone.run(() => { this.workOrders[woindex].filterPackeges[serviceindex] =Object.assign({},result[0].SERVICEITEM[0])});
+                     //this.employeeWorkOrderPermissionforactions("");
+                    console.log('emp data empid, this.emplogtype', self.dataOptions.eid, self.emplogtype,this.workOrders);
+                    //self.workOrders = [];
+                    //self.paceEnv.stopLoading();
+                   // self.paceEnv.startLoading();
+                    //self.cloneGetWorkOrders();
                     // if(action=='D')
                     //   self.workOrders[woindex].WOSERVICES[serviceindex].empid = "--Select--";
 
@@ -540,14 +555,17 @@ export class WorkorderQueuePage {
                     // }
                   }
                 }, (err) => {
-                  self.paceEnv.stopLoading();
+                  //self.paceEnv.stopLoading();
+                  loader.dismiss();
                   console.log('err', err);
                 })
               } else {
-                self.paceEnv.stopLoading();
+                loader.dismiss();
+                //self.paceEnv.stopLoading();
               }
             }, (err) => {
-              this.paceEnv.stopLoading();
+              loader.dismiss();
+              //this.paceEnv.stopLoading();
               console.log('err', err);
             })
           }
@@ -560,13 +578,16 @@ export class WorkorderQueuePage {
 
   employeeWorkOrderPermissionforactions() {
     let self = this;
+    //this.paceEnv.startLoading();
     this.OdsSvc.employeeWorkOrderPermissionforactions(this.dataOptions).subscribe(Response => {
+      //this.paceEnv.stopLoading();
       if (Response[0].result !== '') {
         let result = JSON.parse(Response[0].result);
+        self.getWorkOrders();
         self.workOrderPermission = Object.assign({}, result[0].WOPERMISSIONS[0]);
         console.log('Permissions',self.workOrderPermission);
         
-       self.getWorkOrders();
+       
       }
     }, (err) => {
       console.log('err', err);
@@ -587,7 +608,7 @@ export class WorkorderQueuePage {
   }
 
   selectedPackege(workOderIndex, packege, woSindex = 0) {
-    //console.log('woSindex', woSindex);
+    //console.log('woSindex', workOderIndex,packege);
     //let loader = this.loadingSrv.createLoader();
     //loader.present();
     this.workOrders[workOderIndex].selectedPackege = woSindex;
@@ -626,15 +647,21 @@ export class WorkorderQueuePage {
     let paramObj = {strWoId :wo.WOID,strApprovedBy:this.loggedEmp, strApprovedDt:date,strApprovedTime:time,strIPAddress:this.paceEnv.ipAddress }
     console.log(paramObj);
     //this.paceEnv.startLoading();
+    let loader = this.loadingSrv.createLoader();
+    loader.present();
     this.OdsSvc.approveAdmin(paramObj).subscribe((approveData:any)=>{
+      loader.dismiss();
       if(approveData[0].errorId > 0){
         setTimeout(() => {
-          this.paceEnv.startLoading();
+          //this.paceEnv.startLoading();
           this.workOrders = [];
-          this.getWorkOrders();  
+          this.getWorkOrders(); 
+          //this.cloneGetWorkOrders(wo,i);
         }, 2000);
-        this.paceEnv.stopLoading();
+        //this.paceEnv.stopLoading();
       }   
+    },err=>{
+      loader.dismiss();
     })
 
   }
@@ -656,12 +683,13 @@ export class WorkorderQueuePage {
      body = JSON.parse(fiveStarData._body);
      
      if(body[0].errorId > 0){
-      setTimeout(() => {
-        this.paceEnv.startLoading();
-        this.workOrders = [];
-        this.getWorkOrders();  
-      }, 2000);
-      this.paceEnv.stopLoading();
+      // setTimeout(() => {
+      //   this.paceEnv.startLoading();
+       this.workOrders = [];
+      this.getWorkOrders();  
+      // }, 2000);
+       // this.paceEnv.stopLoading();
+      // this.cloneGetWorkOrders(list,'');
 
      }
    })
@@ -683,7 +711,76 @@ export class WorkorderQueuePage {
     });;
   }
     
-  }
+}
+
+cloneGetWorkOrders(woObj,Woindex){
+  console.log(woObj);
+  
+   // if(searchText == ''){
+    //   this.dataOptions.searchtext = searchText;
+    // }
+    // else{
+    //   this.dataOptions.searchtext = searchText;
+    // }
+    let cloneWorkOrder:any=[];
+    this.paceEnv.startLoading();
+    let searchOptions: string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>${this.dataOptions.pageNumber}</pageNumber><pageSize>${this.dataOptions.pageSize}</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>${this.dataOptions.searchtype}</searchtype><searchtext>${this.dataOptions.searchtext}</searchtext><searchstatus>${this.dataOptions.searchstatus}</searchstatus></Info>`.trim();
+    this.OdsSvc.GetWorkOrderStatus(searchOptions).subscribe(Response => {
+      console.log('getworkOrder Queue', Response);
+      this.paceEnv.stopLoading();
+      if (Response.status === 200) {
+        let body = JSON.parse(Response._body);
+        //console.log(body);
+
+        if (body[0].result === '') {
+          this.woqEmpty();
+          this.infinitescrollactions(false, false, true);
+        } else {
+          let result = JSON.parse(body[0].result);
+          console.log(result,'vt');
+          
+          result.forEach((element, index) => {
+            element.expanded = false;
+            element.selectedPackege = 0;
+            element.UniquePackeges = [...this.getPackeges(element)];
+            element.filterPackeges = [];
+            element.WOSERVICES.forEach((ws: any) => {
+              ws.expanded = false;
+              ws.value = '0';
+            });
+            if (element.SUBWORKORDER.length > 0) {
+              element.SUBWORKORDER.forEach(subOrder => {
+                subOrder.WOSERVICES.forEach((ws: any) => {
+                  ws.expanded = false;
+                  ws.empid = '0';
+                });
+              });
+
+            }
+            cloneWorkOrder.push(Object.assign({}, element));
+            cloneWorkOrder.forEach((selectOd, odIndex) => {
+              this.changeDetectorRef.detectChanges();
+              //this.selectedPackege(Woindex, woObj.UniquePackeges[0]);
+              
+            });
+          });
+          this.selectedPackege(Woindex, woObj.UniquePackeges[0]);
+          this.infinitescrollactions(true, false, false);
+          this.woqEmpty();
+        }
+        this.workOrders = [...cloneWorkOrder]
+        console.log('workorder end', this.workOrders,'cloneObj',cloneWorkOrder);
+       
+      } else {
+        this.woqEmpty();
+      }
+    }, (err) => {
+      console.log('get order err', err);
+      this.paceEnv.stopLoading();
+      this.woqEmpty();
+    });
+
+}
   
   
 }

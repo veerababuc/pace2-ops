@@ -264,15 +264,20 @@ export class HomePage {
         return false;
       }
       
-    loader.present();
+    loader.present().then((value:any)=>{
+      this.navController.push(pageName,{itm:item}).then(val => {
+        loader.dismiss();
+      }).catch(err => {
+        console.log(err);
+        loader.dismiss();
+      });
+    },err=>{
+      console.log(err);
+      
+    });
     //console.log('hi');
     
-    this.navController.push(pageName,{itm:item}).then(val => {
-      loader.dismiss();
-    }).catch(err => {
-      console.log(err);
-      loader.dismiss();
-    });
+    
   }
 
 }
