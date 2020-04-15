@@ -6,7 +6,7 @@ import moment from 'moment';
 
 @Injectable()
 export class OdsServiceProvider {
-
+  private canGoBack = true;
   http: any;
   constructor(http: Http, public appconst: PaceEnvironment) {
     this.http = http;
@@ -17,7 +17,13 @@ export class OdsServiceProvider {
   //   return this.http.get(this.appconst.ApiUrl + "EmployeeInfo/" + employeeid)
   //     .map((res: Response) => res.json())
   // }
+  public setValue(value: boolean) {
+    this.canGoBack = value;
+  }
 
+  public getValue(): boolean {
+    return this.canGoBack;
+  }
 
   GetEmployeeInfo(employeeid: any) {
     let options = new RequestOptions({ headers: this.appconst.headers })

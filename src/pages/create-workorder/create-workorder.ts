@@ -79,7 +79,9 @@ export class CreateWorkorderPage {
   constructor(public navCtrl: NavController, public alertcontroller: AlertController, public scanner: BarcodeScanner,
     private dt: DatePicker, private db: DatabaseProvider, private odsservice: OdsServiceProvider, public appconstants: PaceEnvironment, private tostcntrl: ToastController, public platform: Platform
     , public device: Device,private modalctrl:ModalController,public alertController: AlertController, public navParams: NavParams) {
-    if (platform.is('ios')) {
+   
+      this.odsservice.setValue(true);
+         if (platform.is('ios')) {
       this.platform_tabclass = true;
     }
     else {
@@ -448,6 +450,12 @@ export class CreateWorkorderPage {
   changeddlrequestedby(ele) {
     this.requestddl = ele.id;
 
+  }
+
+  ionViewCanLeave() {
+    let canGoBack = this.odsservice.getValue();
+    this.odsservice.setValue(true);
+    return canGoBack;
   }
 
   /*****************************************BarCode Reader Methods*********************************************************************************** */
