@@ -477,6 +477,12 @@ export class CreateWorkorderPage {
         this.vin = data.text.substring(1, 18);
         this.stock = this.vin.substring(18 - this.stock_length);
         this.isScan = "Y";
+      } else if (data.cancelled == true) {
+        // alert("Was cancelled");
+        // this.navCtrl.pop();
+        // this.navCtrl.push('vin-searchpage');        
+        // if(this.platform.is('android'))
+          this.odsservice.setValue(false);
       }
       else {
         this.vin = data.text;
