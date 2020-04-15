@@ -372,7 +372,8 @@ page-workorder-queue {
  //   top:84px !important;
 //  }
   #dataOpt_1 custom-select .md-select ul[role=listbox]{
-    top:130px !important;
+    top:13rem !important;
+    width:15rem !important;
   }
 
   // #dataOpt_0 custom-select .md-select ul[role=listbox]{
@@ -451,5 +452,4 @@ page-workorder-queue {
   border-radius: 1.25rem;
   transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
-
 }
