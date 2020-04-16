@@ -240,7 +240,7 @@
                                 *ngIf="(workOrderPermission.ASSIGN=='Y' || package.ASSIGNMENTINFO[0].ASSIGNEDBYLOGTYPE=='C') && (package.ASSIGNMENTINFO[0].ASSIGNEDBY==dataOptions.eid || package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid)"
                                 [optionsModel]="empListModel" defaultOptTxt='Select Employee' [(optColor)]='black'
                                 [(value)]="package.ASSIGNMENTINFO[0].ASSIGNEDTO"
-                                (change)="empSelectionUpdate(package,i,serviceindex,$event,package.ASSIGNMENTINFO[0].ASSIGNEDTO,false,subWoindex)">
+                                (change)="empSelectionUpdate(package,i,serviceindex,$event,package.ASSIGNMENTINFO[0].ASSIGNEDTO,true,subWoindex)">
                               </custom-select>
                             </div>
                           </div>
@@ -477,10 +477,10 @@
                         <div id="empList_1">
                           <custom-select *ngIf="workOrderPermission.ASSIGN=='Y' || emplogtype=='C'"
                             [optionsModel]="empListModel" [(value)]="selectedEmpId" defaultOptTxt='Select Employee'
-                            (change)="empSelection(package,$event,i,serviceindex)"></custom-select>
+                            (change)="empSelection(package,$event,i,serviceindex,true,subWoindex)"></custom-select>
                         </div>
                         <p class="cre" style="display: flex;justify-content: center;"
-                          (click)="pickService(package,i,serviceindex,'P')"
+                          (click)="pickService(package,i,serviceindex,'P',true)"
                           *ngIf="workOrderPermission.PICKUP=='Y' && package.ASSIGNMENTID != 0 ">
                           <img class="subimage" src="../../assets/imgs/workorderqueue/Service_PickUp.png">
                         </p>
@@ -489,27 +489,27 @@
                       <div *ngIf="package.ASSIGNMENTID!=0  && package.ASSIGNMENTINFO.LENGTH!=0 && package.STATUS=='A' ">
                         
                         <div
-                          *ngIf="(package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid && package.STATUS=='I') && (package.ASSIGNMENTINFO[0].ASSIGNEDTOLOGTYPE==emplogtype) && (package.ASSIGNMENTINFO[0].ASSIGNEDBY==dataOptions.eid || package.ASSIGNMENTINFO[0].ASSIGNEDBY!=dataOptions.eid)">
+                          *ngIf="(package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid && package.STATUS=='I')  && (package.ASSIGNMENTINFO[0].ASSIGNEDBY==dataOptions.eid)">
                           <div *ngFor="let woassign of package.ASSIGNMENTINFO">
                             <p class="ptextalign ptextsmallsize">{{woassign.ASSIGNEDTONAME}}</p>
                             <p class="ptextsmallsize ptextalign">{{woassign.ASSIGNEDDATE | date:'MM.dd.yy'}}
                               {{woassign.ASSIGNEDDATE | date:'h:mm a'}}</p>
                             <p class="cre" style="display: flex;justify-content: space-around;">
                               <img class="subimage" src="../../assets/imgs/workorderqueue/service_Cancel.png"
-                                (click)="pickService(package,i,serviceindex,'D')">
+                                (click)="pickService(package,i,serviceindex,'D',true)">
                               <img class="subimage" src="../../assets/imgs/workorderqueue/service_Completed.png"
-                                (click)="pickService(package,i,serviceindex,'C')">
+                                (click)="pickService(package,i,serviceindex,'C',true)">
                             </p>
                           </div>
                         </div>
                         <div
-                        *ngIf="package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid && package.ASSIGNMENTINFO[0].ASSIGNEDBY==dataOptions.eid">
+                        *ngIf="package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid  && package.ASSIGNMENTINFO[0].ASSIGNEDBY==dataOptions.eid">
                           <div *ngFor="let woassign of package.ASSIGNMENTINFO">
                             <!-- <p class="ptextalign ptextsmallsize">{{woassign.ASSIGNEDTONAME}}</p>
                             <p class="ptextsmallsize ptextalign">{{woassign.ASSIGNEDDATE | date:'MM.dd.yy'}}
                               {{woassign.ASSIGNEDDATE | date:'h:mm a'}}</p> -->
                             <p class="cre" style="display: flex;justify-content: space-around;"
-                              (click)="pickService(package,i,serviceindex,'P')">
+                              (click)="pickService(package,i,serviceindex,'P',true)">
                               <img class="subimage" src="../../assets/imgs/workorderqueue/Service_PickUp.png">
                             </p>
                           </div>
@@ -522,6 +522,7 @@
                             <ion-option value="--Select--">--Select--</ion-option>
                             <ion-option [value]="emp.EID" *ngFor="let emp of emplist">{{emp.NAME}}</ion-option>
                           </ion-select> -->
+                          
                           <div id="empList_ADMIN">
                             <custom-select *ngIf="(workOrderPermission.ASSIGN=='Y') || (emplogtype=='C')"
                               [optionsModel]="empListModel" defaultOptTxt='Select'
@@ -538,6 +539,10 @@
                             <ion-option value="--Select--">--Select--</ion-option>
                             <ion-option [value]="emp.EID" *ngFor="let emp of emplist">{{emp.NAME}}</ion-option>
                           </ion-select> -->
+                          <p class="cre" style="display: flex;justify-content: space-around;"
+                              (click)="pickService(package,i,serviceindex,'P',true)">
+                              <img class="subimage" src="../../assets/imgs/workorderqueue/Service_PickUp.png">
+                            </p>
                           <div id="empList_dealer">
                             <custom-select *ngIf="(workOrderPermission.ASSIGN=='Y') || (emplogtype=='C')"
                               [optionsModel]="empListModel" defaultOptTxt='Select'
@@ -571,12 +576,13 @@
                             {{woassign.ASSIGNEDDATE | date:'h:mm a'}}</p>
                           <!-- ASSIGNMENTINFO[0].ASSIGNEDTO=LOGGED EMP ID AND STATUS=’I’ AND ASSIGNEDLOGTYPE=LOGGED EMP LOG TYPE -->
                         </div>
+                        
                         <p class="cre" style="display: flex;justify-content: space-around;"
-                          *ngIf="package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid && package.STATUS=='I' && package.ASSIGNMENTINFO[0].ASSIGNEDTOLOGTYPE==emplogtype &&  package.ASSIGNMENTINFO[0].ASSIGNEDBY==package.ASSIGNMENTINFO[0].ASSIGNEDTO">
+                        *ngIf="(package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid && package.STATUS=='I') &&  (package.ASSIGNMENTINFO[0].ASSIGNEDBY==1 || package.ASSIGNMENTINFO[0].ASSIGNEDBY==package.ASSIGNMENTINFO[0].ASSIGNEDTO) ">
                           <img class="subimage" src="../../assets/imgs/workorderqueue/service_Cancel.png"
-                            (click)="pickService(package,i,serviceindex,'D')">
+                            (click)="pickService(package,i,serviceindex,'D',true)">
                           <img class="subimage" src="../../assets/imgs/workorderqueue/service_Completed.png"
-                            (click)="pickService(package,i,serviceindex,'C')">
+                            (click)="pickService(package,i,serviceindex,'C',true)">
                         </p>
                         <!-- <p class="cre" style="display: flex;justify-content: space-around;"
                           *ngIf="package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid && package.ASSIGNMENTINFO[0].ASSIGNEDBY!=dataOptions.eid">

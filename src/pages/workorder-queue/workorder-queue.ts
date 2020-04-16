@@ -159,7 +159,7 @@ export class WorkorderQueuePage {
           this.infinitescrollactions(true, false, false);
           this.woqEmpty('');
         }
-        console.log('workorder end', this.workOrders);
+        console.log('workorder end', this.workOrders,this.dataOptions);
        
       } else {
         this.woqEmpty('');
@@ -464,7 +464,7 @@ export class WorkorderQueuePage {
               //   this.getWorkOrders();  
               // }, 2000);
               // this.paceEnv.stopLoading();
-              this.employeeWorkOrderPermissionforactions();
+              //this.employeeWorkOrderPermissionforactions();
               let arry = JSON.stringify(result[0].SERVICEITEM[0])
               this.zone.run(() => { this.workOrders[woindex].SUBWORKORDER[subWoindex].WOSERVICES[serviceindex] =  JSON.parse(arry)});
               console.log("Vishnu",this.workOrders);
@@ -512,7 +512,7 @@ export class WorkorderQueuePage {
 
 
 
-  pickService(serviceobj, woindex, serviceindex, action) {
+  pickService(serviceobj, woindex, serviceindex, action,subWorkorder) {
     let self = this;
     let alertMsg = action == 'D' ? "Are you sure you want to Cancel your pickup?" : action == 'P' ? "Are you sure you want to Pickup service?" : "Are you sure you want to Complete?"
     let alert = this.alert.create({
@@ -544,11 +544,14 @@ export class WorkorderQueuePage {
                 self.OdsSvc.refreshServiceItems(servive.serid).subscribe(serviceres => {
                   if (serviceres[0].result !== '') {
                     let result = JSON.parse(serviceres[0].result);
-                    console.log('serviceres1', result[0].SERVICEITEM[0],serviceobj);
+                    console.log('serviceres1', result[0].SERVICEITEM[0]);
                     console.log('index',woindex, serviceindex, action)
                      this.workOrders[woindex].filterPackeges[serviceindex] =Object.assign({},result[0].SERVICEITEM[0]);
                      this.zone.run(() => { this.workOrders[woindex].filterPackeges[serviceindex] =Object.assign({},result[0].SERVICEITEM[0])});
                      //this.employeeWorkOrderPermissionforactions("");
+                     if(subWorkorder  == true){
+                     this.workOrders[woindex].SUBWORKORDER[serviceindex].WOSERVICES[serviceindex]= Object.assign({},result[0].SERVICEITEM[0]);
+                     }
                     console.log('emp data empid, this.emplogtype', self.dataOptions.eid, self.emplogtype,this.workOrders);
                     //self.workOrders = [];
                     //self.paceEnv.stopLoading();
