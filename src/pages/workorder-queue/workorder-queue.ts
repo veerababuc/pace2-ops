@@ -470,8 +470,6 @@ export class WorkorderQueuePage {
               console.log("Vishnu",this.workOrders);
               console.log(result[0].SERVICEITEM[0]);
               
-
-              
             } else {
 
               console.log('sub workorder else', subWorkorder);
