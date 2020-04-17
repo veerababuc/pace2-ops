@@ -525,7 +525,7 @@
                           </div>
                         </div>
                         <div
-                        *ngIf="package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid  && package.ASSIGNMENTINFO[0].ASSIGNEDBY==dataOptions.eid">
+                        *ngIf="(package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid)  && (package.ASSIGNMENTINFO[0].ASSIGNEDBY==dataOptions.eid ||package.ASSIGNMENTINFO[0].ASSIGNEDBY== 1) ">
                           <div *ngFor="let woassign of package.ASSIGNMENTINFO">
                             <!-- <p class="ptextalign ptextsmallsize">{{woassign.ASSIGNEDTONAME}}</p>
                             <p class="ptextsmallsize ptextalign">{{woassign.ASSIGNEDDATE | date:'MM.dd.yy'}}
