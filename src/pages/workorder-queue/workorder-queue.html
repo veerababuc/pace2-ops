@@ -100,15 +100,19 @@
                       <ion-row *ngIf="(wo.VININFO.length != 0)">
                     <ion-col>
                       <img src="{{wo.VININFO[0].IMAGE}}" class="carimage" />
-                      <div class="veh2_brandname" *ngIf= "(wo.VININFO[0].YEAR == 'undefined')&& (wo.VININFO[0].NAME =='undefined') && (wo.VININFO[0].MODEL =='undefined'); then maskname else brandname ">
+                      <!-- <div class="veh2_brandname" *ngIf= "(wo.VININFO[0].YEAR == 'undefined')&& (wo.VININFO[0].NAME =='undefined') && (wo.VININFO[0].MODEL =='undefined'); then maskname else brandname"> -->
+                          <!-- <div class="veh2_brandname" *ngIf= "(wo.VININFO[0].YEAR == 'undefined'); then maskname else brandname">
+
                           
                           <ng-template #maskname> {{wo.VININFO[0].STYLENAME}} </ng-template>
 
                           <ng-template #brandname> {{wo.VININFO[0].YEAR}} {{wo.VININFO[0].NAME}} {{wo.VININFO[0].MODEL}}
                               {{wo.VININFO[0].STYLENAME}} </ng-template>
-                      </div>
-                      <!-- <div class="veh2_brandname">{{wo.VININFO[0].YEAR}} {{wo.VININFO[0].NAME}} {{wo.VININFO[0].MODEL}}
-                        {{wo.VININFO[0].STYLENAME}}</div> -->
+                      </div> -->  
+                       <div class="veh2_brandname">{{wo.VININFO[0].YEAR}} {{wo.VININFO[0].NAME}} {{wo.VININFO[0].MODEL}}
+                        {{wo.VININFO[0].STYLENAME}}</div>
+                        <!-- <div class="veh2_brandname"> {{wo.VININFO[0].NAME=="undefined" ? wo.VININFO[0].STYLENAME : wo.VININFO[0].YEAR wo.VININFO[0].NAME wo.VININFO[0].MODEL 
+                            wo.VININFO[0].STYLENAME}}</div> -->
                     </ion-col>
                   </ion-row>
                   <div *ngIf="wo.VININFO.length == 0">
