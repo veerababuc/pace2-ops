@@ -526,10 +526,10 @@
                             <!-- <p class="ptextalign ptextsmallsize">{{woassign.ASSIGNEDTONAME}}</p>
                             <p class="ptextsmallsize ptextalign">{{woassign.ASSIGNEDDATE | date:'MM.dd.yy'}}
                               {{woassign.ASSIGNEDDATE | date:'h:mm a'}}</p> -->
-                            <!-- <p class="cre" style="display: flex;justify-content: space-around;"
+                            <p class="cre" style="display: flex;justify-content: space-around;"
                               (click)="pickService(package,i,serviceindex,'P',true)">
                               <img class="subimage" src="../../assets/imgs/workorderqueue/Service_PickUp.png">
-                            </p> -->
+                            </p>
                           </div>
                         </div>
                         <div
@@ -557,10 +557,10 @@
                             <ion-option value="--Select--">--Select--</ion-option>
                             <ion-option [value]="emp.EID" *ngFor="let emp of emplist">{{emp.NAME}}</ion-option>
                           </ion-select> -->
-                          <p class="cre" style="display: flex;justify-content: space-around;"
+                          <!-- <p class="cre" style="display: flex;justify-content: space-around;"
                               (click)="pickService(package,i,serviceindex,'P',true)">
                               <img class="subimage" src="../../assets/imgs/workorderqueue/Service_PickUp.png">
-                            </p>
+                            </p> -->
                           <div id="empList_dealer">
                             <custom-select *ngIf="(workOrderPermission.ASSIGN=='Y') || (emplogtype=='C')"
                               [optionsModel]="empListModel" defaultOptTxt='Select'
