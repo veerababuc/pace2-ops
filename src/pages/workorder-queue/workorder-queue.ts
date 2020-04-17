@@ -481,10 +481,10 @@ export class WorkorderQueuePage {
               
               this.workOrders[woindex].WOSERVICES[woserviceindex] =  result[0].SERVICEITEM[0];
               this.workOrders[woindex].filterPackeges[serviceindex] =  result[0].SERVICEITEM[0];
-              let packegeindex = this.workOrders[woindex].UniquePackeges.findIndex(p => {
-                return p.SSIID === this.workOrders[woindex].filterPackeges[serviceindex].SSIID;
-              })
-              this.workOrders[woindex].selectedPackege = packegeindex;
+              // let packegeindex = this.workOrders[woindex].UniquePackeges.findIndex(p => {
+              //   return p.SSIID === this.workOrders[woindex].filterPackeges[serviceindex].SSIID;
+              // })
+              //this.workOrders[woindex].selectedPackege = packegeindex;
               console.log('Vishnu1',this.workOrders);
               
               // setTimeout(() => {
