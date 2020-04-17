@@ -641,7 +641,7 @@ export class WorkorderQueuePage {
                     //  }
                     // this.workOrders.forEach((index,el)=>{
                     //   if(index[el].filterPackeges[serviceindex].SSIID==result[0].SERVICEITEM[0].SSIID){
-                    //       console.log("hi")
+                    //      
                     //   }
                     // })
                     if(this.workOrders[woindex].WOSERVICES[serviceindex+1].SSIID==result[0].SERVICEITEM[0].SSIID){
