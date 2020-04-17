@@ -79,7 +79,9 @@ export class CreateWorkorderPage {
   constructor(public navCtrl: NavController, public alertcontroller: AlertController, public scanner: BarcodeScanner,
     private dt: DatePicker, private db: DatabaseProvider, private odsservice: OdsServiceProvider, public appconstants: PaceEnvironment, private tostcntrl: ToastController, public platform: Platform
     , public device: Device,private modalctrl:ModalController,public alertController: AlertController, public navParams: NavParams) {
-    if (platform.is('ios')) {
+   
+      this.odsservice.setValue(true);
+         if (platform.is('ios')) {
       this.platform_tabclass = true;
     }
     else {
@@ -450,6 +452,12 @@ export class CreateWorkorderPage {
 
   }
 
+  ionViewCanLeave() {
+    let canGoBack = this.odsservice.getValue();
+    this.odsservice.setValue(true);
+    return canGoBack;
+  }
+
   /*****************************************BarCode Reader Methods*********************************************************************************** */
   scan() {
     this.vin = "";
@@ -469,6 +477,12 @@ export class CreateWorkorderPage {
         this.vin = data.text.substring(1, 18);
         this.stock = this.vin.substring(18 - this.stock_length);
         this.isScan = "Y";
+      } else if (data.cancelled == true) {
+        // alert("Was cancelled");
+        // this.navCtrl.pop();
+        // this.navCtrl.push('vin-searchpage');        
+        // if(this.platform.is('android'))
+          this.odsservice.setValue(false);
       }
       else {
         this.vin = data.text;
