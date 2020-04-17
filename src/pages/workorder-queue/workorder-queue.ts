@@ -552,7 +552,7 @@ export class WorkorderQueuePage {
                       }else
                       {
                         this.workOrders[woindex].filterPackeges[serviceindex] =Object.assign({},result[0].SERVICEITEM[0]);
-                        this.workOrders[woindex].WOSERVICES[serviceindex+1] =Object.assign({},result[0].SERVICEITEM[0]);
+                        //this.workOrders[woindex].WOSERVICES[serviceindex] =Object.assign({},result[0].SERVICEITEM[0]);
                      //this.cloneGetWorkOrders(woindex);
                      //this.zone.run(() => { this.workOrders[woindex].filterPackeges[serviceindex] =Object.assign({},result[0].SERVICEITEM[0])});
                       }
@@ -560,6 +560,24 @@ export class WorkorderQueuePage {
                     //  if(subWorkorder  == true){
                     //  this.workOrders[woindex].SUBWORKORDER[serviceindex].WOSERVICES[serviceindex]= Object.assign({},result[0].SERVICEITEM[0]);
                     //  }
+                    // this.workOrders.forEach((index,el)=>{
+                    //   if(index[el].filterPackeges[serviceindex].SSIID==result[0].SERVICEITEM[0].SSIID){
+                    //       console.log("hi")
+                    //   }
+                    // })
+                    if(this.workOrders[woindex].WOSERVICES[serviceindex+1].SSIID==result[0].SERVICEITEM[0].SSIID){
+                        console.log('hi');
+                        this.workOrders[woindex].WOSERVICES[serviceindex+1]=result[0].SERVICEITEM[0]
+                        
+                    }
+                    else{
+                      if(this.workOrders[woindex].WOSERVICES[serviceindex].SSIID==result[0].SERVICEITEM[0].SSIID){
+                        console.log('hi');
+                        this.workOrders[woindex].filterPackeges[serviceindex]=result[0].SERVICEITEM[0]
+                        this.workOrders[woindex].WOSERVICES[serviceindex]=result[0].SERVICEITEM[0]
+                        
+                    }
+                    }
                    
                   
                     console.log('emp data empid, this.emplogtype', self.dataOptions.eid, self.emplogtype,this.workOrders);
