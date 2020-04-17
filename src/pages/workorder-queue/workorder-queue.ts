@@ -119,7 +119,7 @@ export class WorkorderQueuePage {
     let searchOptions: string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>${this.dataOptions.pageNumber}</pageNumber><pageSize>${this.dataOptions.pageSize}</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>${this.dataOptions.searchtype}</searchtype><searchtext>${this.dataOptions.searchtext}</searchtext><searchstatus>${this.dataOptions.searchstatus}</searchstatus></Info>`.trim();
     this.OdsSvc.GetWorkOrderStatus(searchOptions).subscribe(Response => {
       console.log('getworkOrder Queue', Response);
-      this.paceEnv.stopLoading();
+  this.paceEnv.stopLoading();
       if (Response.status === 200) {
         let body = JSON.parse(Response._body);
         //console.log(body);
@@ -402,12 +402,12 @@ export class WorkorderQueuePage {
   getAssigmentlist() {
     let self = this;
     this.empListModel =[];
-    //this.paceEnv.startLoading();
-    let loader = this.loadingSrv.createLoader();
-    loader.present();
+    this.paceEnv.startLoading();
+   // let loader = this.loadingSrv.createLoader();
+   // loader.present();
     this.OdsSvc.getAssignmentEmployeeList(this.dataOptions).subscribe(Response => {
-      loader.dismiss();
-      //this.paceEnv.stopLoading();
+     // loader.dismiss();
+      this.paceEnv.stopLoading();
       if (Response[0].result !== '') {
         let result = JSON.parse(Response[0].result);
         self.emplist = result[0].EMPLOYEES;
@@ -470,8 +470,6 @@ export class WorkorderQueuePage {
               console.log("Vishnu",this.workOrders);
               console.log(result[0].SERVICEITEM[0]);
               
-
-              
             } else {
 
               console.log('sub workorder else', subWorkorder);
@@ -511,6 +509,87 @@ export class WorkorderQueuePage {
   }
 
 
+
+  // pickService(serviceobj, woindex, serviceindex, action,subWorkorder) {
+  //   let self = this;
+  //   let alertMsg = action == 'D' ? "Are you sure you want to Cancel your pickup?" : action == 'P' ? "Are you sure you want to Pickup service?" : "Are you sure you want to Complete?"
+  //   let alert = this.alert.create({
+  //     message: alertMsg,
+  //     buttons: [
+  //       {
+  //         text: 'Cancel',
+  //         role: 'cancel',
+  //         handler: () => {
+  //           console.log('Cancel clicked');
+  //         }
+  //       },
+  //       {
+  //         text: 'OK',
+  //         handler: () => {
+  //           let servive: any = {
+  //             action: action,
+  //             empid: this.dataOptions.eid,
+  //             eidlogtype: this.emplogtype,
+  //             serid: serviceobj.WOSID,
+  //             ip: this.paceEnv.ipAddress,
+  //             isscanned: 'N'
+  //           };
+  //           let loader = this.loadingSrv.createLoader();
+  //           loader.present();
+  //           self.OdsSvc.pickUpService(servive).subscribe(Response => {
+  //           loader.dismiss();
+  //             if (Response[0].status > 0) {
+  //               self.OdsSvc.refreshServiceItems(servive.serid).subscribe(serviceres => {
+  //                 if (serviceres[0].result !== '') {
+  //                   let result = JSON.parse(serviceres[0].result);
+  //                   console.log('serviceres1', result[0].SERVICEITEM[0]);
+  //                   console.log('index',woindex, serviceindex, action)
+  //                   if(subWorkorder  == true){
+  //                     this.workOrders[woindex].SUBWORKORDER[serviceindex].WOSERVICES[serviceindex]= Object.assign({},result[0].SERVICEITEM[0]);
+  //                     this.selectedEmpId="0";
+  //                     }else{
+  //                    this.workOrders[woindex].filterPackeges[serviceindex] =Object.assign({},result[0].SERVICEITEM[0]);
+  //                    this.zone.run(() => { this.workOrders[woindex].filterPackeges[serviceindex] =Object.assign({},result[0].SERVICEITEM[0])});
+  //                     }
+  //                    //this.employeeWorkOrderPermissionforactions("");
+  //                   //  if(subWorkorder  == true){
+  //                   //  this.workOrders[woindex].SUBWORKORDER[serviceindex].WOSERVICES[serviceindex]= Object.assign({},result[0].SERVICEITEM[0]);
+  //                   //  }
+  //                   console.log('emp data empid, this.emplogtype', self.dataOptions.eid, self.emplogtype,this.workOrders);
+  //                   //self.workOrders = [];
+  //                   //self.paceEnv.stopLoading();y
+  //                  // self.paceEnv.startLoading();
+  //                   //self.cloneGetWorkOrders();
+  //                   // if(action=='D')
+  //                   //   self.workOrders[woindex].WOSERVICES[serviceindex].empid = "--Select--";
+
+  //                   // if (action == 'C') {
+  //                   //   if(self.workOrders[woindex].WOSERVICES.length>1)
+  //                   //   self.workOrders[woindex].WOSERVICES.splice(serviceindex, 1);
+  //                   //   else
+  //                   //   self.workOrders.splice(woindex, 1);
+  //                   // }
+  //                 }
+  //               }, (err) => {
+  //                 //self.paceEnv.stopLoading();
+  //                 loader.dismiss();
+  //                 console.log('err', err);
+  //               })
+  //             } else {
+  //               loader.dismiss();
+  //               //self.paceEnv.stopLoading();
+  //             }
+  //           }, (err) => {
+  //             loader.dismiss();
+  //             //this.paceEnv.stopLoading();
+  //             console.log('err', err);
+  //           })
+  //         }
+  //       }
+  //     ]
+  //   });
+  //   alert.present();
+  // }
 
   pickService(serviceobj, woindex, serviceindex, action,subWorkorder) {
     let self = this;
@@ -562,7 +641,7 @@ export class WorkorderQueuePage {
                     //  }
                     // this.workOrders.forEach((index,el)=>{
                     //   if(index[el].filterPackeges[serviceindex].SSIID==result[0].SERVICEITEM[0].SSIID){
-                    //       console.log("hi")
+                    //      
                     //   }
                     // })
                     if(this.workOrders[woindex].WOSERVICES[serviceindex+1].SSIID==result[0].SERVICEITEM[0].SSIID){
@@ -615,6 +694,8 @@ export class WorkorderQueuePage {
     });
     alert.present();
   }
+
+
 
 
   employeeWorkOrderPermissionforactions() {
