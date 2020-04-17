@@ -483,10 +483,10 @@ export class WorkorderQueuePage {
               
               this.workOrders[woindex].WOSERVICES[woserviceindex] =  result[0].SERVICEITEM[0];
               this.workOrders[woindex].filterPackeges[serviceindex] =  result[0].SERVICEITEM[0];
-              let packegeindex = this.workOrders[woindex].UniquePackeges.findIndex(p => {
-                return p.SSIID === this.workOrders[woindex].filterPackeges[serviceindex].SSIID;
-              })
-              this.workOrders[woindex].selectedPackege = packegeindex;
+              // let packegeindex = this.workOrders[woindex].UniquePackeges.findIndex(p => {
+              //   return p.SSIID === this.workOrders[woindex].filterPackeges[serviceindex].SSIID;
+              // })
+              //this.workOrders[woindex].selectedPackege = packegeindex;
               console.log('Vishnu1',this.workOrders);
               
               // setTimeout(() => {
@@ -549,14 +549,19 @@ export class WorkorderQueuePage {
                     if(subWorkorder  == true){
                       this.workOrders[woindex].SUBWORKORDER[serviceindex].WOSERVICES[serviceindex]= Object.assign({},result[0].SERVICEITEM[0]);
                       this.selectedEmpId="0";
-                      }else{
-                     this.workOrders[woindex].filterPackeges[serviceindex] =Object.assign({},result[0].SERVICEITEM[0]);
-                     this.zone.run(() => { this.workOrders[woindex].filterPackeges[serviceindex] =Object.assign({},result[0].SERVICEITEM[0])});
+                      }else
+                      {
+                        this.workOrders[woindex].filterPackeges[serviceindex] =Object.assign({},result[0].SERVICEITEM[0]);
+                        this.workOrders[woindex].WOSERVICES[serviceindex+1] =Object.assign({},result[0].SERVICEITEM[0]);
+                     //this.cloneGetWorkOrders(woindex);
+                     //this.zone.run(() => { this.workOrders[woindex].filterPackeges[serviceindex] =Object.assign({},result[0].SERVICEITEM[0])});
                       }
                      //this.employeeWorkOrderPermissionforactions("");
                     //  if(subWorkorder  == true){
                     //  this.workOrders[woindex].SUBWORKORDER[serviceindex].WOSERVICES[serviceindex]= Object.assign({},result[0].SERVICEITEM[0]);
                     //  }
+                   
+                  
                     console.log('emp data empid, this.emplogtype', self.dataOptions.eid, self.emplogtype,this.workOrders);
                     //self.workOrders = [];
                     //self.paceEnv.stopLoading();y
