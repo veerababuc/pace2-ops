@@ -84,7 +84,7 @@
                                   'wo_lftBorder_yellow' : (wo.ACTIVE == 'I' || wo.ACTIVE == 'C') && wo.ISCOMPLETED != 'Y', 
                                   'wo_lftBorder_green' : wo.ACTIVE == 'C' && wo.ISCOMPLETED == 'Y',                               
                                   'wo_lftBorder_greenone' : wo.ACTIVE == 'P' && wo.ISCOMPLETED == 'P' }"></div>
-                  <ion-row  (click)="wo.HASEXCEPTION=='Y'?exceptionFixes(wo.WOID,wo.DEPARTMENT,wo.DEPTID):false">
+                  <ion-row  (click)="wo.HASEXCEPTION=='Y'?exceptionFixes(wo.WOID,wo.DEPARTMENT,wo.DEPTID,i):false">
                     <ion-col col-2  *ngIf="wo.HASEXCEPTION=='Y'">
                       <ion-icon style="
                     font-size: 2em;
@@ -124,11 +124,11 @@
                   <ion-row *ngIf="(wo.RATINGREQ =='Y' ||wo.RATINGREQ =='0')&& (wo.ACTIVE=='C') && workOrderPermission.RATING=='Y' ">
                       <ion-col col-12>
                         <div  class="rating">
-                          <input  type="radio" value="5" [name]="5" [checked]='wo.RATING=="5"? true : false'><label (click)='onClick(5,wo)'>5 stars</label>
-                          <input  type="radio" value="4" [name]="4" [checked]='wo.RATING=="4"? true : false'><label (click)='onClick(4,wo)'>4 stars</label>
-                          <input  type="radio" value="3" [name]="3" [checked]='wo.RATING=="3"? true : false'><label (click)='onClick(3,wo)'>3 stars</label>
-                          <input  type="radio" value="2" [name]="2" [checked]='wo.RATING=="2"? true : false'><label (click)='onClick(2,wo)'>2 stars</label>
-                          <input  type="radio" value="1" [name]="1" [checked]='wo.RATING=="1"? true : false'><label (click)='onClick(1,wo)'>1 star</label>
+                          <input  type="radio" value="5" [name]="5" [checked]='wo.RATING=="5"? true : false'><label (click)='onClick(5,wo,i)'>5 stars</label>
+                          <input  type="radio" value="4" [name]="4" [checked]='wo.RATING=="4"? true : false'><label (click)='onClick(4,wo,i)'>4 stars</label>
+                          <input  type="radio" value="3" [name]="3" [checked]='wo.RATING=="3"? true : false'><label (click)='onClick(3,wo,i)'>3 stars</label>
+                          <input  type="radio" value="2" [name]="2" [checked]='wo.RATING=="2"? true : false'><label (click)='onClick(2,wo,i)'>2 stars</label>
+                          <input  type="radio" value="1" [name]="1" [checked]='wo.RATING=="1"? true : false'><label (click)='onClick(1,wo,i)'>1 star</label>
                         </div>
                         
                     </ion-col>
@@ -172,7 +172,7 @@
                         <p [ngClass]="{'ptextalign':true,'ptextsmallsize':true,'hasException':wo.HASEXCEPTION=='Y'}">
                           {{package.MASKNAME =="" ? package.SERVICEITEM : package.MASKNAME  }}</p>
                       </ion-col>
-                      <ion-col col-5>
+                      <ion-col col-5 *ngIf="wo.VINID.length != 0">
                         <p style="display: flex;justify-content: center;align-items: center;"><span
                             style="color: #007bff !important;">{{package.STATUS=='O'?'OPEN':package.STATUS=='I'?'IN-PROGRESS':package.STATUS=='A'?'ACTIVE':package.STATUS=='C'?'COMPLETED':''}}</span>
                         </p>
@@ -184,8 +184,15 @@
                             {{getlength('S',wo.WONOTES,package.WOSID)}}</span>
                         </p>
                       </ion-col>
-                      <ion-col col-6 *ngIf="package.HASEXCEPTION=='N' && package.WOSTYPE=='S'">
-                        <div *ngIf="workOrderPermission.PICKUP=='Y' && package.ASSIGNMENTID == 0">
+                      <ion-col col-2 class="textcenter" (click)="NotesModal('notes',wo,'P',i,package.WOSID)" *ngIf="package.WOSTYPE=='P'">
+                        <p>
+                          <ion-icon name="md-document" style="float: left;"></ion-icon>
+                          <span  class="badge countNotes">
+                            {{package.SERVICENOTECOUNT}}</span>
+                        </p>
+                      </ion-col>
+                      <ion-col col-6 *ngIf="package.HASEXCEPTION=='N' && package.WOSTYPE=='S' ">
+                        <div *ngIf="workOrderPermission.PICKUP=='Y' && package.ASSIGNMENTID == 0 && wo.VINID.length != 0">
                           <p style="font-size: 1.2rem !important;
                           font-weight: 500;display: flex; justify-content: center;align-items: center;">Assigned To:
                           </p>
@@ -200,6 +207,12 @@
                             <ion-option [value]="emp.EID" *ngFor="let emp of emplist">{{emp.NAME}}</ion-option>
                           </ion-select> -->
 
+
+                        </div>
+                        <div *ngIf="workOrderPermission.PICKUP=='Y' && package.ASSIGNMENTID == 0 && wo.VINID.length == 0">
+                          <p style="font-size: 1.2rem !important;
+                          font-weight: 500;display: flex; justify-content: center;align-items: center;color: red;">Please Update VIN
+                          </p>
 
                         </div>
                         <div
@@ -467,7 +480,7 @@
                       <p class="ptextalign ptextsmallsize">{{package.MASKNAME =="" ? package.SERVICEITEM : package.MASKNAME  }}</p>
                     </ion-col>
                     <ion-col col-5 *ngIf="package.HASEXCEPTION=='N' && package.WOSTYPE=='S'">
-                      <div *ngIf="workOrderPermission.PICKUP=='Y' && package.ASSIGNMENTID == 0">
+                      <div *ngIf="workOrderPermission.PICKUP=='Y' && package.ASSIGNMENTID == 0 && wo.VINID.length != 0">
                         <!-- <ion-select [(ngModel)]="package.empid"
                           (ionChange)="empSelection(package,i,serviceindex,true,subWoindex)"
                           *ngIf="workOrderPermission.ASSIGN=='Y' || emplogtype=='C'">
@@ -476,7 +489,7 @@
                         </ion-select> -->
                         <div id="empList_1">
                           <custom-select *ngIf="workOrderPermission.ASSIGN=='Y' || emplogtype=='C'"
-                            [optionsModel]="empListModel" [(value)]="selectedEmpId" defaultOptTxt='Select Employee'
+                            [optionsModel]="empListModel" defaultOptTxt='Select Employee'
                             (change)="empSelection(package,$event,i,serviceindex,true,subWoindex)"></custom-select>
                         </div>
                         <p class="cre" style="display: flex;justify-content: center;"
@@ -485,6 +498,11 @@
                           <img class="subimage" src="../../assets/imgs/workorderqueue/Service_PickUp.png">
                         </p>
 
+                      </div>
+                      <div *ngIf="workOrderPermission.PICKUP=='Y' && package.ASSIGNMENTID == 0 && wo.VINID.length == 0">
+                        <p style="font-size: 1.2rem !important;
+                          font-weight: 500;display: flex; justify-content: center;align-items: center;color: red;">Please Update VIN
+                          </p>
                       </div>
                       <div *ngIf="package.ASSIGNMENTID!=0  && package.ASSIGNMENTINFO.LENGTH!=0 && package.STATUS=='A' ">
                         
@@ -600,7 +618,7 @@
                           {{getlength('S',wo.WONOTES,package.WOSID)}}</span>
                       </p>
                     </ion-col>
-                    <ion-col col-12>
+                    <ion-col col-12 *ngIf="wo.VINID.length != 0">
                       <p style="font-size: 1.2rem !important;font-weight: 500;">Status : <span
                           style="color: #007bff !important;">{{package.STATUS=='O'?'OPEN':package.STATUS=='I'?'IN-PROGRESS':package.STATUS=='A'?'ACTIVE':package.STATUS=='C'?'COMPLETED':''}}</span>
                       </p>
