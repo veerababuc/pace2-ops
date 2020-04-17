@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>911738263183-v64gdotlibpu8865tp18gdbh421n3re4.apps.googleusercontent.com</string>
+	<string>594757193016-22qsk7of77357sfqc6p8dmodhaupuaqg.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.911738263183-v64gdotlibpu8865tp18gdbh421n3re4</string>
+	<string>com.googleusercontent.apps.594757193016-22qsk7of77357sfqc6p8dmodhaupuaqg</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBC-htsQvMowfRcoltLYiMgVdPoKCDvRx4</string>
+	<string>AIzaSyBBmUGFmxgzNZVDNtffM4u0srHCVSpehN8</string>
 	<key>GCM_SENDER_ID</key>
-	<string>911738263183</string>
+	<string>594757193016</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.pllc.paceemp</string>
+	<string>com.pllc.pace2emp</string>
 	<key>PROJECT_ID</key>
-	<string>paceemp-65893</string>
+	<string>pace2emp</string>
 	<key>STORAGE_BUCKET</key>
-	<string>paceemp-65893.appspot.com</string>
+	<string>pace2emp.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:911738263183:ios:96520ca37b65dee30c42fa</string>
+	<string>1:594757193016:ios:65f65d182907cbbbbfc5cd</string>
 	<key>DATABASE_URL</key>
-	<string>https://paceemp-65893.firebaseio.com</string>
+	<string>https://pace2emp.firebaseio.com</string>
 </dict>
 </plist>
