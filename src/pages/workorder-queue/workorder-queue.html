@@ -492,7 +492,7 @@
                           <ion-option [value]="emp.EID" *ngFor="let emp of emplist">{{emp.NAME}}</ion-option>
                         </ion-select> -->
                         <div id="empList_1">
-                          <custom-select *ngIf="workOrderPermission.ASSIGN=='Y' || emplogtype=='C'"
+                          <custom-select ng-style="top:10px;" *ngIf="workOrderPermission.ASSIGN=='Y' || emplogtype=='C'"
                             [optionsModel]="empListModel" defaultOptTxt='Select Employee'
                             (change)="empSelection(package,$event,i,serviceindex,true,subWoindex)"></custom-select>
                         </div>

@@ -371,6 +371,22 @@ page-workorder-queue {
  // #dataOpt_1 custom-select .md-select ul[role=listbox]{
  //   top:84px !important;
 //  }
+
+#empList_1  custom-select .md-select ul
+{
+  top:10px;
+}
+
+#empList_dealer custom-select .md-select ul
+{
+  top:10px;
+}
+
+#empList_ADMIN custom-select .md-select ul
+{
+  top:10px;
+}
+
   #dataOpt_1 custom-select .md-select ul[role=listbox]{
     top:13rem !important;
     width:15rem !important;
