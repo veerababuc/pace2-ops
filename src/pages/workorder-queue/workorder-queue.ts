@@ -125,7 +125,7 @@ export class WorkorderQueuePage {
         //console.log(body);
 
         if (body[0].result === '') {
-          this.woqEmpty('');
+          this.woqEmpty();
           this.infinitescrollactions(false, false, true);
         } else {
           let result = JSON.parse(body[0].result);
@@ -157,17 +157,17 @@ export class WorkorderQueuePage {
             });
           });
           this.infinitescrollactions(true, false, false);
-          this.woqEmpty('');
+          this.woqEmpty();
         }
         console.log('workorder end', this.workOrders,this.dataOptions);
        
       } else {
-        this.woqEmpty('');
+        this.woqEmpty();
       }
     }, (err) => {
       console.log('get order err', err);
       this.paceEnv.stopLoading();
-      this.woqEmpty('');
+      this.woqEmpty();
     });
   }
 
@@ -223,17 +223,13 @@ export class WorkorderQueuePage {
   }
 
 
-  woqEmpty(flag) {
-    if(flag !="C"){
+  woqEmpty() {
+    
     if (this.workOrders.length == 0) {
       this.workOrders = 'No Data Found';
     }
-  }
-  else{
-    if (this.workOrders.length == 0) {
-      this.workOrders = 'No Data Found';
-    }
-  }
+  
+  
   }
 
 
@@ -302,7 +298,7 @@ export class WorkorderQueuePage {
           let body = JSON.parse(Response._body);
 
           if (body[0].result === '') {
-            this.woqEmpty('');
+            this.woqEmpty();
             this.infinitescrollactions(false, false, true);
           } else {
             let result = JSON.parse(body[0].result);
@@ -333,15 +329,15 @@ export class WorkorderQueuePage {
 
             });
             this.infinitescrollactions(true, false, false);
-            this.woqEmpty('');
+            this.woqEmpty();
           }
         } else {
-          this.woqEmpty('');
+          this.woqEmpty();
         }
       }, (err) => {
         console.log('get order err', err);
         this.paceEnv.stopLoading();
-        this.woqEmpty('');
+        this.woqEmpty();
       });
     }
     });
@@ -629,12 +625,30 @@ export class WorkorderQueuePage {
                       this.workOrders[woindex].SUBWORKORDER[serviceindex].WOSERVICES[serviceindex]= Object.assign({},result[0].SERVICEITEM[0]);
                       this.selectedEmpId="0";
                       }else
-                      {
-                        this.workOrders[woindex].filterPackeges[serviceindex] =Object.assign({},result[0].SERVICEITEM[0]);
-                        //this.workOrders[woindex].WOSERVICES[serviceindex] =Object.assign({},result[0].SERVICEITEM[0]);
-                     //this.cloneGetWorkOrders(woindex);
-                     //this.zone.run(() => { this.workOrders[woindex].filterPackeges[serviceindex] =Object.assign({},result[0].SERVICEITEM[0])});
+                    {
+                      //console.log('emp data empid, this.emplogtype', self.dataOptions.eid, self.emplogtype,this.workOrders,this.workOrders[woindex].WOSERVICES[serviceindex + 1]);
+                      if (this.workOrders[woindex].WOSERVICES[serviceindex + 1] != undefined) {
+                        if (this.workOrders[woindex].WOSERVICES[serviceindex + 1].SSIID == result[0].SERVICEITEM[0].SSIID) {
+                          //console.log('hi');
+                          this.workOrders[woindex].WOSERVICES[serviceindex + 1] = result[0].SERVICEITEM[0];
+                          this.workOrders[woindex].filterPackeges[serviceindex] = result[0].SERVICEITEM[0];
+
+                        }
+                        else {
+                          if (this.workOrders[woindex].WOSERVICES[serviceindex].SSIID == result[0].SERVICEITEM[0].SSIID) {
+                            //console.log('hicode');
+                            this.workOrders[woindex].filterPackeges[serviceindex] = result[0].SERVICEITEM[0]
+                             this.workOrders[woindex].WOSERVICES[serviceindex] = result[0].SERVICEITEM[0]
+                          }
+                        }
+                      } else {
+                        this.workOrders[woindex].filterPackeges[serviceindex] = Object.assign({}, result[0].SERVICEITEM[0]);
+                        this.workOrders[woindex].WOSERVICES[serviceindex] = result[0].SERVICEITEM[0]
                       }
+                      //this.workOrders[woindex].WOSERVICES[serviceindex] =Object.assign({},result[0].SERVICEITEM[0]);
+                      //this.cloneGetWorkOrders(woindex);
+                      //this.zone.run(() => { this.workOrders[woindex].filterPackeges[serviceindex] =Object.assign({},result[0].SERVICEITEM[0])});
+                    }
                      //this.employeeWorkOrderPermissionforactions("");
                     //  if(subWorkorder  == true){
                     //  this.workOrders[woindex].SUBWORKORDER[serviceindex].WOSERVICES[serviceindex]= Object.assign({},result[0].SERVICEITEM[0]);
@@ -644,19 +658,7 @@ export class WorkorderQueuePage {
                     //      
                     //   }
                     // })
-                    if(this.workOrders[woindex].WOSERVICES[serviceindex+1].SSIID==result[0].SERVICEITEM[0].SSIID){
-                        console.log('hi');
-                        this.workOrders[woindex].WOSERVICES[serviceindex+1]=result[0].SERVICEITEM[0]
-                        
-                    }
-                    else{
-                      if(this.workOrders[woindex].WOSERVICES[serviceindex].SSIID==result[0].SERVICEITEM[0].SSIID){
-                        console.log('hi');
-                        this.workOrders[woindex].filterPackeges[serviceindex]=result[0].SERVICEITEM[0]
-                        this.workOrders[woindex].WOSERVICES[serviceindex]=result[0].SERVICEITEM[0]
-                        
-                    }
-                    }
+                    
                    
                   
                     console.log('emp data empid, this.emplogtype', self.dataOptions.eid, self.emplogtype,this.workOrders);
@@ -859,7 +861,7 @@ cloneGetWorkOrders(woIndex){
         //console.log(body);
 
         if (body[0].result === '') {
-          this.woqEmpty('');
+          this.woqEmpty();
           this.infinitescrollactions(false, false, true);
         } else {
           let result = JSON.parse(body[0].result);
@@ -895,7 +897,7 @@ cloneGetWorkOrders(woIndex){
           });
           //this.selectedPackege(Woindex, woObj.UniquePackeges[0]);
           this.infinitescrollactions(true, false, false);
-          this.woqEmpty("C");
+          this.woqEmpty();
         }
         // if(this.workOrders.length == 20){
         // this.workOrders = [...this.cloneWorkOrders]
@@ -906,12 +908,12 @@ cloneGetWorkOrders(woIndex){
         console.log('workorder end', this.workOrders,'cloneObj',this.cloneWorkOrders);
        
       } else {
-        this.woqEmpty("C");
+        this.woqEmpty();
       }
     }, (err) => {
       console.log('get order err', err);
       this.paceEnv.stopLoading();
-      this.woqEmpty("C");
+      this.woqEmpty();
     });
 
 }
