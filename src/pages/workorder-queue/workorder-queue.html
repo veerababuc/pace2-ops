@@ -320,7 +320,7 @@
                           font-weight: 500;display: flex; justify-content: center;align-items: center; color: transparent;">
                             ' '</p>
                           <p class="cre" style="display: flex;justify-content: center;"
-                            (click)="pickService(package,i,serviceindex,'P')"
+                            (click)="pickService(package,'',i,serviceindex,'P')"
                             *ngIf="(workOrderPermission.PICKUP=='Y') && (package.ASSIGNMENTID != 0 && package.STATUS=='A')">
                             <img src="../../assets/imgs/workorderqueue/Service_PickUp.png">
                           </p>
@@ -334,9 +334,9 @@
 
                               <p class="cre" style="display: flex;justify-content: space-around;">
                                 <img src="../../assets/imgs/workorderqueue/service_Cancel.png"
-                                  (click)="pickService(package,i,serviceindex,'D')">
+                                  (click)="pickService(package,'',i,serviceindex,'D')">
                                 <img src="../../assets/imgs/workorderqueue/service_Completed.png"
-                                  (click)="pickService(package,i,serviceindex,'C')">
+                                  (click)="pickService(package,'',i,serviceindex,'C')">
                               </p>
                             </div>
                           </div>
@@ -345,7 +345,7 @@
                             <div *ngFor="let woassign of package.ASSIGNMENTINFO">
 
                               <p class="cre" style="display: flex;justify-content: space-around;"
-                                (click)="pickService(package,i,serviceindex,'P')">
+                                (click)="pickService(package,'',i,serviceindex,'P')">
                                 <img src="../../assets/imgs/workorderqueue/Service_PickUp.png">
                               </p>
                             </div>
@@ -359,9 +359,9 @@
                           <p class="cre" style="display: flex;justify-content: space-around;"
                             *ngIf="package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid && package.STATUS=='I' &&  package.ASSIGNMENTINFO[0].ASSIGNEDBY==dataOptions.eid">
                             <img src="../../assets/imgs/workorderqueue/service_Cancel.png"
-                              (click)="pickService(package,i,serviceindex,'D')">
+                              (click)="pickService(package,'',i,serviceindex,'D')">
                             <img src="../../assets/imgs/workorderqueue/service_Completed.png"
-                              (click)="pickService(package,i,serviceindex,'C')">
+                              (click)="pickService(package,'',i,serviceindex,'C')">
                           </p>
                           <!-- <p class="cre" style="display: flex;justify-content: space-around;"
                             *ngIf="package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid && package.ASSIGNMENTINFO[0].ASSIGNEDBY!=dataOptions.eid">
@@ -497,7 +497,7 @@
                             (change)="empSelection(package,$event,i,serviceindex,true,subWoindex)"></custom-select>
                         </div>
                         <p class="cre" style="display: flex;justify-content: center;"
-                          (click)="pickService(package,i,serviceindex,'P',true)"
+                          (click)="pickService(package,i,subWoindex,serviceindex,'P',true)"
                           *ngIf="workOrderPermission.PICKUP=='Y' && package.ASSIGNMENTID != 0 ">
                           <img class="subimage" src="../../assets/imgs/workorderqueue/Service_PickUp.png">
                         </p>
@@ -518,9 +518,9 @@
                               {{woassign.ASSIGNEDDATE | date:'h:mm a'}}</p>
                             <p class="cre" style="display: flex;justify-content: space-around;">
                               <img class="subimage" src="../../assets/imgs/workorderqueue/service_Cancel.png"
-                                (click)="pickService(package,i,serviceindex,'D',true)">
+                                (click)="pickService(package,i,subWoindex,serviceindex,'D',true)">
                               <img class="subimage" src="../../assets/imgs/workorderqueue/service_Completed.png"
-                                (click)="pickService(package,i,serviceindex,'C',true)">
+                                (click)="pickService(package,subWoindex,serviceindex,'C',true)">
                             </p>
                           </div>
                         </div>
@@ -530,8 +530,9 @@
                             <!-- <p class="ptextalign ptextsmallsize">{{woassign.ASSIGNEDTONAME}}</p>
                             <p class="ptextsmallsize ptextalign">{{woassign.ASSIGNEDDATE | date:'MM.dd.yy'}}
                               {{woassign.ASSIGNEDDATE | date:'h:mm a'}}</p> -->
+                              <!-- <p>{{subWoindex}}</p><p>{{serviceindex}}</p> -->
                             <p class="cre" style="display: flex;justify-content: space-around;"
-                              (click)="pickService(package,i,serviceindex,'P',true)">
+                              (click)="pickService(package,i,subWoindex,serviceindex,'P',true)">
                               <img class="subimage" src="../../assets/imgs/workorderqueue/Service_PickUp.png">
                             </p>
                           </div>
@@ -602,9 +603,9 @@
                         <p class="cre" style="display: flex;justify-content: space-around;"
                         *ngIf="(package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid && package.STATUS=='I') &&  (package.ASSIGNMENTINFO[0].ASSIGNEDBY==1 || package.ASSIGNMENTINFO[0].ASSIGNEDBY==package.ASSIGNMENTINFO[0].ASSIGNEDTO) ">
                           <img class="subimage" src="../../assets/imgs/workorderqueue/service_Cancel.png"
-                            (click)="pickService(package,i,serviceindex,'D',true)">
+                            (click)="pickService(package,i,subWoindex,serviceindex,'D',true)">
                           <img class="subimage" src="../../assets/imgs/workorderqueue/service_Completed.png"
-                            (click)="pickService(package,i,serviceindex,'C',true)">
+                            (click)="pickService(package,i,subWoindex,serviceindex,'C',true)">
                         </p>
                         <!-- <p class="cre" style="display: flex;justify-content: space-around;"
                           *ngIf="package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid && package.ASSIGNMENTINFO[0].ASSIGNEDBY!=dataOptions.eid">
