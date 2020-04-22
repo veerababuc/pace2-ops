@@ -181,7 +181,7 @@
                             style="color: #007bff !important;">{{package.STATUS=='O'?'OPEN':package.STATUS=='I'?'IN-PROGRESS':package.STATUS=='A'?'ACTIVE':package.STATUS=='C'?'COMPLETED':''}}</span>
                         </p>
                       </ion-col>
-                      <ion-col col-2 class="textcenter" (click)="NotesModal('notes',wo,'S',i,package.WOSID)" *ngIf="emplogtype=='C'">
+                      <ion-col col-2 class="textcenter" (click)="NotesModal('notes',wo,'S',i,package.WOSID)" *ngIf="emplogtype=='C' && package.WOSTYPE =='S'">
                         <p>
                           <ion-icon name="md-document" style="float: left;"></ion-icon>
                           <span *ngIf="getlength('S',wo.WONOTES,package.WOSID)>0" class="badge countNotes">
