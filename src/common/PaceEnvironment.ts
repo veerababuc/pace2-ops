@@ -19,8 +19,9 @@ constructor( public alertController: AlertController,
     public toastController: ToastController,
     public alertCtrl: AlertController )
     {
-      this.ApiUrl="http://pace2api.onsitedealersolutions.com/api/";
-       //this.ApiUrl="http://devpace2api.onsitedealersolutions.com/api/";
+      this.ApiUrl="http://api.onsitepace2.com/api/";
+      // this.ApiUrl="http://pace2api.onsitedealersolutions.com/api/";
+      //this.ApiUrl="http://devpace2api.onsitedealersolutions.com/api/";
       // this.ApiUrl="http://paceadmin.onsitedealersolutions.com/ws/api/";
       this.Paceimg="http://paceadmin.onsitedealersolutions.com/images/"
 }
