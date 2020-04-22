@@ -670,8 +670,8 @@ export class WorkorderQueuePage {
                           //this.cloneGetWorkOrders(woindex,action)
                           if(action=="C"){
                           this.workOrders = [];
-                          this.getWorkOrders();
-                          }  
+                          this.getWorkOrders(); 
+                          } 
                         }, 1000);
                         
                       }
@@ -897,9 +897,9 @@ cloneGetWorkOrders(woIndex,action){
           result.forEach((element, index) => {
             console.log(action);
             
-            if(action == 'C'){
-              element.ACTIVE =action
-            }
+            // if(action == 'C'){
+            //   element.ACTIVE =action
+            // }
             
             element.expanded = false;
             element.selectedPackege = 0;
