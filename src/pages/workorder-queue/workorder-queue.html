@@ -191,7 +191,7 @@
                       <ion-col col-2 class="textcenter" (click)="NotesModal('notes',wo,'P',i,package.WOSID)" *ngIf="package.WOSTYPE=='P'">
                         <p>
                           <ion-icon name="md-document" style="float: left;"></ion-icon>
-                          <span  class="badge countNotes">
+                          <span  class="badge countNotes" *ngIf="package.SERVICENOTECOUNT != 0">
                             {{package.SERVICENOTECOUNT}}</span>
                         </p>
                       </ion-col>
