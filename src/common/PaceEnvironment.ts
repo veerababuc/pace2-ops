@@ -24,7 +24,7 @@ constructor( public alertController: AlertController,
       //this.ApiUrl="http://devpace2api.onsitedealersolutions.com/api/";
       // this.ApiUrl="http://paceadmin.onsitedealersolutions.com/ws/api/";
      // this.Paceimg="http://paceadmin.onsitedealersolutions.com/images/"
-      this.Paceimg="http://www.onsitepace2.com/images/"
+      this.Paceimg="http://api.onsitepace2.com/Images/"
     }
 ngOnInit(){
  
