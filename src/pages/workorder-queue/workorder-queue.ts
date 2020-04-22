@@ -587,7 +587,7 @@ export class WorkorderQueuePage {
   //   alert.present();
   // }
 
-  pickService(serviceobj, woindex, serviceindex, action,subWorkorder) {
+  pickService(serviceobj, woMainIndex,woindex, serviceindex, action,subWorkorder) {
     let self = this;
     let alertMsg = action == 'D' ? "Are you sure you want to Cancel your pickup?" : action == 'P' ? "Are you sure you want to Pickup service?" : "Are you sure you want to Complete?"
     let alert = this.alert.create({
@@ -620,9 +620,9 @@ export class WorkorderQueuePage {
                   if (serviceres[0].result !== '') {
                     let result = JSON.parse(serviceres[0].result);
                     console.log('serviceres1', result[0].SERVICEITEM[0]);
-                    console.log('index',woindex, serviceindex, action)
+                    console.log('index',woMainIndex,serviceindex,woindex, action)
                     if(subWorkorder  == true){
-                      this.workOrders[woindex].SUBWORKORDER[serviceindex].WOSERVICES[serviceindex]= Object.assign({},result[0].SERVICEITEM[0]);
+                      this.workOrders[woMainIndex].SUBWORKORDER[woindex].WOSERVICES[serviceindex]= Object.assign({},result[0].SERVICEITEM[0]);
                       this.selectedEmpId="0";
                       }else
                     {
