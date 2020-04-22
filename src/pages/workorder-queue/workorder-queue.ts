@@ -244,7 +244,7 @@ export class WorkorderQueuePage {
           this.dataOptions.pageSize = this.workOrders.length;
           //this.workOrders = [];
           //this.getWorkOrders();
-          this.cloneGetWorkOrders(i);
+          this.cloneGetWorkOrders(i,'');
         } else {
           this.workOrders[i] = Object.assign({}, data.woorder);
         }
@@ -624,6 +624,13 @@ export class WorkorderQueuePage {
                     if(subWorkorder  == true){
                       this.workOrders[woMainIndex].SUBWORKORDER[woindex].WOSERVICES[serviceindex]= Object.assign({},result[0].SERVICEITEM[0]);
                       this.selectedEmpId="0";
+                      setTimeout(() => {
+                        //this.cloneGetWorkOrders(woindex,action)
+                        if(action=="C"){
+                        this.workOrders = [];
+                        this.getWorkOrders(); 
+                        } 
+                      }, 1000);                      
                       }else
                     {
                       //console.log('emp data empid, this.emplogtype', self.dataOptions.eid, self.emplogtype,this.workOrders,this.workOrders[woindex].WOSERVICES[serviceindex + 1]);
@@ -632,23 +639,47 @@ export class WorkorderQueuePage {
                           //console.log('hi');
                           this.workOrders[woindex].WOSERVICES[serviceindex + 1] = result[0].SERVICEITEM[0];
                           this.workOrders[woindex].filterPackeges[serviceindex] = result[0].SERVICEITEM[0];
-
+                          setTimeout(() => {
+                            //this.cloneGetWorkOrders(woindex,action)
+                            if(action=="C"){
+                            this.workOrders = [];
+                            this.getWorkOrders();
+                            }  
+                          }, 1000);
+                             
                         }
                         else {
                           if (this.workOrders[woindex].WOSERVICES[serviceindex].SSIID == result[0].SERVICEITEM[0].SSIID) {
                             //console.log('hicode');
                             this.workOrders[woindex].filterPackeges[serviceindex] = result[0].SERVICEITEM[0]
                              this.workOrders[woindex].WOSERVICES[serviceindex] = result[0].SERVICEITEM[0]
+                             setTimeout(() => {
+                              //this.cloneGetWorkOrders(woindex,action)
+                              if(action=="C"){
+                              this.workOrders = [];
+                              this.getWorkOrders();  
+                              }
+                            }, 1000);
+                            
                           }
                         }
                       } else {
                         this.workOrders[woindex].filterPackeges[serviceindex] = Object.assign({}, result[0].SERVICEITEM[0]);
                         this.workOrders[woindex].WOSERVICES[serviceindex] = result[0].SERVICEITEM[0]
+                        setTimeout(() => {
+                          //this.cloneGetWorkOrders(woindex,action)
+                          if(action=="C"){
+                          this.workOrders = [];
+                          this.getWorkOrders();
+                          }  
+                        }, 1000);
+                        
                       }
                       //this.workOrders[woindex].WOSERVICES[serviceindex] =Object.assign({},result[0].SERVICEITEM[0]);
                       //this.cloneGetWorkOrders(woindex);
                       //this.zone.run(() => { this.workOrders[woindex].filterPackeges[serviceindex] =Object.assign({},result[0].SERVICEITEM[0])});
                     }
+                   
                      //this.employeeWorkOrderPermissionforactions("");
                     //  if(subWorkorder  == true){
                     //  this.workOrders[woindex].SUBWORKORDER[serviceindex].WOSERVICES[serviceindex]= Object.assign({},result[0].SERVICEITEM[0]);
@@ -782,7 +813,7 @@ export class WorkorderQueuePage {
           //this.paceEnv.startLoading();
           //this.workOrders = [];
           //this.getWorkOrders(); 
-          this.cloneGetWorkOrders(i);
+          this.cloneGetWorkOrders(i,'');
         }, 2000);
         //this.paceEnv.stopLoading();
       }   
@@ -815,7 +846,7 @@ export class WorkorderQueuePage {
       //this.getWorkOrders();  
       // }, 2000);
        // this.paceEnv.stopLoading();
-      this.cloneGetWorkOrders(index);
+      this.cloneGetWorkOrders(index,'');
 
      }
    })
@@ -839,20 +870,16 @@ export class WorkorderQueuePage {
     
 }
 ////clone get workOrders
-cloneGetWorkOrders(woIndex){
+cloneGetWorkOrders(woIndex,action){
   //console.log(woObj);
   
-   // if(searchText == ''){
-    //   this.dataOptions.searchtext = searchText;
-    // }
-    // else{
-    //   this.dataOptions.searchtext = searchText;
-    // }
+   
     
     
     this.paceEnv.startLoading();
+    let searchOptions:string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>1</pageNumber><pageSize>5</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>WO</searchtype><searchtext>${this.workOrders[woIndex].WONUMBER}</searchtext><searchstatus>${this.dataOptions.searchstatus}</searchstatus></Info>`.trim();
     //let searchOptions: string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>${this.dataOptions.pageNumber}</pageNumber><pageSize>${this.dataOptions.pageSize}</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>${this.dataOptions.searchtype}</searchtype><searchtext>${this.workOrders[woIndex].WONUMBER}</searchtext><searchstatus>${this.dataOptions.searchstatus}</searchstatus></Info>`.trim();
-    let searchOptions: string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>1</pageNumber><pageSize>5</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>WO</searchtype><searchtext>${this.workOrders[woIndex].WONUMBER}</searchtext><searchstatus>${this.dataOptions.searchstatus}</searchstatus></Info>`.trim();
+    
     this.OdsSvc.GetWorkOrderStatus(searchOptions).subscribe(Response => {
       console.log('getworkOrder Queue', Response);
       this.paceEnv.stopLoading();
@@ -868,6 +895,12 @@ cloneGetWorkOrders(woIndex){
           console.log(result,'vt');
           
           result.forEach((element, index) => {
+            console.log(action);
+            
+            if(action == 'C'){
+              element.ACTIVE =action
+            }
+            
             element.expanded = false;
             element.selectedPackege = 0;
             element.UniquePackeges = [...this.getPackeges(element)];
