@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget AndroidVersion="1" id="com.pllc.pace2emp" version="0.0.8" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget AndroidVersion="1" id="com.pllc.pace2emp" version="0.0.9" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>PACE2 OPS</name>
     <description>PACE2 OPS .</description>
     <author email="apps@pllcsoftwaresolutions.com" href="https://pllcsoftwaresolutions.com/">PLLC App Team</author>
@@ -13,6 +13,7 @@
     <allow-intent href="geo:*" />
     <preference name="ScrollEnabled" value="false" />
     <preference name="android-minSdkVersion" value="19" />
+    <preference name="android-targetSdkVersion" value="28" />
     <preference name="BackupWebStorage" value="none" />
     <preference name="SplashMaintainAspectRatio" value="true" />
     <preference name="FadeSplashScreenDuration" value="300" />
