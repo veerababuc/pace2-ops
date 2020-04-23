@@ -258,11 +258,11 @@ export class HomePage {
 
   openPage(pageName: string,item) {
     let loader = this.loadingSrv.createLoader();
-    if (pageName == 'page-createworkorder')
-      if (this.access_permission != 'Y') {
-        alert("You have no permissions to create work order");
-        return false;
-      }
+    // if (pageName == 'page-createworkorder')
+    //   if (this.access_permission != 'Y') {
+    //     alert("You have no permissions to create work order");
+    //     return false;
+    //   }
       
     loader.present().then((value:any)=>{
       this.navController.push(pageName,{itm:item}).then(val => {
