@@ -7,6 +7,7 @@ import { LoadingServiceProvider } from '../../providers/loading-service/loading-
 import moment from 'moment';
 import { FeedBackComponent } from '../../components/feed-back/feed-back';
 
+
 /**
  * Generated class for the WorkorderQueuePage page.
  *
@@ -108,7 +109,7 @@ export class WorkorderQueuePage {
     });
   }
 
-  getWorkOrders() {
+  getWorkOrders(woCompeltedIndex) {
     // if(searchText == ''){
     //   this.dataOptions.searchtext = searchText;
     // }
@@ -120,17 +121,17 @@ export class WorkorderQueuePage {
     this.OdsSvc.GetWorkOrderStatus(searchOptions).subscribe(Response => {
       console.log('getworkOrder Queue', Response);
   this.paceEnv.stopLoading();
-      if (Response.status === 200) {
-        let body = JSON.parse(Response._body);
-        //console.log(body);
+  if (Response.status === 200) {
+    let body = JSON.parse(Response._body);
+    //console.log(body);
 
         if (body[0].result === '') {
           this.woqEmpty();
           this.infinitescrollactions(false, false, true);
         } else {
           let result = JSON.parse(body[0].result);
-          console.log(result,this.emplogtype,'vv');
-          
+          console.log(result, this.emplogtype, 'vv');
+          if(woCompeltedIndex == "L"){
           result.forEach((element, index) => {
             element.expanded = false;
             element.selectedPackege = 0;
@@ -153,14 +154,45 @@ export class WorkorderQueuePage {
             this.workOrders.forEach((selectOd, odIndex) => {
               this.changeDetectorRef.detectChanges();
               this.selectedPackege(odIndex, selectOd.UniquePackeges[0]);
-              
+
             });
           });
+        }else{
+          result.forEach((element, woCompeltedIndex) => {
+            element.expanded = false;
+            element.selectedPackege = 0;
+            element.UniquePackeges = [...this.getPackeges(element)];
+            element.filterPackeges = [];
+            element.WOSERVICES.forEach((ws: any) => {
+              ws.expanded = false;
+              ws.value = '0';
+            });
+            if (element.SUBWORKORDER.length > 0) {
+              element.SUBWORKORDER.forEach(subOrder => {
+                subOrder.WOSERVICES.forEach((ws: any) => {
+                  ws.expanded = false;
+                  ws.empid = '0';
+                });
+              });
+              
+            }
+            ///this.workOrders.push(Object.assign({}, element));
+            
+           // console.log('test',element);
+            this.workOrders[woCompeltedIndex]=element;
+            this.workOrders.forEach((selectOd, odIndex) => {
+              this.changeDetectorRef.detectChanges();
+              this.selectedPackege(odIndex, selectOd.UniquePackeges[0]);
+
+            });
+          });
+
+        }
           this.infinitescrollactions(true, false, false);
           this.woqEmpty();
         }
-        console.log('workorder end', this.workOrders,this.dataOptions);
-       
+        console.log('workorder end', this.workOrders,woCompeltedIndex);
+
       } else {
         this.woqEmpty();
       }
@@ -195,7 +227,7 @@ export class WorkorderQueuePage {
     this.dataOptions.pageSize = this.pageSize;
     this.workOrders = [];
     this.dataOptionsText = "0";
-    this.getWorkOrders();
+    this.getWorkOrders("L");
   }
 
 
@@ -205,7 +237,7 @@ export class WorkorderQueuePage {
     this.infintescrollevent = $event;
     this.dataOptions.pageNumber = this.dataOptions.pageNumber + 1;
     this.dataOptions.pageSize = this.pageSize;
-    this.getWorkOrders();
+    this.getWorkOrders("L");
     //this.cloneGetWorkOrders();
   }
 
@@ -239,13 +271,18 @@ export class WorkorderQueuePage {
     let Modal = this.modalctrl.create('ModalpagePage', { workOrderObj: wo, action: action }, { cssClass: "full-height-modal" });
     Modal.onDidDismiss(data => {
       if (String(data) !== 'undefined') {
-        if (action != 'edit') {
+        //console.log(action);
+        
+        if (action == 'addparts') {
           this.dataOptions.pageNumber = 1;
           this.dataOptions.pageSize = this.workOrders.length;
           //this.workOrders = [];
           //this.getWorkOrders();
-          this.cloneGetWorkOrders(i,'');
-        } else {
+          this.cloneGetWorkOrders(i);
+          //this.getWorkOrders(i);
+        } else if(action == "void") {
+           this.workOrders.splice(i,1);
+        }else{
           this.workOrders[i] = Object.assign({}, data.woorder);
         }
       }
@@ -267,7 +304,7 @@ export class WorkorderQueuePage {
       if(data == "Success"){
         setTimeout(() => {         
           this.workOrders = [];
-          this.getWorkOrders();  
+          this.getWorkOrders("L");  
           //this.cloneGetWorkOrders(index)
         }, 2000);
         this.paceEnv.stopLoading();
@@ -625,10 +662,10 @@ export class WorkorderQueuePage {
                       this.workOrders[woMainIndex].SUBWORKORDER[woindex].WOSERVICES[serviceindex]= Object.assign({},result[0].SERVICEITEM[0]);
                       this.selectedEmpId="0";
                       setTimeout(() => {
-                        //this.cloneGetWorkOrders(woindex,action)
+                        //this.cloneGetWorkOrders(woMainIndex,action)
                         if(action=="C"){
-                        this.workOrders = [];
-                        this.getWorkOrders(); 
+                        //this.workOrders = [];
+                        this.getWorkOrders(woMainIndex); 
                         } 
                       }, 1000);                      
                       }else
@@ -642,8 +679,8 @@ export class WorkorderQueuePage {
                           setTimeout(() => {
                             //this.cloneGetWorkOrders(woindex,action)
                             if(action=="C"){
-                            this.workOrders = [];
-                            this.getWorkOrders();
+                            //this.workOrders = [];
+                            this.getWorkOrders(woindex);
                             }  
                           }, 1000);
                              
@@ -656,8 +693,8 @@ export class WorkorderQueuePage {
                              setTimeout(() => {
                               //this.cloneGetWorkOrders(woindex,action)
                               if(action=="C"){
-                              this.workOrders = [];
-                              this.getWorkOrders();  
+                              //this.workOrders = [];
+                              this.getWorkOrders(woindex);  
                               }
                             }, 1000);
                             
@@ -669,8 +706,8 @@ export class WorkorderQueuePage {
                         setTimeout(() => {
                           //this.cloneGetWorkOrders(woindex,action)
                           if(action=="C"){
-                          this.workOrders = [];
-                          this.getWorkOrders(); 
+                          //this.workOrders = [];
+                          this.getWorkOrders(woindex); 
                           } 
                         }, 1000);
                         
@@ -738,7 +775,7 @@ export class WorkorderQueuePage {
       //this.paceEnv.stopLoading();
       if (Response[0].result !== '') {
         let result = JSON.parse(Response[0].result);
-        self.getWorkOrders();
+        self.getWorkOrders("L");
         self.workOrderPermission = Object.assign({}, result[0].WOPERMISSIONS[0]);
         console.log('Permissions',self.workOrderPermission);
         
@@ -813,7 +850,7 @@ export class WorkorderQueuePage {
           //this.paceEnv.startLoading();
           //this.workOrders = [];
           //this.getWorkOrders(); 
-          this.cloneGetWorkOrders(i,'');
+          this.cloneGetWorkOrders(i);
         }, 2000);
         //this.paceEnv.stopLoading();
       }   
@@ -846,7 +883,7 @@ export class WorkorderQueuePage {
       //this.getWorkOrders();  
       // }, 2000);
        // this.paceEnv.stopLoading();
-      this.cloneGetWorkOrders(index,'');
+      this.cloneGetWorkOrders(index);
 
      }
    })
@@ -870,7 +907,7 @@ export class WorkorderQueuePage {
     
 }
 ////clone get workOrders
-cloneGetWorkOrders(woIndex,action){
+cloneGetWorkOrders(woIndex){
   //console.log(woObj);
   
    
@@ -895,7 +932,7 @@ cloneGetWorkOrders(woIndex,action){
           console.log(result,'vt');
           
           result.forEach((element, index) => {
-            console.log(action);
+            //console.log(action);
             
             // if(action == 'C'){
             //   element.ACTIVE =action
