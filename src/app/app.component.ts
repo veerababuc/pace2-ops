@@ -139,7 +139,7 @@ export class MyApp {
   events.subscribe("permission:N",()=>{
     this.pages=[
       {title:"Home",component:"home-page",name:"Home" },
-      {title:"Create Work Order",component:"page-createworkorder", name:"CreateWorkorder"},
+   //   {title:"Create Work Order",component:"page-createworkorder", name:"CreateWorkorder"},
       {title:"Work Order Queue",component:"page-workorderqueue", name:"WorkorderQueue"},
      
    ];
