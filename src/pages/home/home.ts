@@ -114,7 +114,7 @@ export class HomePage {
               po = "N";
               ro = "N";
             }
-            let siteno = this.empid == 1 ? 0 : this.sitenumber;
+            let siteno = (logType=='C') ? 0 : this.sitenumber;
             this.odsservice.GetWOPermissionDetails(this.empid, siteno).subscribe(response => {
               if (response[0].result != "") {
                 let value = JSON.parse(response[0].result)[0];
@@ -216,7 +216,7 @@ export class HomePage {
               po = "N";
               ro = "N";
             }
-            let siteno = this.empid == 1 ? 0 : this.sitenumber;
+            let siteno = (this.empresult.LogType.trim()=='C') ? 0 : this.sitenumber;
             this.odsservice.GetWOPermissionDetails(this.empid, siteno).subscribe(response => {
               if (response[0].result != "") {
                 let value = JSON.parse(response[0].result)[0];
