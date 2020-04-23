@@ -154,8 +154,10 @@ export class WorkordereditComponent {
       this.clear();
       
     } else {
+      //console.log(this.partObj.price);
+      let alertMsg=this.partObj.part==null?'Enter part name':this.partObj.price==null?"Enter part price":""
       const alert = this.alertController.create({
-        message: 'Enter Part Name and Price.',
+        message: alertMsg,
         buttons: ['OK']
       });
       alert.present();
