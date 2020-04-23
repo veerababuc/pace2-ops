@@ -71,9 +71,11 @@ export class OdsServiceProvider {
     header.append('strPasscode', pcode);
     let body = { 'strSearchString': '<deviceInfo> <deviceType>m</deviceType> <loginType>2</loginType> <deviceId>' + deviceid + '</deviceId> <ipAddress>' + this.appconst.ipAddress + '</ipAddress> </deviceInfo>' };
     const options = new RequestOptions({ headers: header });
-    return this.http.post(this.appconst.ApiUrl + "UserLogin", body, options)
+    return this.http.post(this.appconst.ApiUrl + "TraditionalUserLogin", body, options)
       .map((res: Response) => res.json())
   }
+
+  //http://api.onsitepace2.com/api/TraditionalUserLogin
 
 
   //  EmployeeTraditionalCheckIn(userid,pcode){
