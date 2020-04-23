@@ -183,6 +183,7 @@ export class WorkordereditComponent {
   }
   
   save() {
+    if(this.partObj.price != null){
    this.addPartsToSave();
     //this.addparts.push(Object.assign({}, this.partObj));
       if(this.addparts.length > 0){
@@ -207,6 +208,14 @@ export class WorkordereditComponent {
       });
       confirm.present();
     }
+  }else{
+    const alert = this.alertController.create({
+      message: "Enter part price",
+      buttons: ['OK']
+    });
+    alert.present();
+  }
+  
     
     
   }
