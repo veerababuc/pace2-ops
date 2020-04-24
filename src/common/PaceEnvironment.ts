@@ -80,7 +80,7 @@ addErrorMessage(msg) {
    {
      this.loadingPopup=this.loadingCtrl.create({
        enableBackdropDismiss:true,
-       content:"Site Information Loading..."
+       content:"Loading Site Information..."
      });
      this.loadingPopup.present();
    }
