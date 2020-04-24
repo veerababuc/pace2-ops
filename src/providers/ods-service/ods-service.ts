@@ -84,8 +84,8 @@ export class OdsServiceProvider {
 let body=`{"strDeviceInfo":"<deviceInfo>                  
 <deviceType>M</deviceType>                
 <loginType>2</loginType>                
-<deviceId>0000</deviceId>                 
-<ipAddress>190.90.0.1</ipAddress>         
+<deviceId>`+deviceid+`</deviceId>                 
+<ipAddress>`+this.appconst.ipAddress+`</ipAddress>         
 </deviceInfo>"}`
    //  let body = {'strDeviceInfo': '<deviceInfo> <deviceType>M</deviceType> <loginType>DL</loginType> <deviceId>' + deviceid + '</deviceId> <ipAddress>' + this.appconst.ipAddress + '</ipAddress> </deviceInfo>' };
     const options = new RequestOptions({ headers: header });
