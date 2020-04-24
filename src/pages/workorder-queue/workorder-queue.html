@@ -277,7 +277,7 @@
                               <custom-select
                                 *ngIf="(workOrderPermission.ASSIGN=='Y' || package.ASSIGNMENTINFO[0].ASSIGNEDBYLOGTYPE=='C') && (package.ASSIGNMENTINFO[0].ASSIGNEDBY==dataOptions.eid || package.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid)"
                                 [optionsModel]="empListModel" defaultOptTxt='Select Employee' [(optColor)]='black'
-                                [(value)]="package.ASSIGNMENTINFO[0].ASSIGNEDTO"
+                                [(value)]="package.ASSIGNMENTINFO[0].ASSIGNEDTO "
                                 (change)="empSelectionUpdate(package,i,serviceindex,$event,package.ASSIGNMENTINFO[0].ASSIGNEDTO,false,subWoindex)">
                               </custom-select>
                             </div>

@@ -445,17 +445,27 @@ export class WorkorderQueuePage {
         let result = JSON.parse(Response[0].result);
         self.emplist = result[0].EMPLOYEES;
         for(let i= 0; i <self.emplist.length; i++  ){
-        this.empListModel.push({name:self.emplist[i].NAME,value:self.emplist[i].EID})
+        this.empListModel.push({name:self.emplist[i].NAME ,value:self.emplist[i].EID})
         }
+
+        this.empListModel.sort(function(a, b) {
+          var nameA = a.name.toUpperCase();
+          var nameB = b.name.toUpperCase();
+          return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
+      });
+
         console.log(this.empListModel);
         
         self.employeeWorkOrderPermissionforactions();
+        return this.empListModel;
         //self.getWorkOrders();
       }
     }, (err) => {
       console.log('err', err);
     })
   }
+
+
 
   assigment(woservice,selectedEmpid, woindex, serviceindex, subWorkorder, subWoindex) {
     //let self = this;   
