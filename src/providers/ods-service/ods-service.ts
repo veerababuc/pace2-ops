@@ -79,7 +79,15 @@ export class OdsServiceProvider {
      header.append('strUserId', `${userid}`);
      header.append('strPasscode', `${pcode}`);
 
-     let body = { 'strDeviceInfo': '<deviceInfo> <deviceType>M</deviceType> <loginType>DL</loginType> <deviceId>' + deviceid + '</deviceId> <ipAddress>' + this.appconst.ipAddress + '</ipAddress> </deviceInfo>' };
+     let str = "<deviceInfo><deviceType>M</deviceType>";
+     str += "<loginType>2</loginType>";
+     str += "<deviceId>"+deviceid+"</deviceId>";
+     str += "<ipAddress>"+this.appconst.ipAddress+"</ipAddress>";
+     str += "</deviceInfo>";
+     
+    let body={'strDeviceInfo':str};
+
+   //  let body = {'strDeviceInfo': '<deviceInfo> <deviceType>M</deviceType> <loginType>DL</loginType> <deviceId>' + deviceid + '</deviceId> <ipAddress>' + this.appconst.ipAddress + '</ipAddress> </deviceInfo>' };
     const options = new RequestOptions({ headers: header });
     return this.http.post(this.appconst.ApiUrl + "TraditionalUserLogin", body, options)
       .map((res: Response) => res.json())
