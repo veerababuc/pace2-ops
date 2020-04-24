@@ -76,8 +76,15 @@ addErrorMessage(msg) {
      });
      this.loadingPopup.present();
    }
-
-   stopLoading()
+   sitetartLoading()
+   {
+     this.loadingPopup=this.loadingCtrl.create({
+       enableBackdropDismiss:true,
+       content:"Site Information Loading..."
+     });
+     this.loadingPopup.present();
+   }
+ stopLoading()
    {
       setTimeout(()=>{
         this.loadingPopup.dismiss();
