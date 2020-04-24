@@ -115,6 +115,6 @@ export class LoginPage {
     this.menu.enable(true);
   }
   ionViewDidEnter() {
-     this.paceenvi.CheckNetwork_Connection();
+    // this.paceenvi.CheckNetwork_Connection();
   }
 }
