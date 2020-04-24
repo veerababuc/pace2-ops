@@ -77,9 +77,9 @@ export class HomePage {
   }
   /*************Getting Site info****************** */
   getSiteInfo(empid, logType) {
-
+    this.appconst.sitetartLoading();
     this.odsservice.GetEmployeeSiteInfo(empid, logType).subscribe((data) => {
-
+       
       if (data.status == 200) {
         let value = data.json();
         // value=value.filter
@@ -114,7 +114,7 @@ export class HomePage {
               po = "N";
               ro = "N";
             }
-            let siteno = this.empid == 1 ? 0 : this.sitenumber;
+            let siteno = (logType=='C') ? 0 : this.sitenumber;
             this.odsservice.GetWOPermissionDetails(this.empid, siteno).subscribe(response => {
               if (response[0].result != "") {
                 let value = JSON.parse(response[0].result)[0];
@@ -134,16 +134,16 @@ export class HomePage {
 
 
                 this.db.UpdateSiteInfo_EMP(this.dealersiteId, siteLogo, this.dlrname, this.empresult.EmpId, this.sitecount, this.sitenumber, stockcount, po, ro, create).then((data) => {
-                  
-                })
+                  this.appconst.stopLoading();
+                },error=>{ this.appconst.stopLoading();})
               }
               else {
                 this.access_permission = "N";
 
                 this.events.publish('permission:N');
                 this.db.UpdateSiteInfo_EMP(this.dealersiteId, siteLogo, this.dlrname, this.empresult.EmpId, this.sitecount, this.sitenumber, stockcount, po, ro, 'N').then((data) => {
-
-                })
+                  this.appconst.stopLoading();
+                },error=>{ this.appconst.stopLoading();})
               }
 
             })
@@ -154,6 +154,7 @@ export class HomePage {
         else {
           this.dlrname = "Please select site";
           this.dealersiteId = 0;
+          this.appconst.stopLoading();
         }
       }
     })
@@ -216,7 +217,7 @@ export class HomePage {
               po = "N";
               ro = "N";
             }
-            let siteno = this.empid == 1 ? 0 : this.sitenumber;
+            let siteno = (this.empresult.LogType.trim()=='C') ? 0 : this.sitenumber;
             this.odsservice.GetWOPermissionDetails(this.empid, siteno).subscribe(response => {
               if (response[0].result != "") {
                 let value = JSON.parse(response[0].result)[0];

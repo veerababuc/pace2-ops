@@ -6,6 +6,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
  import { DatabaseProvider } from '../../providers/database/database'
  import { OdsServiceProvider } from '../../providers/ods-service/ods-service';
  import { LoadingServiceProvider } from '../../providers/loading-service/loading-service';
+import { AppVersion } from '@ionic-native/app-version';
 
 /**
  * Generated class for the LoginPage page.
@@ -26,19 +27,23 @@ export class LoginPage {
   keepmeloggedin: any = {}
   userdata:any={}
   signedin:boolean;
+  appVersionData : any;
   constructor(public navCtrl: NavController,
-    
       public device: Device,
       public paceenvi: PaceEnvironment,
       private db: DatabaseProvider
      , private odsservice: OdsServiceProvider, 
      public loadingSrv: LoadingServiceProvider, 
     public menu: MenuController,
+    private appVersion: AppVersion
   ) {
     this.menu.enable(false);
     this.keepmeloggedin.selected = true;
    
-   
+    this.appVersion.getVersionNumber().then((data) => {
+      this.appVersionData = data;
+      });
+
   }
   ngOnInit() {
     this.signupForm = new FormGroup({
@@ -115,6 +120,6 @@ export class LoginPage {
     this.menu.enable(true);
   }
   ionViewDidEnter() {
-     this.paceenvi.CheckNetwork_Connection();
+    // this.paceenvi.CheckNetwork_Connection();
   }
 }

@@ -49,13 +49,18 @@ export class OdsServiceProvider {
  
   GetEmployeeSiteInfo(empid, logType) {
     let options = new RequestOptions({ headers: this.appconst.headers })
-    if (logType == "C")
+   if (logType == "C")
       return this.http.get(this.appconst.ApiUrl + "SitesInformationXML/", options)
-        .map((res: Response) => res)
-    else
-      return this.http.get(this.appconst.ApiUrl + "EmployeeSitesInformationXML/" + empid, options)
-        .map((res: Response) => res)
-  }
+       .map((res: Response) => res);
+   else
+     return this.http.get(this.appconst.ApiUrl + "EmployeeSitesInformationXML/" + empid, options)
+       .map((res: Response) => res);
+       // GetDashboardSites
+        // let body=`{"strSearchString":"<Info><type>`+logType+`</type><eid>`+empid+`</eid></Info>"}`;
+        // return this.http.get(this.appconst.ApiUrl + "GetDashboardSites/" ,body,options)
+        // .map((res: Response) => res);
+    
+      }
 
   GetStockPORODetails(siteid) {
     let options = new RequestOptions({ headers: this.appconst.headers })
@@ -64,16 +69,36 @@ export class OdsServiceProvider {
       .map((res: Response) => res.json())
   }
 
+  private setHeader(): Headers {
+    const headersConfig = new Headers();
+    headersConfig.append('Content-type', 'application/json');
+    headersConfig.append('Accept', 'application/json, text/plain, */*');
+    headersConfig.append('Pragma','no-cache');
+    headersConfig.append('Cache-Control','no-cache');
+    return headersConfig;
+  }
 
   EmployeeTraditionalCheckIn(userid, pcode, deviceid) {
-    const header = new Headers;
-    header.append('strUserId', userid);
-    header.append('strPasscode', pcode);
-    let body = { 'strSearchString': '<deviceInfo> <deviceType>m</deviceType> <loginType>2</loginType> <deviceId>' + deviceid + '</deviceId> <ipAddress>' + this.appconst.ipAddress + '</ipAddress> </deviceInfo>' };
+   
+     const header=this.setHeader();
+     header.append('strUserId', `${userid}`);
+     header.append('strPasscode', `${pcode}`);
+
+     
+//    let body={'strDeviceInfo':str};
+let body=`{"strDeviceInfo":"<deviceInfo>                  
+<deviceType>M</deviceType>                
+<loginType>2</loginType>                
+<deviceId>`+deviceid+`</deviceId>                 
+<ipAddress>`+this.appconst.ipAddress+`</ipAddress>         
+</deviceInfo>"}`
+   //  let body = {'strDeviceInfo': '<deviceInfo> <deviceType>M</deviceType> <loginType>DL</loginType> <deviceId>' + deviceid + '</deviceId> <ipAddress>' + this.appconst.ipAddress + '</ipAddress> </deviceInfo>' };
     const options = new RequestOptions({ headers: header });
-    return this.http.post(this.appconst.ApiUrl + "UserLogin", body, options)
+    return this.http.post(this.appconst.ApiUrl + "TraditionalUserLogin", body, options)
       .map((res: Response) => res.json())
   }
+
+  //http://api.onsitepace2.com/api/TraditionalUserLogin
 
 
   //  EmployeeTraditionalCheckIn(userid,pcode){

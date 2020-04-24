@@ -1,6 +1,6 @@
 {
-  "name": "PACE-EMPLOYEE",
-  "version": "0.0.4",
+  "name": "pace2ops",
+  "version": "0.0.12",
   "author": "Ionic Framework",
   "homepage": "http://ionicframework.com/",
   "private": true,
@@ -20,6 +20,7 @@
     "@angular/http": "5.2.11",
     "@angular/platform-browser": "5.2.11",
     "@angular/platform-browser-dynamic": "5.2.11",
+    "@ionic-native/app-version": "^4.20.0",
     "@ionic-native/barcode-scanner": "^4.20.0",
     "@ionic-native/camera": "^4.20.0",
     "@ionic-native/core": "~4.20.0",
@@ -33,6 +34,7 @@
     "@ionic/storage": "^2.2.0",
     "cordova-android": "7.0.0",
     "cordova-browser": "5.0.4",
+    "cordova-plugin-app-version": "^0.1.9",
     "cordova-plugin-camera": "^4.1.0",
     "cordova-plugin-datepicker": "^0.9.3",
     "cordova-plugin-device": "^2.0.3",
@@ -43,6 +45,7 @@
     "cordova-plugin-splashscreen": "5.0.2",
     "cordova-plugin-statusbar": "2.4.2",
     "cordova-plugin-whitelist": "1.3.3",
+    "cordova-res": "^0.12.1",
     "cordova-sqlite-storage": "^3.4.0",
     "ionic-angular": "3.9.5",
     "ionicons": "3.0.0",
@@ -82,7 +85,8 @@
       "cordova-plugin-ionic-webview": {
         "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
       },
-      "cordova-plugin-ionic-keyboard": {}
+      "cordova-plugin-ionic-keyboard": {},
+      "cordova-plugin-app-version": {}
     },
     "platforms": [
       "browser",
