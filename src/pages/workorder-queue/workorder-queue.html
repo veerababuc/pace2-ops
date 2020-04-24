@@ -647,8 +647,9 @@
                   <p class="cre" style="display: flex;justify-content: center;">
                     <span style="margin-top: 4%;white-space: nowrap;">Approved by: </span> 
                     <!-- <img [src]="wo.APPROVEDBYIMAGE != '' ? paceEnv.Paceimg+'/profile/'+wo.APPROVEDBYIMAGE : NoImg"> -->
-                    <img [src]="paceEnv.Paceimg+'/profile/'+wo.APPROVEDBYIMAGE" onError="this.src= '../../assets/imgs/workorderqueue/no-user-image.png'" >
+                    <img [src]="paceEnv.Paceimg+'/profile/'+wo.APPROVEDBYIMAGE" onError="this.src='../../assets/imgs/workorderqueue/no-user-image.png'" >
                       <span style="margin-top: 4%;margin-left: 2%;">{{wo.APPROVEDBYNAME}} </span>
+                      
                   </p>
                 </ion-col>
                 <ion-row style="justify-content: center;width: 100%;">
