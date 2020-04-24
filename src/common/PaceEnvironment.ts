@@ -20,6 +20,7 @@ constructor( public alertController: AlertController,
     public alertCtrl: AlertController )
     {
       this.ApiUrl="http://api.onsitepace2.com/api/";
+   //   Host: api.onsitepace2.com
       // this.ApiUrl="http://pace2api.onsitedealersolutions.com/api/";
       //this.ApiUrl="http://devpace2api.onsitedealersolutions.com/api/";
       // this.ApiUrl="http://paceadmin.onsitedealersolutions.com/ws/api/";

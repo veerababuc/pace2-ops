@@ -68,6 +68,8 @@ export class OdsServiceProvider {
     const headersConfig = new Headers();
     headersConfig.append('Content-type', 'application/json');
     headersConfig.append('Accept', 'application/json');
+    headersConfig.append('Pragma','no-cache');
+    headersConfig.append('Cache-Control','no-cache');
     return headersConfig;
   }
 
@@ -77,7 +79,7 @@ export class OdsServiceProvider {
      header.append('strUserId', `${userid}`);
      header.append('strPasscode', `${pcode}`);
 
-     let body = { 'strDeviceInfo': '<deviceInfo> <deviceType>M</deviceType> <loginType>2</loginType> <deviceId>' + deviceid + '</deviceId> <ipAddress>' + this.appconst.ipAddress + '</ipAddress> </deviceInfo>' };
+     let body = { 'strDeviceInfo': '<deviceInfo> <deviceType>M</deviceType> <loginType>DL</loginType> <deviceId>' + deviceid + '</deviceId> <ipAddress>' + this.appconst.ipAddress + '</ipAddress> </deviceInfo>' };
     const options = new RequestOptions({ headers: header });
     return this.http.post(this.appconst.ApiUrl + "TraditionalUserLogin", body, options)
       .map((res: Response) => res.json())
