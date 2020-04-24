@@ -29,7 +29,6 @@ export class LoginPage {
   signedin:boolean;
   appVersionData : any;
   constructor(public navCtrl: NavController,
-    
       public device: Device,
       public paceenvi: PaceEnvironment,
       private db: DatabaseProvider
