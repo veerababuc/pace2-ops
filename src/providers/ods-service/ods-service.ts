@@ -67,7 +67,7 @@ export class OdsServiceProvider {
   private setHeader(): Headers {
     const headersConfig = new Headers();
     headersConfig.append('Content-type', 'application/json');
-    headersConfig.append('Accept', 'application/json');
+    headersConfig.append('Accept', 'application/json, text/plain, */*');
     headersConfig.append('Pragma','no-cache');
     headersConfig.append('Cache-Control','no-cache');
     return headersConfig;
@@ -81,15 +81,15 @@ export class OdsServiceProvider {
 
      
 //    let body={'strDeviceInfo':str};
-// let body=`{"strDeviceInfo":"<deviceInfo>                  
-// <deviceType>M</deviceType>                
-// <loginType>2</loginType>                
-// <deviceId>0000</deviceId>                 
-// <ipAddress>190.90.0.1</ipAddress>         
-// </deviceInfo>"}`
-     let body = {'strSearchString': '<deviceInfo> <deviceType>M</deviceType> <loginType>DL</loginType> <deviceId>' + deviceid + '</deviceId> <ipAddress>' + this.appconst.ipAddress + '</ipAddress> </deviceInfo>' };
+let body=`{"strDeviceInfo":"<deviceInfo>                  
+<deviceType>M</deviceType>                
+<loginType>2</loginType>                
+<deviceId>0000</deviceId>                 
+<ipAddress>190.90.0.1</ipAddress>         
+</deviceInfo>"}`
+   //  let body = {'strDeviceInfo': '<deviceInfo> <deviceType>M</deviceType> <loginType>DL</loginType> <deviceId>' + deviceid + '</deviceId> <ipAddress>' + this.appconst.ipAddress + '</ipAddress> </deviceInfo>' };
     const options = new RequestOptions({ headers: header });
-    return this.http.post(this.appconst.ApiUrl + "UserLogin", body, options)
+    return this.http.post(this.appconst.ApiUrl + "TraditionalUserLogin", body, options)
       .map((res: Response) => res.json())
   }
 
