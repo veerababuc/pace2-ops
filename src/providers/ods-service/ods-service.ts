@@ -49,13 +49,18 @@ export class OdsServiceProvider {
  
   GetEmployeeSiteInfo(empid, logType) {
     let options = new RequestOptions({ headers: this.appconst.headers })
-    if (logType == "C")
-      return this.http.get(this.appconst.ApiUrl + "SitesInformationXML/", options)
-        .map((res: Response) => res)
-    else
-      return this.http.get(this.appconst.ApiUrl + "EmployeeSitesInformationXML/" + empid, options)
-        .map((res: Response) => res)
-  }
+   // if (logType == "C")
+      //return this.http.get(this.appconst.ApiUrl + "SitesInformationXML/", options)
+     //   .map((res: Response) => res);
+   // else
+    //  return this.http.get(this.appconst.ApiUrl + "EmployeeSitesInformationXML/" + empid, options)
+       // .map((res: Response) => res);
+        //GetDashboardSites
+        let body=`{"strSearchString":"<Info><type>`+logType+`</type><eid>`+empid+`</eid></Info>"}`;
+        return this.http.get(this.appconst.ApiUrl + "GetDashboardSites/" ,body,options)
+        .map((res: Response) => res);
+    
+      }
 
   GetStockPORODetails(siteid) {
     let options = new RequestOptions({ headers: this.appconst.headers })
