@@ -129,7 +129,9 @@ export class MyApp {
    })
   }
  })
-    
+ this.appVersion.getVersionNumber().then((data) => {
+  this.appVersionData = data;
+  });
   });
 
     
@@ -155,9 +157,7 @@ export class MyApp {
    ];
   });
   
-  this.appVersion.getVersionNumber().then((data) => {
-    this.appVersionData = data;
-    });
+  
 
 
 
