@@ -108,7 +108,7 @@
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
     <plugin name="cordova-sqlite-storage" spec="^3.4.0" />
     <allow-navigation href="http://192.168.43.242:8100" />
+    <plugin name="cordova-plugin-app-version" spec="^0.1.9" />
     <engine name="browser" spec="5.0.4" />
     <engine name="android" spec="7.0.0" />
-    <plugin name="cordova-plugin-app-version" spec="^0.1.9" />
 </widget>
