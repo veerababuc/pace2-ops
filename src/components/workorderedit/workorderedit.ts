@@ -155,7 +155,7 @@ export class WorkordereditComponent {
       
     } else {
       //console.log(this.partObj.price);
-      let alertMsg=this.partObj.part==null?'Enter part name':this.partObj.price==null?"Enter part price":""
+      let alertMsg=this.partObj.part==null?'Enter part name':this.partObj.price==null?"Enter part price":"";
       const alert = this.alertController.create({
         message: alertMsg,
         buttons: ['OK']
@@ -183,11 +183,12 @@ export class WorkordereditComponent {
   }
   
   save() {
-    if(this.partObj.price != null){
+    //if(this.partObj.price != null  && this.partObj.part != null){
    this.addPartsToSave();
     //this.addparts.push(Object.assign({}, this.partObj));
       if(this.addparts.length > 0){
         
+        if(this.partObj.price != null  && this.partObj.part != null){
       const confirm = this.alertController.create({
         title: 'Please confirm',
         message: 'Are you sure you want to Add Parts?',
@@ -208,9 +209,11 @@ export class WorkordereditComponent {
       });
       confirm.present();
     }
-  }else{
+  }
+  else{
+    let alertMsg=this.partObj.part==null?'Enter part name':this.partObj.price==null?"Enter part price":"";
     const alert = this.alertController.create({
-      message: "Enter part price",
+      message: alertMsg,
       buttons: ['OK']
     });
     alert.present();
