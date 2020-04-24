@@ -8,7 +8,7 @@ import { Network } from '@ionic-native/network';
 import { NetworkInterface } from '@ionic-native/network-interface';
 // import {FCM} from '@ionic-native/fcm';
 import { PaceEnvironment } from '../common/PaceEnvironment';
-
+import { AppVersion } from '@ionic-native/app-version';
 @Component({
   templateUrl: 'app.html'
 })
@@ -19,15 +19,18 @@ export class MyApp {
   user:any={Name:"",Password:""}
   pages:Array<{title:string,component:any,name:string}>
   platform_menulist:boolean=false;
+  appVersionData : any;
   constructor( private platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,
      public db:DatabaseProvider, public app:App,private network:Network, public networkinteface:NetworkInterface,public ionicapp:IonicApp,
     // public fcm:FCM,
+    private appVersion: AppVersion,
     private appconst:PaceEnvironment, private events:Events,
     private toastCtrl: ToastController,
     private ionicApp: IonicApp,
     public menu: MenuController) {
     platform.ready().then(() => {
  
+
       if(platform.is('ios'))
        {
           this.platform_menulist=true;
@@ -152,6 +155,9 @@ export class MyApp {
    ];
   });
   
+  this.appVersion.getVersionNumber().then((data) => {
+    this.appVersionData = data;
+    });
 
 
 
