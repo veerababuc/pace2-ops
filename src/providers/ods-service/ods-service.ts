@@ -64,12 +64,20 @@ export class OdsServiceProvider {
       .map((res: Response) => res.json())
   }
 
+  private setHeader(): Headers {
+    const headersConfig = new Headers();
+    headersConfig.append('Content-type', 'application/json');
+    headersConfig.append('Accept', 'application/json');
+    return headersConfig;
+  }
 
   EmployeeTraditionalCheckIn(userid, pcode, deviceid) {
-    const header = new Headers;
-    header.append('strUserId', userid);
-    header.append('strPasscode', pcode);
-    let body = { 'strSearchString': '<deviceInfo> <deviceType>m</deviceType> <loginType>2</loginType> <deviceId>' + deviceid + '</deviceId> <ipAddress>' + this.appconst.ipAddress + '</ipAddress> </deviceInfo>' };
+   
+     const header=this.setHeader();
+     header.append('strUserId', `${userid}`);
+     header.append('strPasscode', `${pcode}`);
+
+     let body = { 'strDeviceInfo': '<deviceInfo> <deviceType>M</deviceType> <loginType>2</loginType> <deviceId>' + deviceid + '</deviceId> <ipAddress>' + this.appconst.ipAddress + '</ipAddress> </deviceInfo>' };
     const options = new RequestOptions({ headers: header });
     return this.http.post(this.appconst.ApiUrl + "TraditionalUserLogin", body, options)
       .map((res: Response) => res.json())
