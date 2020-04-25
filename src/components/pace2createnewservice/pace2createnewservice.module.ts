@@ -6,8 +6,7 @@ import { Pace2createnewserviceComponent } from './pace2createnewservice';
   declarations: [
     Pace2createnewserviceComponent,
   ],
-  imports: [
-    IonicPageModule.forChild(Pace2createnewserviceComponent),
-  ],
+  imports: [],
+  exports:[Pace2createnewserviceComponent],
 })
 export class pace2createnewserviceModule {}
