@@ -13,23 +13,24 @@ import { Network } from '@ionic-native/network';
 import { NetworkInterface } from '@ionic-native/network-interface';
 import { LoadingServiceProvider } from '../providers/loading-service/loading-service';
 import { OdsServiceProvider } from '../providers/ods-service/ods-service';
-import { FeedBackComponent } from '../components/feed-back/feed-back';
+//import { FeedBackComponent } from '../components/feed-back/feed-back';
 import { AppVersion } from '@ionic-native/app-version';
+import { FeadBackModule } from '../components/feed-back/feed-bacm.module';
 
 @NgModule({
   declarations: [
     MyApp,
-    FeedBackComponent
+   // FeedBackComponent
   ],
   imports: [
     BrowserModule,HttpModule,
-    IonicModule.forRoot(MyApp)
-   
+    IonicModule.forRoot(MyApp),
+    FeadBackModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    FeedBackComponent
+   // FeedBackComponent
   
   ],
   providers: [
