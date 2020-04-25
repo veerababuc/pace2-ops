@@ -4,7 +4,7 @@ import { Pace2notesComponent } from './pace2notes';
 
 @NgModule({
     declarations: [Pace2notesComponent],
-    imports: [IonicModule],
+    imports: [],
     exports: [Pace2notesComponent],
     providers: []
 })
