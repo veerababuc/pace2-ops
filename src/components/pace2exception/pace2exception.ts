@@ -72,7 +72,7 @@ export class Pace2exceptionComponent {
     this.ViewCtrl.dismiss();
   }
   AddService(type,fcid){
-    let Modal = this.modalctrl.create('pace2addservice',{'type':type ,'Data':this.workid,'DeptName':this.Depname,'DeptId':this.Depid,'FCID':fcid},{ cssClass: "full-height-modal" });
+    let Modal = this.modalctrl.create('TestPage',{'type':type ,'Data':this.workid,'DeptName':this.Depname,'DeptId':this.Depid,'FCID':fcid},{ cssClass: "full-height-modal" });
     Modal.onDidDismiss((data) => {
       if(typeof(data) != 'undefined'){
         this.ViewCtrl.dismiss(data);

@@ -33,7 +33,7 @@ import { Pace2selectdeptModule } from '../../components/pace2selectdepartment/Pa
    Pace2NotesModule,
    Pace2deleteModule,
   Pace2exceptionModule,
-  //Pace2addserviceModule,
+  Pace2addserviceModule,
   Pace2selectdeptModule,
   Pace2addserviceModule,
   ],
