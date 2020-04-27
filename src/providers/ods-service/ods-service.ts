@@ -48,7 +48,8 @@ export class OdsServiceProvider {
 
  
   GetEmployeeSiteInfo(empid, logType) {
-    let options = new RequestOptions({ headers: this.appconst.headers })
+    const header=this.setHeader();
+    let options = new RequestOptions({ headers: header });
   //  if (logType == "C")
   //     return this.http.get(this.appconst.ApiUrl + "SitesInformationXML/", options)
   //      .map((res: Response) => res);
