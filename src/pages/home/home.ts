@@ -270,10 +270,12 @@ export class HomePage {
       if (this.access_permission != 'Y') {
         alert("You have no permissions to create work order");
         return false;
+      }else{
+        this.navController.setRoot(pageName, {itm:item});
       }
     }
     else{
-    this.navController.setRoot(pageName, {itm:item})
+    this.navController.setRoot(pageName, {itm:item});
      }
     // loader.present().then((value:any)=>{
     //   this.navController.push(pageName,{itm:item}).then(val => {

@@ -67,6 +67,8 @@ export class WorkorderQueuePage {
     public toastCtrl: ToastController,
     public changeDetectorRef:ChangeDetectorRef,
     private zone: NgZone,private storage:NativeStorage) {
+
+      this.paceEnv.startLoading();
     this.db.getAllUsers().then(emdata => {
       console.log('emdata', emdata);
       this.dataOptions.siteid = emdata[0].SiteNumber;
