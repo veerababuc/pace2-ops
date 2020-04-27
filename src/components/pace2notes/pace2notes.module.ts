@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
-import { IonicPageModule } from 'ionic-angular';
+import {  IonicModule } from 'ionic-angular';
 import { Pace2notesComponent } from './pace2notes';
 
 @NgModule({
     declarations: [Pace2notesComponent],
-    imports: [IonicPageModule.forChild(Pace2notesComponent)],
+    imports: [IonicModule],
     exports: [Pace2notesComponent],
     providers: []
 })
