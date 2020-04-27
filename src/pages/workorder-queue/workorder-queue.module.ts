@@ -4,7 +4,6 @@ import { WorkorderQueuePage } from './workorder-queue';
 import { pace2headerModule } from '../../components/pace2header/pace2headermodule';
 import { customselectModule } from '../../components/custom-select/custom-selectmodule';
 
-
 @NgModule({
   declarations: [
     WorkorderQueuePage,  
