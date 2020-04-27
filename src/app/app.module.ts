@@ -16,6 +16,7 @@ import { OdsServiceProvider } from '../providers/ods-service/ods-service';
 //import { FeedBackComponent } from '../components/feed-back/feed-back';
 import { AppVersion } from '@ionic-native/app-version';
 import { FeadBackModule } from '../components/feed-back/feed-bacm.module';
+import { NativeStorage } from '@ionic-native/native-storage';
 //import { pace2createnewserviceModule } from '../../components/pace2createnewservice/pace2createnewservice.module';
 //import { Pace2NotesModule } from '../components/pace2notes/pace2notes.module';
 //import { Pace2deleteModule } from '../../components/pace2delete/pace2delete.module';
@@ -52,7 +53,8 @@ import { FeadBackModule } from '../components/feed-back/feed-bacm.module';
     // FCM,
     AppVersion,
     LoadingServiceProvider,
-    OdsServiceProvider
+    OdsServiceProvider,
+    NativeStorage
   ]
 })
 export class AppModule {}

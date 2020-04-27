@@ -59,7 +59,7 @@ export class OdsServiceProvider {
        // GetDashboardSites
         let body=`{"strSearchString":"<Info><type>`+logType+`</type><eid>`+empid+`</eid></Info>"}`;
         return this.http.post(this.appconst.ApiUrl + "GetDashboardSites/" ,body,options)
-        .map((res: Response) => res);
+        .map((res: Response) => res.json());
     
       }
 

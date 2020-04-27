@@ -4,6 +4,7 @@ import { DatabaseProvider } from '../../providers/database/database';
 import { OdsServiceProvider } from '../../providers/ods-service/ods-service';
 import { PaceEnvironment } from '../../common/PaceEnvironment';
 import { LoadingServiceProvider } from '../../providers/loading-service/loading-service';
+import { NativeStorage } from '@ionic-native/native-storage';
 
 /**
  * Generated class for the HomePage page.
@@ -23,6 +24,7 @@ export class HomePage {
   dlrname: string = "";
   dealersiteId: any;
   empid: any = "";
+  emplogtype:any;
   empresult: any = [];
   emplog: any;
   sitecount: any = "";
@@ -35,7 +37,8 @@ export class HomePage {
     public modalctrl: ModalController,
     public platform: Platform, private events: Events,
     private loadingSrv: LoadingServiceProvider,
-    public navController: NavController) {
+    public navController: NavController,
+    private storage:NativeStorage) {
     if (platform.is('ios')) {
       this.platform_dlrarrow = true;
       this.platform_dlrlbl = true;
@@ -51,6 +54,7 @@ export class HomePage {
       this.empid = res[0].EmpId;
       this.dlrname = res[0].SiteTitle;
       this.sitenumber = res[0].SiteNumber;
+      this.emplogtype=res[0].LogType;
       if (this.dlrname.length > 26) {
         this.dlrname = this.dlrname.substring(0, 26) + "..";
       }
@@ -65,7 +69,6 @@ export class HomePage {
           this.events.publish('permission:Y');
           this.access_permission = "Y";
         }
-
         else {
           this.events.publish('permission:N');
           this.access_permission = "N";
@@ -79,14 +82,27 @@ export class HomePage {
   getSiteInfo(empid, logType) {
     this.appconst.sitetartLoading();
     this.odsservice.GetEmployeeSiteInfo(empid, logType).subscribe((data) => {
-       
+      let site=[]
       if (data.status == 200) {
         let value = data.json();
-        // value=value.filter
-        value = value.filter((checkStatus) => {
-          return checkStatus.siteStatus === 'Y';
-        });
-        console.log('site data', value)
+        for (let i = 0; i < value.length; i++) {
+          if (value[i].siteStatus === 'Y') {
+            let status: boolean = false
+            if (value[i].siteId == this.dealersiteId) {
+              status = true;
+            }
+            site.push({
+              "siteId": value[i].siteId,
+              "siteTitle": value[i].siteTitle,
+              "siteLogo": value[i].siteLogo,
+              "siteNumber": value[i].siteNumber,
+              "status": status
+            })
+          }
+        }
+          
+      this.storage.setItem("siteinfo", site).then(()=>{});
+          console.log('site data', value)
         // value[i].siteStatus === 'Y'
         if (value.length > 0) {
 
@@ -164,30 +180,10 @@ export class HomePage {
   }
 
   changeSite() {
-    let site = [];
-    this.appconst.startLoading();
-
-    this.odsservice.GetEmployeeSiteInfo(this.empresult.EmpId, this.empresult.LogType).subscribe((data) => {
-
-      let value = data.json();
-      for (let i = 0; i < value.length; i++) {
-        if (value[i].siteStatus === 'Y') {
-          let status: boolean = false
-          if (value[i].siteId == this.dealersiteId) {
-            status = true;
-          }
-          site.push({
-            "siteId": value[i].siteId,
-            "siteTitle": value[i].siteTitle,
-            "siteLogo": value[i].siteLogo,
-            "siteNumber": value[i].siteNumber,
-            "status": status
-          })
-        }
-
-      }
-      // this.appconst.stopLoading();
-      let modal = this.modalctrl.create('page-sitesearch', { 'Data': site });
+    this.storage.getItem("siteinfo").then((data) => {
+      console.log("Loading Data :", data);
+  if(data.length>0){
+      let modal = this.modalctrl.create('page-sitesearch', { 'Data': data });
       modal.present();
 
       modal.onDidDismiss((data) => {
@@ -252,7 +248,12 @@ export class HomePage {
 
         }
       })
-    })
+    } 
+    else
+    {
+      this.getSiteInfo(this.empid,this.emplogtype.trim());
+    }
+    },error=>{ this.getSiteInfo(this.empid,this.emplogtype.trim());})
   }//end for changeSite()
 
 
