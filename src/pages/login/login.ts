@@ -7,6 +7,7 @@ import { DatabaseProvider } from '../../providers/database/database'
 import { OdsServiceProvider } from '../../providers/ods-service/ods-service';
 import { LoadingServiceProvider } from '../../providers/loading-service/loading-service';
 import { AppVersion } from '@ionic-native/app-version';
+import { NativeStorage } from '@ionic-native/native-storage';
 
 /**
  * Generated class for the LoginPage page.
@@ -35,7 +36,8 @@ export class LoginPage {
      , private odsservice: OdsServiceProvider, 
      public loadingSrv: LoadingServiceProvider, 
     public menu: MenuController,
-    private appVersion: AppVersion
+    private appVersion: AppVersion,
+    private storage:NativeStorage
   ) {
     this.menu.enable(false);
     this.keepmeloggedin.selected = true;
@@ -90,6 +92,7 @@ export class LoginPage {
              
                // this.odsservice.SendFCMToken(data[0].userId, this.db.fcmtoken, this.db.ipAddress).subscribe(result => {
                //   console.log("Added Token::", result.json());
+               this.storage.setItem('userlist',[]).then();
                  loader.dismiss();
                  this.navCtrl.setRoot("home-page");
                // })

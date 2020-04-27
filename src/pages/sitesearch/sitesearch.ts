@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, ViewController, Platform, NavParams } from 'ionic-angular';
 import { PaceEnvironment } from '../../common/PaceEnvironment';
+import { NativeStorage } from '@ionic-native/native-storage';
 
 
 
@@ -18,7 +19,10 @@ export class SitesearchPage {
   selectedItem:any=[];
   platform_tabclass:boolean=false;
   hide_buttons:string='N';
-  constructor(public navParams: NavParams,public viewctrl:ViewController,public alert:PaceEnvironment,platform:Platform) {
+  constructor(public navParams: NavParams,
+    public viewctrl:ViewController,
+    public alert:PaceEnvironment,platform:Platform,
+    private storage:NativeStorage) {
      if(platform.is('ios'))
      {
        this.platform_tabclass=true;
@@ -56,6 +60,7 @@ export class SitesearchPage {
     this.selectedItem=[];
     this.selectedItem=item;
     this.hide_buttons='N';
+    this.storage.setItem('userlist',[]).then();
  }
   closeModal()
   {

@@ -85,7 +85,7 @@ export class HomePage {
       let site=[]
      // if (data.status == 200) {
       console.log("site raw info"+data)
-        let value = data.result.json();
+        let value = JSON.parse(data[0].result);
         console.log("sites info"+data);
         for (let i = 0; i < value.length; i++) {
           if (value[i].siteStatus === 'Y') {
@@ -182,6 +182,7 @@ export class HomePage {
   }
 
   changeSite() {
+    
     this.storage.getItem("siteinfo").then((data) => {
       console.log("Loading Data :", data);
   if(data.length>0){
@@ -194,6 +195,7 @@ export class HomePage {
 
         }
         else {
+          this.appconst.startLoading();
           this.dealersiteId = data.sitesearchresult.siteId;
           this.dlrname = data.sitesearchresult.siteTitle;
           this.sitenumber = data.sitesearchresult.siteNumber;

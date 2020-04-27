@@ -77,9 +77,19 @@ export class WorkorderQueuePage {
       if (this.headerName.length > 15) {
         this.headerName = this.headerName.substring(0, 15) + "..";
       }
+      
+ this.storage.getItem('userlist').then(data =>{
+  console.log('data123',data)
+  this.employeeWorkOrderPermissionforactions();
+  if(data.length > 0){
+    this.empListModel = data;
+  }else{
+    this.getAssigmentlist();
+  }
+})
       //this.paceEnv.startLoading();
       //this.getAssigmentlist();
-      this.getWorkOrders('L');
+      
     });
     this.PageNo = this.navParams.get('itm');
     console.log('PageName.....', this.PageNo);
@@ -117,11 +127,10 @@ export class WorkorderQueuePage {
     // else{
     //   this.dataOptions.searchtext = searchText;
     // }
-    this.paceEnv.startLoading();
+   // this.paceEnv.startLoading();
     let searchOptions: string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>${this.dataOptions.pageNumber}</pageNumber><pageSize>${this.dataOptions.pageSize}</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>${this.dataOptions.searchtype}</searchtype><searchtext>${this.dataOptions.searchtext}</searchtext><searchstatus>${this.dataOptions.searchstatus}</searchstatus></Info>`.trim();
     this.OdsSvc.GetWorkOrderStatus(searchOptions).subscribe(Response => {
       console.log('getworkOrder Queue', Response);
-  this.paceEnv.stopLoading();
   if (Response.status === 200) {
     let body = JSON.parse(Response._body);
     //console.log(body);
@@ -193,9 +202,12 @@ export class WorkorderQueuePage {
           this.woqEmpty();
         }
         console.log('workorder end', this.workOrders,woCompeltedIndex);
-
+        this.paceEnv.stopLoading();
+  
       } else {
         this.woqEmpty();
+        this.paceEnv.stopLoading();
+  
       }
     }, (err) => {
       console.log('get order err', err);
@@ -368,9 +380,11 @@ export class WorkorderQueuePage {
             });
             this.infinitescrollactions(true, false, false);
             this.woqEmpty();
+            this.paceEnv.stopLoading();
           }
         } else {
           this.woqEmpty();
+          this.paceEnv.stopLoading();
         }
       }, (err) => {
         console.log('get order err', err);
@@ -445,20 +459,23 @@ export class WorkorderQueuePage {
       if (Response[0].result !== '') {
         let result = JSON.parse(Response[0].result);
         self.emplist = result[0].EMPLOYEES;
-        for(let i= 0; i <self.emplist.length; i++  ){
-        this.empListModel.push({name:self.emplist[i].NAME ,value:self.emplist[i].EID})
-        }
+        self.emplist.filter(item=>{
+          this.empListModel.push({name:item.NAME ,value:item.EID})
+        })
+        // for(let i= 0; i <self.emplist.length; i++  ){
+        // this.empListModel.push({name:self.emplist[i].NAME ,value:self.emplist[i].EID})
+        // }
 
-        this.empListModel.sort(function(a, b) {
-          var nameA = a.name.toUpperCase();
-          var nameB = b.name.toUpperCase();
-          return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
-      });
+      //   this.empListModel.sort(function(a, b) {
+      //     var nameA = a.name.toUpperCase();
+      //     var nameB = b.name.toUpperCase();
+      //     return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
+      // });
 
         console.log(this.empListModel);
         
-        self.employeeWorkOrderPermissionforactions();
-        return this.empListModel;
+      //  self.employeeWorkOrderPermissionforactions();
+        this.storage.setItem('userlist',this.empListModel).then(()=>{});
         //self.getWorkOrders();
       }
     }, (err) => {
