@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { TestPage } from './test';
+import { Pace2addserviceModule } from '../../components/pace2addservice/pace2addservice.module';
+
 //import {Pace2exceptionComponent} from '../../components/pace2exception/pace2exception';
 //import {Pace2addserviceComponent} from '../../components/pace2addservice/pace2addservice';
 //import {Pace2notesComponent} from '../../components/pace2notes/pace2notes';
@@ -14,7 +16,6 @@ import { pace2createnewserviceModule } from '../../components/pace2createnewserv
 import { customselectModule } from '../../components/custom-select/custom-selectmodule';
 //import { Pace2addserviceComponent } from '../../components/pace2addservice/pace2addservice';
 import { Pace2selectdeptModule } from '../../components/pace2selectdepartment/Pace2selectdepartment.module';
-//import { Pace2addserviceModule } from '../../components/pace2addservice/pace2addservice.module';
 
 @NgModule({
   declarations:[
@@ -34,6 +35,7 @@ import { Pace2selectdeptModule } from '../../components/pace2selectdepartment/Pa
   Pace2exceptionModule,
   //Pace2addserviceModule,
   Pace2selectdeptModule,
+  Pace2addserviceModule,
   ],
 })
 export class TestPageModule {}
