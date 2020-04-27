@@ -57,7 +57,7 @@ export class OdsServiceProvider {
   //      .map((res: Response) => res);
        // GetDashboardSites
         let body=`{"strSearchString":"<Info><type>`+logType+`</type><eid>`+empid+`</eid></Info>"}`;
-        return this.http.get(this.appconst.ApiUrl + "GetDashboardSites/" ,body,options)
+        return this.http.post(this.appconst.ApiUrl + "GetDashboardSites/" ,body,options)
         .map((res: Response) => res);
     
       }
