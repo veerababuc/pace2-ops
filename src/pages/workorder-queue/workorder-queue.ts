@@ -6,7 +6,7 @@ import { DatabaseProvider } from '../../providers/database/database';
 import { LoadingServiceProvider } from '../../providers/loading-service/loading-service';
 import moment from 'moment';
 import { FeedBackComponent } from '../../components/feed-back/feed-back';
-
+import { NativeStorage } from '@ionic-native/native-storage';
 
 /**
  * Generated class for the WorkorderQueuePage page.
@@ -66,7 +66,7 @@ export class WorkorderQueuePage {
     private loadingSrv: LoadingServiceProvider,
     public toastCtrl: ToastController,
     public changeDetectorRef:ChangeDetectorRef,
-    private zone: NgZone,) {
+    private zone: NgZone,private storage:NativeStorage) {
     this.db.getAllUsers().then(emdata => {
       console.log('emdata', emdata);
       this.dataOptions.siteid = emdata[0].SiteNumber;
