@@ -14,7 +14,7 @@ import { pace2createnewserviceModule } from '../../components/pace2createnewserv
 import { customselectModule } from '../../components/custom-select/custom-selectmodule';
 //import { Pace2addserviceComponent } from '../../components/pace2addservice/pace2addservice';
 import { Pace2selectdeptModule } from '../../components/pace2selectdepartment/Pace2selectdepartment.module';
-import { Pace2addserviceModule } from '../../components/pace2addservice/pace2addservice.module';
+//import { Pace2addserviceModule } from '../../components/pace2addservice/pace2addservice.module';
 
 @NgModule({
   declarations: [
@@ -31,8 +31,8 @@ import { Pace2addserviceModule } from '../../components/pace2addservice/pace2add
     pace2createnewserviceModule,
    Pace2NotesModule,
    Pace2deleteModule,
-  Pace2exceptionModule,
-  Pace2addserviceModule,
+  //Pace2exceptionModule,
+  //Pace2addserviceModule,
   Pace2selectdeptModule,
   ],
 })
