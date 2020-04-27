@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, MenuController, NavController, } from 'ionic-angular';
- import { Device } from '@ionic-native/device';
+import { Device } from '@ionic-native/device';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
- import { PaceEnvironment } from '../../common/PaceEnvironment';
- import { DatabaseProvider } from '../../providers/database/database'
- import { OdsServiceProvider } from '../../providers/ods-service/ods-service';
- import { LoadingServiceProvider } from '../../providers/loading-service/loading-service';
+import { PaceEnvironment } from '../../common/PaceEnvironment';
+import { DatabaseProvider } from '../../providers/database/database'
+import { OdsServiceProvider } from '../../providers/ods-service/ods-service';
+import { LoadingServiceProvider } from '../../providers/loading-service/loading-service';
 import { AppVersion } from '@ionic-native/app-version';
 
 /**

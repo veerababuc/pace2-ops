@@ -13,7 +13,7 @@ export class PaceEnvironment implements OnInit{
     public  Paceimg:any;
     public ipAddress:any="";
     public appVersion:any='0.0.1';
-
+    public SelectedSiteId:any;
 constructor( public alertController: AlertController,
     public loadingCtrl: LoadingController,
     public toastController: ToastController,

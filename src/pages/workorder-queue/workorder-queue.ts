@@ -30,7 +30,7 @@ export class WorkorderQueuePage {
   public NoImg: string = "../../assets/imgs/workorderqueue/no-user-image.png";
   public pageSize = 20;
   public dataOptions: any = {
-    siteid: 3269,
+    siteid: 0,
     pageNumber: 1,
     pageSize: 20,
     eid: 1,
@@ -78,7 +78,8 @@ export class WorkorderQueuePage {
         this.headerName = this.headerName.substring(0, 15) + "..";
       }
       //this.paceEnv.startLoading();
-      this.getAssigmentlist();
+      //this.getAssigmentlist();
+      this.getWorkOrders('L');
     });
     this.PageNo = this.navParams.get('itm');
     console.log('PageName.....', this.PageNo);
