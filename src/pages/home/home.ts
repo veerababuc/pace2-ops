@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, ModalController, Platform, Events, NavController } from 'ionic-angular';
+import { IonicPage, ModalController, Platform, Events, NavController, App } from 'ionic-angular';
 import { DatabaseProvider } from '../../providers/database/database';
 import { OdsServiceProvider } from '../../providers/ods-service/ods-service';
 import { PaceEnvironment } from '../../common/PaceEnvironment';
@@ -38,7 +38,8 @@ export class HomePage {
     public platform: Platform, private events: Events,
     private loadingSrv: LoadingServiceProvider,
     public navController: NavController,
-    private storage:NativeStorage) {
+    private storage:NativeStorage,
+    private app:App) {
     if (platform.is('ios')) {
       this.platform_dlrarrow = true;
       this.platform_dlrlbl = true;
@@ -265,23 +266,27 @@ export class HomePage {
   openPage(pageName: string,item) {
     let loader = this.loadingSrv.createLoader();
     if (pageName == 'page-createworkorder')
+    {
       if (this.access_permission != 'Y') {
         alert("You have no permissions to create work order");
         return false;
       }
+    }
+    else{
+    this.app.getActiveNav().setRoot("home-page", {itm:item})
+     }
+    // loader.present().then((value:any)=>{
+    //   this.navController.push(pageName,{itm:item}).then(val => {
+    //     loader.dismiss();
+    //   }).catch(err => {
+    //     console.log(err);
+    //     loader.dismiss();
+    //   });
+    // },err=>{
+    //   console.log(err);
       
-    loader.present().then((value:any)=>{
-      this.navController.push(pageName,{itm:item}).then(val => {
-        loader.dismiss();
-      }).catch(err => {
-        console.log(err);
-        loader.dismiss();
-      });
-    },err=>{
-      console.log(err);
-      
-    });
-    //console.log('hi');
+    // });
+    // //console.log('hi');
     
     
   }
