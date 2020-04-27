@@ -28,8 +28,8 @@ export class Pace2headerComponent {
 
   setheader() {
     this.db.getAllUsers().then(data => {
-      let empimg: any = this.appconst.Paceimg + "profile/profile.png";
-      if (data[0].Emplogo != "" && data[0].Emplogo != null) { empimg = this.appconst.Paceimg + "profile/" + data[0].Emplogo; }
+      let empimg: any ;
+            if (data[0].Emplogo != "" && data[0].Emplogo != null) { empimg = this.appconst.Paceimg + "profile/" + data[0].Emplogo; }
       this.emplogo = empimg;
       this.empname = data[0].Empname;
       if (this.empname.length > 13) {
