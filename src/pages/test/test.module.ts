@@ -9,7 +9,7 @@ import {Pace2addserviceComponent} from '../../components/pace2addservice/pace2ad
 import {Pace2selectdepartmentComponent} from '../../components/pace2selectdepartment/pace2selectdepartment';
 import { customselectModule } from '../../components/custom-select/custom-selectmodule';
 import { pace2createnewserviceModule } from '../../components/pace2createnewservice/pace2createnewservice.module';
-import { Pace2NotesModule } from '../../components/pace2notes/pace2notes.module';
+//import { Pace2NotesModule } from '../../components/pace2notes/pace2notes.module';
 import { Pace2deleteModule } from '../../components/pace2delete/pace2delete.module';
 
 @NgModule({
@@ -25,7 +25,8 @@ import { Pace2deleteModule } from '../../components/pace2delete/pace2delete.modu
     IonicPageModule.forChild(TestPage),
     customselectModule,
     pace2createnewserviceModule,
-    Pace2NotesModule,Pace2deleteModule
+   // Pace2NotesModule,
+   Pace2deleteModule
   ],
 })
 export class TestPageModule {}
