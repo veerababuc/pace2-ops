@@ -86,6 +86,9 @@ export class WorkorderQueuePage {
   }else{
     this.getAssigmentlist();
   }
+},error=>{
+  this.employeeWorkOrderPermissionforactions();
+this.getAssigmentlist();
 })
       //this.paceEnv.startLoading();
       //this.getAssigmentlist();
