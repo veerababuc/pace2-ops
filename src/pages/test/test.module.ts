@@ -12,6 +12,7 @@ import { Pace2exceptionModule } from '../../components/pace2exception/pace2excep
 import { Pace2deleteModule } from '../../components/pace2delete/pace2delete.module';
 import { pace2createnewserviceModule } from '../../components/pace2createnewservice/pace2createnewservice.module';
 import { customselectModule } from '../../components/custom-select/custom-selectmodule';
+import { Pace2addserviceComponent } from '../../components/pace2addservice/pace2addservice';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { customselectModule } from '../../components/custom-select/custom-select
     pace2createnewserviceModule,
    Pace2NotesModule,
    Pace2deleteModule,
-  Pace2exceptionModule
+  Pace2exceptionModule,
+  Pace2addserviceComponent
   ],
 })
 export class TestPageModule {}
