@@ -8,6 +8,7 @@ import { TestPage } from './test';
 //import {Pace2createnewserviceComponent} from '../../components/pace2createnewservice/pace2createnewservice';
 //import {Pace2selectdepartmentComponent} from '../../components/pace2selectdepartment/pace2selectdepartment';
 import { Pace2NotesModule } from '../../components/pace2notes/pace2notes.module';
+import { Pace2exceptionModule } from '../../components/pace2exception/pace2exception.module';
 //import { customselectModule } from '../../components/custom-select/custom-selectmodule';
 //import { pace2createnewserviceModule } from '../../components/pace2createnewservice/pace2createnewservice.module';
 //import { Pace2deleteModule } from '../../components/pace2delete/pace2delete.module';
@@ -26,7 +27,8 @@ import { Pace2NotesModule } from '../../components/pace2notes/pace2notes.module'
     //customselectModule,
     //pace2createnewserviceModule,
    Pace2NotesModule,
-  // Pace2deleteModule
+  // Pace2deleteModule,
+  Pace2exceptionModule
   ],
 })
 export class TestPageModule {}
