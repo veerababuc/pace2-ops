@@ -3,7 +3,7 @@ import { IonicPageModule } from 'ionic-angular';
 import { WorkorderQueuePage } from './workorder-queue';
 import { pace2headerModule } from '../../components/pace2header/pace2headermodule';
 import { customselectModule } from '../../components/custom-select/custom-selectmodule';
-import { NativeStorage } from '@ionic-native/native-storage';
+//import { NativeStorage } from '@ionic-native/native-storage';
 @NgModule({
   declarations: [
     WorkorderQueuePage,  
@@ -14,6 +14,6 @@ import { NativeStorage } from '@ionic-native/native-storage';
     customselectModule,
    
   ],
-  providers:[NativeStorage,]
+  providers:[]
 })
 export class WorkorderQueuePageModule {}
