@@ -229,8 +229,8 @@ this.getAssigmentlist();
     this.infinitescrollactions(false, true, false);
     this.dataOptions.pageNumber = 1;
     this.dataOptions.pageSize = this.pageSize;
-    //this.getWorkOrders();
-    this.getAssigmentlist();
+    this.getWorkOrders('L');
+    //this.getAssigmentlist();
   }
 
 
