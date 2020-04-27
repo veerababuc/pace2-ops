@@ -83,8 +83,10 @@ export class HomePage {
     this.appconst.sitetartLoading();
     this.odsservice.GetEmployeeSiteInfo(empid, logType).subscribe((data) => {
       let site=[]
-      if (data.status == 200) {
-        let value = data.json();
+     // if (data.status == 200) {
+      console.log("site raw info"+data)
+        let value = data.result.json();
+        console.log("sites info"+data);
         for (let i = 0; i < value.length; i++) {
           if (value[i].siteStatus === 'Y') {
             let status: boolean = false
@@ -172,7 +174,7 @@ export class HomePage {
           this.dealersiteId = 0;
           this.appconst.stopLoading();
         }
-      }
+      
     })
   }
   ionViewDidEnter() {
