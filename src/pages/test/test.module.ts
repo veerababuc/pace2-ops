@@ -33,7 +33,7 @@ import { Pace2addserviceModule } from '../../components/pace2addservice/pace2add
    Pace2deleteModule,
   Pace2exceptionModule,
   Pace2addserviceModule,
-  Pace2selectdeptModule
+  Pace2selectdeptModule,
   ],
 })
 export class TestPageModule {}
