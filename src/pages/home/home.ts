@@ -273,7 +273,7 @@ export class HomePage {
       }
     }
     else{
-    this.app.getActiveNav().setRoot("home-page", {itm:item})
+    this.navController.setRoot(pageName, {itm:item})
      }
     // loader.present().then((value:any)=>{
     //   this.navController.push(pageName,{itm:item}).then(val => {
