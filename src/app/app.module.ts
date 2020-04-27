@@ -17,7 +17,7 @@ import { OdsServiceProvider } from '../providers/ods-service/ods-service';
 import { AppVersion } from '@ionic-native/app-version';
 import { FeadBackModule } from '../components/feed-back/feed-bacm.module';
 //import { pace2createnewserviceModule } from '../../components/pace2createnewservice/pace2createnewservice.module';
-import { Pace2NotesModule } from '../components/pace2notes/pace2notes.module';
+//import { Pace2NotesModule } from '../components/pace2notes/pace2notes.module';
 //import { Pace2deleteModule } from '../../components/pace2delete/pace2delete.module';
 
 @NgModule({
@@ -31,7 +31,7 @@ import { Pace2NotesModule } from '../components/pace2notes/pace2notes.module';
     FeadBackModule,
    // pace2createnewserviceModule,
    // Pace2deleteModule,
-    Pace2NotesModule
+  //  Pace2NotesModule
    
   ],
   bootstrap: [IonicApp],
