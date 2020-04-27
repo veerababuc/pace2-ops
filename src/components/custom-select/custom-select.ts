@@ -100,7 +100,7 @@ export class CustomSelectComponent implements OnChanges {
     {
       setTimeout(()=>{
       let el=document.getElementById("Cust"+this.value+"");
-      el.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' })
+     // el.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' })
       });
     }
   }
