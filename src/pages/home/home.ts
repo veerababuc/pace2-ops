@@ -103,7 +103,7 @@ export class HomePage {
           }
         }
           
-      this.storage.setItem("siteinfo", site).then(()=>{});
+      this.storage.setItem("ops_siteinfo", site).then(()=>{});
           console.log('site data', value)
         // value[i].siteStatus === 'Y'
         if (value.length > 0) {
@@ -183,7 +183,7 @@ export class HomePage {
 
   changeSite() {
     
-    this.storage.getItem("siteinfo").then((data) => {
+    this.storage.getItem("ops_siteinfo").then((data) => {
       console.log("Loading Data :", data);
   if(data.length>0){
       let modal = this.modalctrl.create('page-sitesearch', { 'Data': data });

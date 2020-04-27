@@ -9,6 +9,7 @@ import { NetworkInterface } from '@ionic-native/network-interface';
 // import {FCM} from '@ionic-native/fcm';
 import { PaceEnvironment } from '../common/PaceEnvironment';
 import { AppVersion } from '@ionic-native/app-version';
+import { NativeStorage } from '@ionic-native/native-storage';
 @Component({
   templateUrl: 'app.html'
 })
@@ -21,7 +22,11 @@ export class MyApp {
   platform_menulist:boolean=false;
   appVersionData : any;
   constructor( private platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,
-     public db:DatabaseProvider, public app:App,private network:Network, public networkinteface:NetworkInterface,public ionicapp:IonicApp,
+     public db:DatabaseProvider,
+      public app:App,private network:Network,
+       public networkinteface:NetworkInterface,
+       public ionicapp:IonicApp,
+       private storage:NativeStorage,
     // public fcm:FCM,
     private appVersion: AppVersion,
     private appconst:PaceEnvironment, private events:Events,
@@ -169,6 +174,9 @@ export class MyApp {
       this.db.deleteUser().then((data)=>
      {
         this.user.Name="";
+        
+      this.storage.setItem('ops_userlist',[]).then();
+      this.storage.setItem('ops_siteinfo',[]).then();
         this.app.getActiveNav().setRoot("login-page");
      }
     
