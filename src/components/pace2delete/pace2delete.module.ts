@@ -4,7 +4,7 @@ import { Pace2deleteComponent } from './pace2delete';
 
 @NgModule({
     declarations: [Pace2deleteComponent],
-    imports: [],
+    imports: [IonicModule],
     exports: [Pace2deleteComponent],
     providers: []
 })
