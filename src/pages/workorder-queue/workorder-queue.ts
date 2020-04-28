@@ -316,7 +316,7 @@ this.getAssigmentlist();
   exceptionFixes(woid, deptname, deptid,index) {
     console.log('response exceptionFixes', this.workOrders, woid, deptname, deptid);
     let type = 'woexp';
-    let Modal = this.modalctrl.create('TestPage', { 'Data': woid, 'type': type, 'DeptName': deptname, 'DeptId': deptid }, { cssClass: "full-height-modal" });
+    let Modal = this.modalctrl.create('21', { 'Data': woid, 'type': type, 'DeptName': deptname, 'DeptId': deptid }, { cssClass: "full-height-modal" });
     Modal.onDidDismiss((data) => {
       this.paceEnv.startLoading();
       if(data == "Success"){

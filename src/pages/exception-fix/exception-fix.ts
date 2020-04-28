@@ -1,5 +1,5 @@
 import { Component,Input} from '@angular/core';
-import { ViewController ,ModalController, IonicPage} from 'ionic-angular';
+import { ViewController ,ModalController, IonicPage, NavParams} from 'ionic-angular';
 import { OdsServiceProvider } from '../../providers/ods-service/ods-service';
 import { PaceEnvironment } from '../../common/PaceEnvironment';
 import { DatabaseProvider } from '../../providers/database/database';
@@ -20,9 +20,10 @@ import { LoadingServiceProvider } from '../../providers/loading-service/loading-
   templateUrl: 'exception-fix.html',
 })
 export class ExceptionFixPage {
-  @Input() workid:any;
-  @Input() Depname:any;
-  @Input() Depid:any;
+   workid:any;
+   Depname:any;
+   Depid:any;
+   type:any;
   EmpId: any;
   ExpData: any;
   EmpList: any = [];
@@ -35,8 +36,14 @@ export class ExceptionFixPage {
   ExceptionFixes: any = [];
   NoImg: string = "";
   ImgUrl: any;
-  constructor(public loadcntrl: LoadingServiceProvider, private db:DatabaseProvider, public modalctrl: ModalController,private appconst: PaceEnvironment, public ViewCtrl: ViewController, public OdsService: OdsServiceProvider) {
-       
+  constructor(public loadcntrl: LoadingServiceProvider, 
+    private navParams:NavParams,
+    private db:DatabaseProvider, public modalctrl: ModalController,private appconst: PaceEnvironment, public ViewCtrl: ViewController, public OdsService: OdsServiceProvider) {
+    this.type = this.navParams.get('type');
+    this.workid = this.navParams.get('Data');
+    this.Depname = this.navParams.get('DeptName');
+   // this.wodid = this.navParams.get('WoDid');
+    this.Depid=this.navParams.get('deptid');
   }
   ngOnInit(){
     console.log('workOrderId....', this.workid);
