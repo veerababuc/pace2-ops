@@ -7,7 +7,7 @@
 </div>
 <div style="float:left;position: relative;width:50%;text-align:right;padding-top:4.5%" class="div2">
   <div style="display: inline-block !important;" >
-    <img src="assets/imgs/login/Pace_Logo.png" style="height:3rem"  />
+    <img src="assets/imgs/login/Pace_Logo.png" style="height:3rem" (click)="GotoHome()" />
     <p *ngIf="siteNameInHeader==true"
       style="color:#1264c4;margin:0px !important;font-weight: bolder;display:flex !important; justify-content: center !important;align-items: center !important;font-size: 1.5rem !important;">
       <strong>{{headerName}}</strong></p>
@@ -20,7 +20,8 @@
 
       <ion-avatar class="avatars">
         <img src="{{emplogo}}"
-        onError="this.src='../../assets/imgs/workorderqueue/no-user-image.png'">
+          onError="this.src='http://paceadmin.onsitedealersolutions.com/images/profile/profile.png'"
+         >
 
       </ion-avatar>
     </ion-item>

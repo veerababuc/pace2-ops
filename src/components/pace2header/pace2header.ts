@@ -4,7 +4,6 @@ import { PaceEnvironment } from '../../common/PaceEnvironment';
 import { Camera } from '@ionic-native/camera';
 import { ActionSheetController } from 'ionic-angular';
 import {  NavController } from 'ionic-angular';
-import { NativeStorage } from '@ionic-native/native-storage';
 @Component({
   selector: 'pace2header',
   templateUrl: 'pace2header.html'
@@ -21,25 +20,23 @@ export class Pace2headerComponent {
  
   base64string:string="";
 
-  constructor(public navCtrl: NavController,
-    private storage:NativeStorage,
-    private appconst:PaceEnvironment, private db:DatabaseProvider,public camera:Camera,public actionSheetController: ActionSheetController){
+  constructor(public navCtrl: NavController,private appconst:PaceEnvironment, private db:DatabaseProvider,public camera:Camera,public actionSheetController: ActionSheetController){
   
    this.setheader();
   
   }
 
   setheader() {
-    this.storage.getItem('OPS_UserData').then(data=>{
-            let empimg: any = "";
-      if (data.Emplogo != "" && data.Emplogo != null) { empimg = this.appconst.Paceimg + "profile/" + data.Emplogo; }
+    this.db.getAllUsers().then(data => {
+      let empimg: any ;
+            if (data[0].Emplogo != "" && data[0].Emplogo != null) { empimg = this.appconst.Paceimg + "profile/" + data[0].Emplogo; }
       this.emplogo = empimg;
       this.empname = data[0].Empname;
-      if (this.empname.length > 13 && this.empname!="") {
+      if (this.empname.length > 13) {
         this.empname = this.empname.substring(0, 12) + '..';
       }
       
-      this.emprole = data.Rolename;
+      this.emprole = data[0].Rolename;
     });
   }
   /**********************************************Camera Methods*************************************************************************** */
