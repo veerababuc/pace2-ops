@@ -1,0 +1,132 @@
+<!-- Generated template for the Pace2exceptionComponent component -->
+<div class="flex1">
+  <div  class="flexclass1">
+<ion-card>
+  <ion-card-header>
+      <ion-card-title>
+          <h2>Work Order Exception Details</h2>
+      </ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+      <ion-row class="main">
+          <ion-col col-6 class="vinp">
+              <ion-item>
+                  <div item-start class="vin">
+                      <ion-label>VIN:</ion-label>
+                      <p>{{ExceptionVin}}</p>
+                  </div>
+              </ion-item>
+          </ion-col>
+          <ion-col col-6>
+              <ion-item>
+                  <div item-start class="vin">
+                      <ion-label>Wo Number:</ion-label>
+                      <p>{{ExceptionWonum}}</p>
+                  </div>
+              </ion-item>
+          </ion-col>
+      </ion-row>
+      <ion-row>
+          <ion-col col-6>
+              <ion-item>
+                  <div item-start class="vin">
+                      <ion-label>Package:</ion-label>
+                      <p>{{ExceptionPack}}</p>
+                  </div>
+
+              </ion-item>
+          </ion-col>
+          <ion-col col-6>
+              <ion-item>
+                  <div item-start class="vin">
+                      <ion-label>Service Item:</ion-label>
+                      <p>{{ExceptionService}}</p>
+                  </div>
+              </ion-item>
+          </ion-col>
+      </ion-row>
+
+
+
+
+
+      <ion-item>
+          <div item-start class="exp">Exception:</div>
+          <p>{{ExceptionName}}</p>
+      </ion-item>
+      <ion-item>
+          <div item-start class="exp">Notes:</div>
+          <p>{{ExceptionNotes}}</p>
+      </ion-item>
+
+
+
+      <div>
+
+          <ion-card-title>
+              <h2>Exception Fixes</h2>
+          </ion-card-title>
+
+          <ion-scroll style="height:50px;" scrollX="true">
+              <ion-item style="overflow-x: auto;">
+                  <div item-start *ngFor="let item of ExceptionFixes"><button ion-button small
+                          [ngClass]=" item.CANFIX == 'Y' ? 'btnn' : 'btn' "
+                          (click)="item.CANFIX == 'Y'&& item.FCNAME != 'Delete' && item.FCNAME !='Process As Is' ? AddService('service',item.FCID): item.CANFIX == 'Y'&& item.FCNAME == 'Delete' ? Delete('delete'):item.CANFIX == 'Y'&& item.FCNAME =='Process As Is'? Process('process'):''">{{item.FCNAME}}</button>
+                  </div>
+              </ion-item>
+          </ion-scroll>
+
+
+      </div>
+      <div>
+          <ion-card-title>
+              <h2>Employees who can fix</h2>
+          </ion-card-title>
+          <div style="height: 13vh;overflow-y: scroll;position: relative;display: block;">
+              <ion-row style="position: absolute;overflow-y: scroll;min-height: 13vh !important;">
+                  <ion-col col-6 *ngFor="let item of EmpList">
+                      <ion-item class="imgitem">
+                          <ion-avatar item-start>
+                              <img [src]="item.IMAGE != '' ? ImgUrl+item.IMAGE : NoImg" class="imgs">
+                          </ion-avatar>
+
+                          <p><span class="lbtit">{{item.NAME}}</span>&nbsp;<span>
+                                  <ion-icon ios="ios-notifications" md="md-notifications" class="bellclass">
+                                  </ion-icon>
+                              </span></p>
+                      </ion-item>
+
+                  </ion-col>
+
+              </ion-row>
+              <!-- <ion-scroll style="min-height:14rem" scrollY="true">
+                  <ion-row>
+                      <ion-col col-6 *ngFor="let item of EmpList">
+                          <ion-item class="imgitem">
+                              <ion-avatar item-start>
+                                  <img [src]="item.IMAGE != '' ? ImgUrl+item.IMAGE : NoImg" class="imgs">
+                              </ion-avatar>
+
+                              <p><span class="lbtit">{{item.NAME}}</span>&nbsp;<span>
+                                      <ion-icon ios="ios-notifications" md="md-notifications" class="bellclass">
+                                      </ion-icon>
+                                  </span></p>
+                          </ion-item>
+
+                      </ion-col>
+
+                  </ion-row>
+              </ion-scroll> -->
+          </div>
+
+          <ion-row>
+              <ion-col col-5></ion-col>
+              <ion-col col-2><button ion-button small class="btn1" (click)="Cancel()">Cancel</button></ion-col>
+              <ion-col col-5></ion-col>
+          </ion-row>
+      </div>
+  </ion-card-content>
+</ion-card>
+</div>
+</div>
