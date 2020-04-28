@@ -51,7 +51,7 @@ wodataObj:any;
     // this.wodataObj = this.navParams.get('workOrderObj');
     // this.Type = this.navParams.get('type');
     // this.loggedEmp = this.navParams.get('logged');
-    console.log('TestPage  empid.....', this.Type,this.woid,this.wodataObj,this.NoteType,this.SId );
+    console.log(' TestPage  empid.....', this.Type,this.woid,this.wodataObj,this.NoteType,this.SId );
   }
 
   ionViewDidLoad() {
