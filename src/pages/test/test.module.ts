@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { TestPage } from './test';
-import { Pace2addserviceModule } from '../../components/pace2addservice/pace2addservice.module';
 
 //import {Pace2exceptionComponent} from '../../components/pace2exception/pace2exception';
 //import {Pace2addserviceComponent} from '../../components/pace2addservice/pace2addservice';
@@ -10,7 +9,6 @@ import { Pace2addserviceModule } from '../../components/pace2addservice/pace2add
 //import {Pace2createnewserviceComponent} from '../../components/pace2createnewservice/pace2createnewservice';
 //import {Pace2selectdepartmentComponent} from '../../components/pace2selectdepartment/pace2selectdepartment';
 import { Pace2NotesModule } from '../../components/pace2notes/pace2notes.module';
-import { Pace2exceptionModule } from '../../components/pace2exception/pace2exception.module';
 import { Pace2deleteModule } from '../../components/pace2delete/pace2delete.module';
 import { pace2createnewserviceModule } from '../../components/pace2createnewservice/pace2createnewservice.module';
 import { customselectModule } from '../../components/custom-select/custom-selectmodule';
@@ -32,10 +30,10 @@ import { Pace2selectdeptModule } from '../../components/pace2selectdepartment/Pa
     pace2createnewserviceModule,
    Pace2NotesModule,
    Pace2deleteModule,
-  Pace2exceptionModule,
-  Pace2addserviceModule,
+//  Pace2exceptionModule,
+ 
   Pace2selectdeptModule,
-  Pace2addserviceModule,
+
   ],
 })
 export class TestPageModule {}
