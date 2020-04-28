@@ -91,3 +91,22 @@ $searchbar-ios-input-placeholder-color: #454547 !important;
 
 @import "roboto";
 @import "noto-sans";
+@font-face {
+  font-family: 'helvetica-neue-regular';
+  src: url('../assets/fonts/helvetica-neue-regular.otf');
+}
+ 
+@font-face {
+  font-family: 'helvetica-neue-regular';
+  src: url('../assets/fonts/helvetica-neue-regular.ttf');
+}
+ 
+@font-face {
+  font-family: 'HelveticaNeueLTStd-Bd';
+  src: url('../assets/fonts/HelveticaNeueLTStd-Bd.otf');
+}
+ 
+@font-face {
+  font-family: 'HelveticaNeueLTStd-Md';
+  src: url('../assets/fonts/HelveticaNeueLTStd-Md.otf');
+}
