@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget AndroidVersion="20000" id="com.pllc.pace2emp" version="0.0.13" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget AndroidVersion="20" id="com.pllc.pace2emp" version="0.0.13" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>PACE2 OPS</name>
     <description>PACE2 OPS</description>
     <author email="apps@pllcsoftwaresolutions.com" href="https://pllcsoftwaresolutions.com/">PLLC App Team</author>
@@ -27,7 +27,7 @@
             <application android:networkSecurityConfig="@xml/network_security_config" />
             <application android:usesCleartextTraffic="true" />
         </edit-config>
-        
+
         <allow-navigation href="*" />
         <allow-intent href="market:*&#xA;" />
         <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
