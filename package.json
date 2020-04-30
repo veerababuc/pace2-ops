@@ -94,7 +94,6 @@
       "cordova-plugin-app-version": {},
       "cordova-plugin-nativestorage": {},
       "cordova-plugin-fcm-with-dependecy-updated": {}
-
     },
     "platforms": [
       "browser",
