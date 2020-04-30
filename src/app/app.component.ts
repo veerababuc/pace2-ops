@@ -6,7 +6,7 @@ import {App, IonicApp} from 'ionic-angular';
 import {DatabaseProvider } from '../providers/database/database';
 import { Network } from '@ionic-native/network';
 import { NetworkInterface } from '@ionic-native/network-interface';
-// import {FCM} from '@ionic-native/fcm';
+//import {FCM} from '@ionic-native/fcm';
 import { PaceEnvironment } from '../common/PaceEnvironment';
 import { AppVersion } from '@ionic-native/app-version';
 import { NativeStorage } from '@ionic-native/native-storage';
