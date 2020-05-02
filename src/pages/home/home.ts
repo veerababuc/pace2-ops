@@ -292,6 +292,25 @@ export class HomePage {
     
     
   }
+   setpermissions(){
+  this.odsservice.GetWOPermissionDetails(this.empid, this.dealersiteId).subscribe(response => {
+    if (response[0].result != "") {
+      let value = JSON.parse(response[0].result)[0];
+      console.log("Permission Response", value);
+      let create: any = "N"
+      if (value.Create.toUpperCase() == "Y") {
+        create = "Y";
+        this.access_permission = "Y";
+        this.events.publish('permission:Y');
+      }
+      else {
+        this.access_permission = "N";
+        this.events.publish('permission:N');
+      }
+    }
+  });
+  
+}
 
 }
 
