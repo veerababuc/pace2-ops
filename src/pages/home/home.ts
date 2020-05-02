@@ -66,15 +66,7 @@ export class HomePage {
         this.getSiteInfo(this.empid, this.empresult.LogType);
       }
       else {
-        if (res[0].Permission == "Y") {
-          this.events.publish('permission:Y');
-          this.access_permission = "Y";
-        }
-        else {
-          this.events.publish('permission:N');
-          this.access_permission = "N";
-        }
-
+        this.setpermissions();
       }
     });
 
