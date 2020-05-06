@@ -114,4 +114,5 @@
     <plugin name="cordova-plugin-fcm-with-dependecy-updated" spec="^2.4.0" />
     <engine name="browser" spec="5.0.4" />
     <engine name="android" spec="7.0.0" />
+     <uses-permission android:name="android.permission.CAMERA" />
 </widget>
