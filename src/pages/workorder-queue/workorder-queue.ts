@@ -96,7 +96,7 @@ this.getAssigmentlist();
       //this.getAssigmentlist();
       
     });
-    this.PageNo = this.navParams.get('item');
+    this.PageNo = this.navParams.data.item;
     console.log('PageName.....', this.PageNo);
     if(this.PageNo == 1){
     this.dataOptions.searchstatus = 'E';
