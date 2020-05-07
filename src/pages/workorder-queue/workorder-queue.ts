@@ -85,7 +85,6 @@ export class WorkorderQueuePage {
   this.employeeWorkOrderPermissionforactions();
   if(data.length > 0){
     this.empListModel = data;
-    
   }else{
     this.getAssigmentlist();
   }
