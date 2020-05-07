@@ -81,10 +81,11 @@ export class WorkorderQueuePage {
       }
       
  this.storage.getItem('ops_userlist').then(data =>{
-  console.log('data123',data)
+  //console.log('data123',data)
   this.employeeWorkOrderPermissionforactions();
   if(data.length > 0){
     this.empListModel = data;
+    
   }else{
     this.getAssigmentlist();
   }
