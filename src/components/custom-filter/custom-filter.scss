@@ -1,0 +1,66 @@
+page-custom-filter {
+    .item {
+        border: 1px solid #076bd0;
+    }
+    ion-content {
+        background: #ffffff !important;
+    }
+    ion-input,
+    ion-textarea {
+        border: 1px solid #076bd0;
+    }
+    ion-select {
+        border-bottom: none;
+        max-width: 99% !important;
+    }
+    #dataOpt_1 custom-select .md-select ul[role=listbox]{
+            top:13rem !important;
+            width:15rem !important;
+          }
+        
+          // #dataOpt_0 custom-select .md-select ul[role=listbox]{
+          //   top:63px !important;
+          // }
+        
+          
+          #dataOpt_0 custom-select .md-select ul[role=listbox]{
+            top:100px !important;
+          }
+          #dataOpt_0 custom-select .md-select{
+                background: url('../../assets/imgs/Dwn_arrw_black_new.png');
+                background-size: 12px;
+                background-position: calc(100% - 6px) center;
+                background-repeat: no-repeat;
+                background-position-y: 13px;
+                border:2px solid black;
+               // color: black;
+          }
+          #dataOpt_0  custom-select .md-select [type=button]{
+                color: #000000 !important;
+                padding: 4px;
+          }
+          #dataOpt_1 custom-select .md-select{
+            background: url('../../assets/imgs/Dwn_arrw_black_new.png');
+            background-size: 12px;
+            background-position: calc(100% - 6px) center;
+            background-repeat: no-repeat;
+            background-position-y: 13px;
+            border:2px solid black;
+           // color: black;
+      }
+      #dataOpt_1  custom-select .md-select [type=button]{
+            color: #000000 !important;
+            padding: 4px;
+      }
+      
+          
+          #dataOpt_2 custom-select .md-select ul[role=listbox]{
+            top:84px !important;
+          }
+          #dataOpt_2,  #dataOpt_0 custom-select .md-select [type=button]{
+            height:31px !important;
+          }
+          #dataOpt_1  custom-select .md-select [type=button]{
+            height:31px !important;
+         }
+}

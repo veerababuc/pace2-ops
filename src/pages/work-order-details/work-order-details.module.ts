@@ -1,17 +1,16 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { WorkorderQueuePage } from './workorder-queue';
+import { WorkOrderDetailsPage } from './work-order-details';
 import { pace2headerModule } from '../../components/pace2header/pace2headermodule';
 import { customselectModule } from '../../components/custom-select/custom-selectmodule';
 @NgModule({
   declarations: [
-    WorkorderQueuePage,  
+    WorkOrderDetailsPage,
   ],
   imports: [
-    IonicPageModule.forChild(WorkorderQueuePage),
+    IonicPageModule.forChild(WorkOrderDetailsPage),
     pace2headerModule,
     customselectModule
-   
   ],
 })
-export class WorkorderQueuePageModule {}
+export class WorkOrderDetailsPageModule {}

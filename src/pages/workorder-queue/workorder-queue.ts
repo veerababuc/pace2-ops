@@ -6,7 +6,7 @@ import { DatabaseProvider } from '../../providers/database/database';
 import { LoadingServiceProvider } from '../../providers/loading-service/loading-service';
 import moment from 'moment';
 import { FeedBackComponent } from '../../components/feed-back/feed-back';
-import { NativeStorage } from '@ionic-native/native-storage';
+
 
 /**
  * Generated class for the WorkorderQueuePage page.
@@ -30,7 +30,7 @@ export class WorkorderQueuePage {
   public NoImg: string = "../../assets/imgs/workorderqueue/no-user-image.png";
   public pageSize = 20;
   public dataOptions: any = {
-    siteid: 0,
+    siteid: 3269,
     pageNumber: 1,
     pageSize: 20,
     eid: 1,
@@ -66,9 +66,9 @@ export class WorkorderQueuePage {
     private loadingSrv: LoadingServiceProvider,
     public toastCtrl: ToastController,
     public changeDetectorRef:ChangeDetectorRef,
-    private zone: NgZone,private storage:NativeStorage) {
-
-      this.paceEnv.startLoading();
+    public modal:ModalController,
+    private tostcntrl:ToastController,
+    private zone: NgZone,) {
     this.db.getAllUsers().then(emdata => {
       console.log('emdata', emdata);
       this.dataOptions.siteid = emdata[0].SiteNumber;
@@ -79,24 +79,10 @@ export class WorkorderQueuePage {
       if (this.headerName.length > 15) {
         this.headerName = this.headerName.substring(0, 15) + "..";
       }
-      
- this.storage.getItem('ops_userlist').then(data =>{
-  //console.log('data123',data)
-  this.employeeWorkOrderPermissionforactions();
-  if(data.length > 0){
-    this.empListModel = data;
-  }else{
-    this.getAssigmentlist();
-  }
-},error=>{
-  this.employeeWorkOrderPermissionforactions();
-this.getAssigmentlist();
-})
       //this.paceEnv.startLoading();
-      //this.getAssigmentlist();
-      
+      this.getAssigmentlist();
     });
-    this.PageNo =this.navParams.data["itm"];
+    this.PageNo = this.navParams.get('itm');
     console.log('PageName.....', this.PageNo);
     if(this.PageNo == 1){
     this.dataOptions.searchstatus = 'E';
@@ -107,7 +93,7 @@ this.getAssigmentlist();
   empListModel:any[] = [];
   selectedEmpId:string = "0";
   selectOptions:true;
-  dataSearchModel=[{name:'Active Work Orders',value:'A'},{name:'Open',value:'O'},{name:'In-Progress',value:'I'},{name:'Completed',value:'C'},{name:'Exception Work Orders',value:'E'}];
+  
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad WorkorderQueuePage');
@@ -132,10 +118,12 @@ this.getAssigmentlist();
     // else{
     //   this.dataOptions.searchtext = searchText;
     // }
-   // this.paceEnv.startLoading();
+    //this.workOrders=[];
+    this.paceEnv.startLoading();
     let searchOptions: string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>${this.dataOptions.pageNumber}</pageNumber><pageSize>${this.dataOptions.pageSize}</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>${this.dataOptions.searchtype}</searchtype><searchtext>${this.dataOptions.searchtext}</searchtext><searchstatus>${this.dataOptions.searchstatus}</searchstatus></Info>`.trim();
     this.OdsSvc.GetWorkOrderStatus(searchOptions).subscribe(Response => {
       console.log('getworkOrder Queue', Response);
+  this.paceEnv.stopLoading();
   if (Response.status === 200) {
     let body = JSON.parse(Response._body);
     //console.log(body);
@@ -169,6 +157,7 @@ this.getAssigmentlist();
             this.workOrders.forEach((selectOd, odIndex) => {
               this.changeDetectorRef.detectChanges();
               this.selectedPackege(odIndex, selectOd.UniquePackeges[0]);
+              ///this.getPackages(odIndex)
 
             });
           });
@@ -198,7 +187,7 @@ this.getAssigmentlist();
             this.workOrders.forEach((selectOd, odIndex) => {
               this.changeDetectorRef.detectChanges();
               this.selectedPackege(odIndex, selectOd.UniquePackeges[0]);
-
+                 
             });
           });
 
@@ -207,17 +196,28 @@ this.getAssigmentlist();
           this.woqEmpty();
         }
         console.log('workorder end', this.workOrders,woCompeltedIndex);
-        this.paceEnv.stopLoading();
-  
+
       } else {
         this.woqEmpty();
-        this.paceEnv.stopLoading();
-  
       }
     }, (err) => {
       console.log('get order err', err);
       this.paceEnv.stopLoading();
       this.woqEmpty();
+    });
+  }
+
+  //Redirecting to work order details page
+  workOrderDetails(woDetails,indx){
+    let loader = this.loadingSrv.createLoader();
+    loader.present();
+    console.log('IN :',woDetails);
+    this.navCtrl.push('workDetails',{worDetails:woDetails,siteId : this.dataOptions.siteid, empId : this.dataOptions.eid,woIndx : indx}).then(val => {
+      
+      loader.dismiss();
+    }).catch(err => {
+      console.log(err);
+      loader.dismiss();
     });
   }
 
@@ -229,8 +229,13 @@ this.getAssigmentlist();
     this.infinitescrollactions(false, true, false);
     this.dataOptions.pageNumber = 1;
     this.dataOptions.pageSize = this.pageSize;
-    this.getWorkOrders('L');
-    //this.getAssigmentlist();
+    //this.getWorkOrders();
+    this.getAssigmentlist();
+  }
+  loadData()
+  {
+    this.workOrders=[];
+    this.getWorkOrders("L")
   }
 
 
@@ -385,11 +390,9 @@ this.getAssigmentlist();
             });
             this.infinitescrollactions(true, false, false);
             this.woqEmpty();
-            this.paceEnv.stopLoading();
           }
         } else {
           this.woqEmpty();
-          this.paceEnv.stopLoading();
         }
       }, (err) => {
         console.log('get order err', err);
@@ -464,31 +467,18 @@ this.getAssigmentlist();
       if (Response[0].result !== '') {
         let result = JSON.parse(Response[0].result);
         self.emplist = result[0].EMPLOYEES;
-        self.emplist.filter(item=>{
-          this.empListModel.push({name:item.NAME ,value:item.EID})
-        })
-        // for(let i= 0; i <self.emplist.length; i++  ){
-        // this.empListModel.push({name:self.emplist[i].NAME ,value:self.emplist[i].EID})
-        // }
-
-      //   this.empListModel.sort(function(a, b) {
-      //     var nameA = a.name.toUpperCase();
-      //     var nameB = b.name.toUpperCase();
-      //     return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
-      // });
-
+        for(let i= 0; i <self.emplist.length; i++  ){
+        this.empListModel.push({name:self.emplist[i].NAME,value:self.emplist[i].EID})
+        }
         console.log(this.empListModel);
         
-      //  self.employeeWorkOrderPermissionforactions();
-        this.storage.setItem('ops_userlist',this.empListModel).then(()=>{});
+        self.employeeWorkOrderPermissionforactions();
         //self.getWorkOrders();
       }
     }, (err) => {
       console.log('err', err);
     })
   }
-
-
 
   assigment(woservice,selectedEmpid, woindex, serviceindex, subWorkorder, subWoindex) {
     //let self = this;   
@@ -1021,6 +1011,70 @@ cloneGetWorkOrders(woIndex){
 
 }
 ///
+OpenDetails(itemWoDetails){
+
+}
+openCustomFilterModel(){
+ // let WoItem={'Title':this.siteTitle,'EmpId':this.empid,'SiteId':this.siteId}
+  let model=this.modal.create('page-customFilter',{'WoItem':""});
+//  model.present();
+  model.onDidDismiss(data => {
+    console.log(data);
+    if (data != undefined) {
+      this.dataOptions.searchstatus = data.searchby;
+      this.dataOptions.searchtype = data.searchtype;
+      this.dataOptions.searchtext = data.searchInput;
+        this.workOrders=[];
+      this.getWorkOrders('L')
+      //this.cust1omSeatchFilter(data.searchby, data.searchInput)
+      //this.selectedSection = "T";
+      //this.initalFunct();
+    }
+  });
+  model.present().then(val => {
+    //this.appconst.stopLoading();
+  }).catch(err => {
+    console.log(err);
+    //this.appconst.stopLoading();
+  });;
+ 
+}
+
+openExceptionFixesModel(woid, deptname, deptid,index){
+  let type = 'woexp';
+  let WoItem={'Data': woid, 'type': type, 'DeptName': deptname, 'DeptId': deptid }
+   let model=this.modal.create('exception-fixes',{'WoItem':WoItem});
+ //  model.present();
+   model.onDidDismiss(data => {
+     console.log(data);
+     if(data == "Success"){
+      setTimeout(() => {         
+        this.workOrders = [];
+        this.getWorkOrders("L");  
+        //this.cloneGetWorkOrders(index)
+      }, 2000);
+      this.paceEnv.stopLoading();
+    }else{
+      this.paceEnv.stopLoading();
+    }
+   });
+   model.present().then(val => {
+     //this.appconst.stopLoading();
+   }).catch(err => {
+     console.log(err);
+     //this.appconst.stopLoading();
+   });;
   
+ }
+presentToastCtrl(position : string) {
+  const toast = this.tostcntrl.create({
+    message: 'Go to Dashboard to change the site..!',
+    duration: 3000,
+    position: position
+  });
+  toast.present();
+}
+
+
   
 }

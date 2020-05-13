@@ -1,16 +1,23 @@
-<ion-menu [content]="content" persistent="true" >
-  <ion-content style="background-color:black;color:white">
-    <ion-list style="background:black;color:white;" [ngClass]="(platform_menulist==true)&& 'menu_list-ios' || 'menu_list-android'  " >
-        <button menuToggle ion-item *ngFor="let p of pages" (click)="openPage(p)" style="background:black;color:white;border-bottom:1px solid #2f2e2e" no-lines detail-none>
+<ion-menu [content]="content" persistent="true">
+    <ion-content style="background-color:black;color:white">
+        <ion-list style="padding:15% 0px 0px 8%;text-align: center">
+            <div menuToggle ion-item style="background:black;color:white;" no-lines detail-none>
+                <h4 style="color:white;text-align: center;font-size: 30px;">Hello!</h4>
+                <h4 style="color:white;text-align: center;font-size: 20px;margin-top: 10px;">{{appconst.empName}}</h4>
+                <h6 style="color:white;text-align: center;font-size: 18px;margin-top: 10px;">{{appconst.empRole}}</h6>
+            </div>
+        </ion-list>
+        <ion-list style="background:black;color:white;" [ngClass]="(platform_menulist==true)&& 'menu_list-ios' || 'menu_list-android'  ">
+            <button menuToggle ion-item *ngFor="let p of pages" (click)="openPage(p)" style="background:black;color:white;border-bottom:1px solid #2f2e2e" no-lines detail-none>
             <ion-icon name="{{p.name}}" style="background:transparent;color:#208cae"></ion-icon>&nbsp;&nbsp;{{p.title}}
         </button>
-        <button menuToggle ion-item (click)="Logout()" style="background:black;color:white;" no-lines detail-none>
+            <button menuToggle ion-item (click)="Logout()" style="background:black;color:white;" no-lines detail-none>
               <ion-icon name="log-out"  style="float:left"> </ion-icon>
-              &nbsp;&nbsp;Log out <span style="color:#208cae;font-size:1.5rem;float:right;margin:1px;">Ver:{{appVersionData}}</span>                   
+              &nbsp;&nbsp;Log out <span style="color:#208cae;font-size:1.5rem;float:right;margin:1px;">Ver: 1.0.4</span>                   
         </button>
-       
-    </ion-list>
-  </ion-content>
+
+        </ion-list>
+    </ion-content>
 </ion-menu>
 
 <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

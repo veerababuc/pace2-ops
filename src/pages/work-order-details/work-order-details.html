@@ -1,0 +1,253 @@
+<ion-header>
+    <ion-row style="padding:20px 10px 10px 10px ">
+        <ion-col style="padding:0px;" (click)="closeModal()">
+            <ion-buttons start style="float:left" *ngIf="float_button==false">
+                <button icon-only style="background:transparent;">
+              <ion-icon ios="ios-arrow-back" md="md-arrow-back" style="margin: 0px !important;padding: 0px !important;color:#afafaf;font-size: 3rem;"></ion-icon>
+              </button>
+            </ion-buttons>
+            <ion-label style="font-size:2rem;margin:0px;color:white;">Details</ion-label>
+        </ion-col>
+        <ion-col style="text-align: right;">
+            <ion-icon style="padding-right:10px;font-size: 2.8rem; " (click)="edit(worDetails,'edit')" name="ios-create-outline"></ion-icon>
+        </ion-col>
+    </ion-row>
+
+    <!-- 
+    <ion-row style="background-image: linear-gradient(to bottom right,#225ab4,#076bd0); " (click)="appconst.sitechangealert() ">
+        <ion-col style="padding:0px; ">
+            <ion-label style="font-size:2rem;padding:8px;margin:0px;padding-left:20px;color:white ">{{dlrname}}</ion-label>
+        </ion-col>
+    </ion-row> -->
+</ion-header>
+
+<ion-content>
+    <ion-fab right bottom *ngIf="float_button==true " color="primary ">
+        <button ion-fab (click)="closeModal() ">
+       <ion-icon ios="ios-arrow-back " md="md-arrow-back "></ion-icon>
+     </button>
+    </ion-fab>
+
+    <ion-row style="border-bottom:0.5px solid #d7d7d7 ">
+        <ion-col col-4>
+            <ion-label style="color:#208cfe ">VIN #</ion-label>
+        </ion-col>
+        <ion-col col-8 style="text-align:right ">
+            <ion-label *ngIf="vin !='' " style="color:white ">{{worDetails.VINID}}</ion-label>
+
+            <span *ngIf="vin=='' " style="text-align: right;padding-right:10px ">
+                <button ion-button small icon-start (click)="edit(worDetails,'edit')">
+                    <ion-icon name="create " style="font-size: 12px; "></ion-icon>
+                    Update Vin
+                </button>
+            </span>
+        </ion-col>
+    </ion-row>
+    <ion-row style="border-bottom:0.5px solid #d7d7d7 ">
+        <ion-col col-4>
+            <ion-label style="color:#208cfe ">STOCK #</ion-label>
+        </ion-col>
+        <ion-col col-8 style="text-align:right ">
+            <ion-label style="color:white ">{{worDetails.STOCKID}}</ion-label>
+        </ion-col>
+    </ion-row>
+
+    <ion-row style="border-bottom:0.5px solid #d7d7d7 ">
+        <ion-col col-4>
+            <ion-label style="color:#208cfe ">RO #</ion-label>
+        </ion-col>
+        <ion-col col-8 style="text-align:right ">
+            <ion-label style="color:white ">{{worDetails.RO}}</ion-label>
+        </ion-col>
+    </ion-row>
+    <ion-row style="border-bottom:0.5px solid #d7d7d7 ">
+        <ion-col col-4>
+            <ion-label style="color:#208cfe ">PO #</ion-label>
+        </ion-col>
+        <ion-col col-8 style="text-align:right ">
+            <ion-label style="color:white ">{{worDetails.PO}}</ion-label>
+        </ion-col>
+    </ion-row>
+    <ion-row style="border-bottom:0.5px solid #d7d7d7 ">
+        <ion-col col-4>
+            <ion-label style="color:#208cfe ">WO #</ion-label>
+        </ion-col>
+        <ion-col col-8 style="text-align:right ">
+            <ion-label style="color:white ">{{worDetails.WOID}}</ion-label>
+        </ion-col>
+    </ion-row>
+    <ion-row style="border-bottom:0.5px solid #d7d7d7 ">
+        <ion-col col-4>
+            <ion-label style="color:#208cfe ">DUE BY</ion-label>
+        </ion-col>
+        <ion-col col-8 style="text-align:right ">
+            <ion-label style="color:white ">{{worDetails.REQDATE}} {{worDetails.REQTIME}}</ion-label>
+            <!-- <ion-label style="color:white ">{{device}}</ion-label> -->
+        </ion-col>
+    </ion-row>
+    <ion-row style="border-bottom:0.5px solid #d7d7d7 ">
+        <ion-col col-4>
+            <ion-label style="color:#208cfe ">CREATED BY</ion-label>
+        </ion-col>
+        <ion-col col-8 style="text-align:right ">
+            <ion-label style="color:white ">{{worDetails.INSERTEDBYNAME}}</ion-label>
+            <ion-label style="color:white ">{{worDetails.CLIENTTS}}</ion-label>
+        </ion-col>
+    </ion-row>
+    <ion-row style="border-bottom:0.5px solid #d7d7d7 ">
+        <ion-col col-4>
+            <ion-label style="color:#208cfe ">REQUESTED BY</ion-label>
+        </ion-col>
+        <ion-col col-8 style="text-align:right ">
+            <ion-label style="color:white ">{{worDetails.REQUESTEDBYNAME}}</ion-label>
+            <ion-label style="color:white ">{{worDetails.REQDATE}} {{worDetails.REQTIME}}</ion-label>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col col-4>
+            <ion-label style="color:#208cfe ">APPROVED BY</ion-label>
+        </ion-col>
+        <ion-col col-8 style="text-align:right ">
+            <ion-label style="color:white ">{{(worDetails.APPROVEDBY == 0 || worDetails.APPROVEDBY == 'NA' || worDetails.APPROVEDBY == '') ? '-' : worDetails.APPROVEDBY}}</ion-label>
+            <ion-label style="color:white "> {{worDetails.APPROVETS}}</ion-label>
+        </ion-col>
+    </ion-row>
+
+    <ion-row style="margin:25px;border-bottom:2px solid white; " *ngIf="service_details?.length>0">
+    </ion-row>
+    <!--  ************************ Service Order Details- *************   -->
+
+    <ion-row *ngFor="let x of worDetails.UniquePackeges" style="background: white !important;border-top: 10px solid black;">
+        <ion-col style="margin:0px !important;padding:0px !important">
+            <ion-item-group style="background-color: #656262 !important">
+                <ion-item-divider style="color:white !important;font-size: 16px !important;font-weight: bold !important;">
+                    {{x.PACKAGENAME | uppercase}}
+                </ion-item-divider>
+            </ion-item-group>
+
+
+            <div *ngFor="let y of worDetails.WOSERVICES;let serviceindex=index; let last = last">
+                <ion-card *ngIf="x.SSIID == y.SSIID">
+                    <ion-card-header style="padding:0px;" [ngStyle]="{'background-color' : getColor(y.STATUS)}">
+                        <ion-row>
+                            <ion-col col-10>
+
+                                <p style="font-size: 16px !important;margin:3px" [ngClass]="{'ptextalign':true,'ptextsmallsize':true,'hasException':worDetails.HASEXCEPTION=='Y'}">
+                                    {{y.MASKNAME =="" ? y.SERVICEITEM : y.MASKNAME }}</p>
+
+                            </ion-col>
+
+                            <ion-col col-2 class="textcenter" (click)="NotesModal('notes',worDetails,'S',woIndx,y.WOSID)">
+                                <p style="text-align: right !important;padding-right: 14px;">
+                                    <ion-icon name="md-document" style="font-size:25px;color:white;margin-top: 6px;font-size: 20px;"></ion-icon>
+                                    <span *ngIf="getlength('S',worDetails.WONOTES,y.WOSID)>0" class="badge countNotes">
+                    {{getlength('S',worDetails.WONOTES,y.WOSID)}}</span>
+                                </p>
+                            </ion-col>
+                            <!-- <ion-col col-2 class="textcenter" (click)="NotesModal('notes',worDetails,'P',woIndx,y.WOSID)" *ngIf="y.WOSTYPE=='P'">
+                                <p>
+                                    <ion-icon name="md-document" style="float: left;color:white;margin-top: 8px;"></ion-icon>
+                                    <span class="badge countNotes" *ngIf="y.SERVICENOTECOUNT != 0">{{y.SERVICENOTECOUNT}}</span>
+                                </p>
+                            </ion-col> -->
+                        </ion-row>
+                    </ion-card-header>
+                    <ion-card-content style="padding:0px;border: 1px solid #c6c6c6 !important;" *ngIf="y.WOSTYPE=='S'">
+                        <ion-grid style="padding: 0px !important;margin: 0px !important;">
+                            <ion-row>
+                                <ion-col col-12 style="padding: 0px !important;margin: 0px !important;">
+                                    <ion-grid style="padding:0pc;margin:0px;">
+                                        <ion-row style="padding: 5px 0px 0px 5px !important;">
+                                            <ion-col col-4>
+                                                <ion-label style="font-weight: bold;margin:0px;color:#208cfe;float:left">Assigned To:</ion-label>
+                                            </ion-col>
+                                            <ion-col col-8>
+                                                <div *ngIf="y.ASSIGNMENTINFO?.length > 0">
+                                                    <ion-label style="margin:0px;color:black;float:left;padding-left:1%">{{y.ASSIGNMENTINFO[0].ASSIGNEDTONAME}} &nbsp;
+                                                        <span class="ptextsmallsize ptextalign">{{y.ASSIGNMENTINFO[0].ASSIGNEDDATE | date:'MM.dd.yy'}} {{y.ASSIGNMENTINFO[0].ASSIGNEDDATE | date:'h:mm a'}}</span>
+                                                    </ion-label>
+                                                </div>
+                                                <div *ngIf="y.ASSIGNMENTINFO?.length == 0">-</div>
+                                            </ion-col>
+                                        </ion-row>
+                                        <ion-row style="padding: 5px 0px 0px 5px !important;">
+                                            <ion-col col-4>
+                                                <ion-label style="font-weight: bold;margin:0px;color:#208cfe;float:left">Assigned By:</ion-label>
+                                            </ion-col>
+                                            <ion-col col-8>
+                                                <div *ngIf="y.ASSIGNMENTINFO?.length > 0">
+                                                    <ion-label style="margin:0px;color:black;float:left;padding-left:1%">{{y.ASSIGNMENTINFO[0].ASSIGNEDBYNAME}}</ion-label>
+                                                </div>
+                                                <div *ngIf="y.ASSIGNMENTINFO?.length == 0">-</div>
+                                            </ion-col>
+                                        </ion-row>
+                                        <ion-row style="padding: 5px 0px 0px 5px !important;">
+                                            <ion-col col-4>
+                                                <ion-label style="font-weight: bold;margin:0px;color:#208cfe;float:left">Status:</ion-label>
+                                            </ion-col>
+                                            <ion-col col-8 *ngIf="worDetails.VINID.length != 0">
+                                                <span style="color: #007bff !important;">
+                                                            {{y.STATUS=='O'?'OPEN':y.STATUS=='I'?'IN-PROGRESS':y.STATUS=='A'?'ACTIVE':y.STATUS=='C'?'COMPLETED':''}}
+                                                    </span>
+                                            </ion-col>
+                                        </ion-row>
+                                        <ion-row class="cardfooter" *ngIf="y.HASEXCEPTION=='N' && y.WOSTYPE=='S'" style="background: #cde6f7 !important;min-height: 35px !important;">
+                                            <div style="float:right;width: 100%;">
+
+
+                                                <!-- Complete -->
+                                                <ion-col col-2 *ngIf="(y.ASSIGNMENTINFO?.length > 0 && y.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid) && y.STATUS=='I'" style="text-align: right !important;">
+                                                    <div (click)="pickService(y,'',woIndx,serviceindex,'C')" stlye="padding-right: 15px !important;">
+                                                        <ion-icon name="checkmark-circle" style="color:green;font-size:25px !important"></ion-icon>
+                                                    </div>
+                                                </ion-col>
+
+                                                <!-- Cancel -->
+                                                <ion-col col-2 *ngIf="(y.ASSIGNMENTINFO?.length > 0 && y.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid) && y.STATUS=='I'">
+                                                    <div (click)="pickService(y,'',woIndx,serviceindex,'D')" style="text-align: center !important;">
+                                                        <ion-icon name="close-circle" color="dark" style="color:red;font-size:25px !important"></ion-icon>
+                                                    </div>
+                                                </ion-col>
+
+                                                <!-- Pickup -->
+                                                <ion-col col-2 *ngIf="(workOrderPermission?.PICKUP=='Y') && (y.ASSIGNMENTID == 0 || (y.ASSIGNMENTINFO?.length > 0 && y.ASSIGNMENTINFO[0].ASSIGNEDTO == dataOptions.eid)) && (y.STATUS=='A' || y.STATUS=='O')">
+                                                    <div (click)="pickService(y,'',woIndx,serviceindex,'P')" style="text-align: right;padding-right: 15px;">
+                                                        <ion-icon name="construct" color="dark" style="color: #488aff;font-size:23px !important"></ion-icon>
+                                                    </div>
+                                                </ion-col>
+
+                                                <!-- Assign to -->
+                                                <ion-col col-4 *ngIf="workOrderPermission?.ASSIGN == 'Y' && (y.STATUS=='A' || y.STATUS=='O') && worDetails.VINID.length != 0" style="text-align: right;padding-right: 15px;">
+                                                    <span style="color:black;position: fixed;margin-left: -49px !important;">Assign </span> &nbsp;
+                                                    <ion-icon name="add-circle" color="dark" style="color:green;font-size:23px !important"></ion-icon>
+                                                    <ion-select (ionChange)="empSelection(y,$event,woIndx,serviceindex)">
+                                                        <ion-option *ngFor="let x of empListModel" [value]="x.value" [selected]="y.ASSIGNMENTINFO?.length > 0 && y?.ASSIGNMENTINFO[0].ASSIGNEDTO == x.value">{{x.name}}</ion-option>
+                                                    </ion-select>
+                                                </ion-col>
+
+                                                <!-- Delete -->
+                                                <!-- <ion-col col-2 *ngIf="(y.INSERTEDBY == dataOptions.eid || workOrderPermission?.WODELETE == 'Y') && y.STATUS=='O'">
+                                                    <div (click)="pickService(y,'',woIndx,serviceindex,'N')" style="text-align: right">
+                                                        <ion-icon name="trash" color="dark" style="font-size:23px !important"></ion-icon>
+                                                    </div>
+                                                </ion-col> -->
+                                            </div>
+                                        </ion-row>
+                                        <ion-row *ngIf="worDetails.HASEXCEPTION=='Y' && y.EXCEPTIONTITLE!='' && y.WOSTYPE=='S'" style="background: #cde6f7 !important;text-align: right">
+                                            <ion-col>
+                                                <p style="font-weight: 500;color: black !important;text-align: left;font-size: 15px !important;">
+                                                    Exception Status : <span style="font-weight: 400;">{{y.EXCEPTIONTITLE}}</span>
+                                                </p>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                    </ion-card-content>
+
+                </ion-card>
+            </div>
+        </ion-col>
+    </ion-row>
+</ion-content>
