@@ -19,7 +19,7 @@ constructor( public alertController: AlertController,
     public toastController: ToastController,
     public alertCtrl: AlertController )
     {
-      this.ApiUrl="http://api.onsitepace2.com/api/";
+      this.ApiUrl="https://servapi.onsitedealersolutions.com/api/";
    //   Host: api.onsitepace2.com
       // this.ApiUrl="http://pace2api.onsitedealersolutions.com/api/";
       //this.ApiUrl="http://devpace2api.onsitedealersolutions.com/api/";
