@@ -35,8 +35,15 @@ export class Pace2headerComponent {
       if (this.empname.length > 13) {
         this.empname = this.empname.substring(0, 12) + '..';
       }
+
+      this.appconst.empName=this.empname;
       
       this.emprole = data[0].Rolename;
+
+      if (this.emprole.length > 13) {
+        this.emprole = this.emprole.substring(0, 12) + '..';
+      }
+      this.appconst.empRole=this.emprole;
     });
   }
   /**********************************************Camera Methods*************************************************************************** */
