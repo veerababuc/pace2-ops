@@ -14,6 +14,8 @@ export class PaceEnvironment implements OnInit{
     public ipAddress:any="";
     public appVersion:any='0.0.1';
     public SelectedSiteId:any;
+    public empName:any="";
+    public empRole:any="";
 constructor( public alertController: AlertController,
     public loadingCtrl: LoadingController,
     public toastController: ToastController,
