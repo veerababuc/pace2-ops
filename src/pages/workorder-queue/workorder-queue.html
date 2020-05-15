@@ -33,23 +33,25 @@
         <p style="color:red">No Data Found</p>
     </div>
     <div *ngIf="workOrders != 'No Data Found'">
-        <ion-card *ngFor="let item of workOrders;let i=index" (click)="OpenDetails(item)">
+        <ion-card *ngFor="let item of workOrders;let i=index">
 
 
-            <ion-row style="text-align: center;" class="background" (click)="workOrderDetails(item,i)">
-                <ion-col col-12 style="padding-bottom: 0px !important;font-size: 16px !important;">
+            <ion-row style="text-align: center;" class="background">
+                <ion-col col-2 (click)="exceptionFixes(item.WOID,item.DEPARTMENT,item.DEPTID,i)">
+                    <span style="font-size:18px;padding-left:5px;float:left" *ngIf="item.HASEXCEPTION=='Y'">
+                        <ion-icon name="md-warning" style="color:rgb(216, 66, 66)"></ion-icon>
+                    </span>
+                </ion-col>
+                <ion-col col-8 style="padding-bottom: 0px !important;font-size: 16px !important;" (click)="workOrderDetails(item,i)">
                     <ion-label>
-                        <span style="font-size:18px;padding-left:5px;float:left" *ngIf="item.HASEXCEPTION=='Y'">
-                            <ion-icon name="md-warning" style="color:rgb(216, 66, 66)"></ion-icon>
-                        </span>
-                        <span>VIN# :</span> &nbsp;<span>{{item.VINID}}</span>
-                        <span style="font-size:18px;padding-right:5px;float:right">
-                            <ion-icon name="ios-information-circle-outline"></ion-icon>
-                        </span>
+                        <span>VIN# :</span> &nbsp;{{item.VINID}}<br>
+                        <span style="font-size:11px;margin:3px">Due by : &nbsp;{{item.REQDATE}} @ {{item.REQTIME}}</span>
                     </ion-label>
                 </ion-col>
-                <ion-col col-12>
-                    <ion-label class="dueByClass"> <span>Due by :</span><span> &nbsp;{{item.REQDATE}} @ {{item.REQTIME}}</span> </ion-label>
+                <ion-col col-2 (click)="workOrderDetails(item,i)">
+                    <span style="font-size:18px;padding-right:5px;float:right">
+                        <ion-icon name="ios-information-circle-outline"></ion-icon>
+                    </span>
                 </ion-col>
             </ion-row>
 
@@ -114,11 +116,7 @@
                         </ion-col>
                         <ion-col col-9>
                             <!-- <ion-label class="labelColorBlue" style="float: left;">WO# : </ion-label> -->
-                            <ion-label class="labelColorGray">: {{item.WONUMBER}}
-
-
-                            </ion-label>
-
+                            <ion-label class="labelColorGray">: {{item.WONUMBER}}</ion-label>
                         </ion-col>
                         <ion-col col-3 style="">
                             <ion-label class="labelColorBlue">Packages</ion-label>

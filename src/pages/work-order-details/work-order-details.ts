@@ -315,8 +315,10 @@ export class WorkOrderDetailsPage {
         //self.getWorkOrders("L");
         self.workOrderPermission = Object.assign({}, result[0].WOPERMISSIONS[0]);        
       }
+      
     }, (err) => {
       console.log('err', err);
+      
     });
   }
 
