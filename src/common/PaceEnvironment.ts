@@ -16,6 +16,9 @@ export class PaceEnvironment implements OnInit{
     public SelectedSiteId:any;
     public empName:any="";
     public empRole:any="";
+        public woIndexUpdate:any="" ;
+        public woUpdateObj  :any="" ;
+        public woUpdateType :any="" ;
 constructor( public alertController: AlertController,
     public loadingCtrl: LoadingController,
     public toastController: ToastController,
