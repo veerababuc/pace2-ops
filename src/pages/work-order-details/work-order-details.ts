@@ -4,6 +4,7 @@ import { PaceEnvironment } from '../../common/PaceEnvironment';
 import { OdsServiceProvider } from '../../providers/ods-service/ods-service';
 import { DatabaseProvider } from '../../providers/database/database';
 import { LoadingServiceProvider } from '../../providers/loading-service/loading-service';
+import moment from 'moment';
 /**
  * Generated class for the WorkOrderDetailsPage page.
  *
@@ -29,6 +30,7 @@ export class WorkOrderDetailsPage {
   headerName    : any;
   emplogtype    : any = 'C';
   emplist       : any = [];
+  approveBtn    : boolean = false;
   
   addinfinitescroll   : boolean = false;
   infintescrollevent  : any;
@@ -97,6 +99,62 @@ export class WorkOrderDetailsPage {
   {
     this.viewctrl.dismiss();
   }
+
+  //Approve Work Order
+  ApproveClick(wo,i,approve){
+    let date = moment(new Date()).format('MM/DD/YYYY');////changed by Vishnu
+    let time = moment(new Date()).format('hh:mm A');////changed by Vishnu;
+    console.log(wo);
+    
+    let paramObj = {strWoId :wo.WOID,strApprovedBy:this.loggedEmp, strApprovedDt:date,strApprovedTime:time,strIPAddress:this.paceEnv.ipAddress }
+    console.log(paramObj);
+    //this.paceEnv.startLoading();
+    let loader = this.loadingSrv.createLoader();
+    loader.present();
+    this.OdsSvc.approveAdmin(paramObj).subscribe((approveData:any)=>{
+      loader.dismiss();
+      if(approveData[0].errorId > 0){
+        this.approveBtn = true;
+
+         //this.cloneGetWorkOrders(i);
+
+     
+        //this.paceEnv.stopLoading();
+      }   
+    },err=>{
+      loader.dismiss();
+    })
+  }
+
+
+  ////clone get workOrders
+cloneGetWorkOrders(woIndex){
+  //console.log(woObj);  
+    this.paceEnv.startLoading();
+    let searchOptions:string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>1</pageNumber><pageSize>5</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>WO</searchtype><searchtext>${this.worDetails.WONUMBER}</searchtext><searchstatus>${this.dataOptions.searchstatus}</searchstatus></Info>`.trim();
+    //let searchOptions: string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>${this.dataOptions.pageNumber}</pageNumber><pageSize>${this.dataOptions.pageSize}</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>${this.dataOptions.searchtype}</searchtype><searchtext>${this.workOrders[woIndex].WONUMBER}</searchtext><searchstatus>${this.dataOptions.searchstatus}</searchstatus></Info>`.trim();
+    
+    this.OdsSvc.GetWorkOrderStatus(searchOptions).subscribe(Response => {
+      console.log('getworkOrder Queue', Response);
+      this.paceEnv.stopLoading();
+      if (Response.status === 200) {
+        let body = JSON.parse(Response._body);
+        //console.log(body);
+
+        let result = JSON.parse(body[0].result);
+        console.log(result,'vt');
+        //this.worDetails = result[0];   
+       
+      } else {
+        //this.woqEmpty();
+      }
+    }, (err) => {
+      console.log('get order err', err);
+      this.paceEnv.stopLoading();
+     // this.woqEmpty();
+    });
+
+}
 
   //Edit VIN
   edit(wo, action) {

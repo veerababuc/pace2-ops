@@ -1073,5 +1073,13 @@ presentToastCtrl(position : string) {
 }
 
 
+//Getting Status Text
+getStatus(stus){
+  //console.log(stus);
+  if (stus == 'I') { return 'In Progress'; } 
+  else if (stus == 'A') { return 'Pending Approvals'; } 
+  else if (stus == 'C') { return 'Completed'; } 
+  else if (stus == 'O') { return 'Open'; }
+}
   
 }

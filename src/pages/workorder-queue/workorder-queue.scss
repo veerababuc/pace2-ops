@@ -1,4 +1,16 @@
 page-workorder-queue {
+    .wo_lftBorder_blue {
+        background-color: #599bb3 !important;
+    }
+    .wo_lftBorder_yellow {
+        background-color: #ffab23 !important;
+    }
+    .wo_lftBorder_green {
+        background-color: #44c767 !important;
+    }
+    .wo_lftBorder_greenone {
+        background-color: #44c767 !important;
+    }
     .footerBtns {
         padding: 0px !important;
         margin: 0px !important;
@@ -174,30 +186,6 @@ page-workorder-queue {
                 }
                 .item-cover {
                     height: unset !important;
-                }
-                .wo_lftBorder_blue {
-                    float: left !important;
-                    height: 100%!important;
-                    position: absolute!important;
-                    border-left: 3px solid #599bb3!important;
-                }
-                .wo_lftBorder_yellow {
-                    float: left!important;
-                    height: 100%!important;
-                    position: absolute!important;
-                    border-left: 3px solid #ffab23!important;
-                }
-                .wo_lftBorder_green {
-                    float: left!important;
-                    height: 100%!important;
-                    position: absolute!important;
-                    border-left: 3px solid #44c767!important;
-                }
-                .wo_lftBorder_greenone {
-                    float: left!important;
-                    height: 100%!important;
-                    position: absolute!important;
-                    border-left: 3px solid #44c767!important;
                 }
             }
             .cardfooter {
@@ -477,7 +465,7 @@ page-workorder-queue {
     }
     .background {
         //background-image: linear-gradient(to bottom right, #225ab4, #076bd0);
-        background-color: #365284 !important;
+        background-color: #263e69 !important;
         color: white !important;
         font-weight: bold;
     }
