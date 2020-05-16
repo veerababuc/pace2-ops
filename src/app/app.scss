@@ -10,14 +10,16 @@ ion-content{
    
 }
 .header
-{
-    background-color: black !important;
+{ /* background-color: black !important; */
     background-image: url("../assets/imgs/pace2header/pace2_header_bg.png") !important;
-    background-size: cover !important;
-    color: white;
+    /* background-size: cover !important; */
+    /* color: white; */
     background-repeat: no-repeat;
     min-height: 74px;
-    background-position: center;
+    background-position:  center center;
+    /* display: inline-block; */
+    /* width: 100%; */
+    /* background-size: cover; */
 }
 .toolbar-title.toolbar-title-md
 {
