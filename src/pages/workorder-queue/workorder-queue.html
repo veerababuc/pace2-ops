@@ -4,7 +4,7 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
-<ion-header [ngClass]="(platform_tabclass==true) && 'homeheaderclass-ios' || 'homeheaderclass-an'">
+<ion-header [ngClass]="(platform_tabclass==true)&& 'homeheaderclass-ios' || 'homeheaderclass-an'">
     <ion-row>
         <ion-col style="padding:0px;">
             <pace2header [siteNameInHeader]="false" [headerName]="headerName"></pace2header>
@@ -34,6 +34,7 @@
     </div>
     <div *ngIf="workOrders != 'No Data Found'">
         <ion-card *ngFor="let item of workOrders;let i=index">
+
 
             <ion-row style="height:8px;" [ngClass]="{'wo_lftBorder_blue' : item.ACTIVE == 'O','wo_lftBorder_yellow' : (item.ACTIVE == 'I' || item.ACTIVE == 'C') && item.ISCOMPLETED != 'Y','wo_lftBorder_green' : item.ACTIVE == 'C' && item.ISCOMPLETED == 'Y','wo_lftBorder_greenone' : item.ACTIVE == 'P' && item.ISCOMPLETED == 'P' }">
                 <ion-col>
@@ -67,6 +68,7 @@
                 </ion-col>
             </ion-row>
 
+            <!-- <img src="img/advance-card-bttf.png"> -->
 
             <ion-card-content (click)="workOrderDetails(item,i)" style="padding:0px !important">
                 <img src='{{item?.VININFO[0]?.IMAGE}}' onError="src='../../assets/imgs/car.png'">
@@ -83,8 +85,8 @@
                     <ion-label class="labelColorGray">: {{item.WONUMBER}}
 
                         <span style="float: right;color:red;font-weight: bold" *ngIf="item.APPROVALREQ == 'Y' && item.APPROVEDBY == 0">
-                             APPROVAL PENDING
-                        </span>
+                            APPROVAL PENDING
+                       </span>
                     </ion-label>
 
                 </ion-col>

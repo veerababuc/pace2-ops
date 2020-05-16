@@ -5,6 +5,7 @@ import { OdsServiceProvider } from '../../providers/ods-service/ods-service';
 import { DatabaseProvider } from '../../providers/database/database';
 import { LoadingServiceProvider } from '../../providers/loading-service/loading-service';
 import moment from 'moment';
+
 /**
  * Generated class for the WorkOrderDetailsPage page.
  *
@@ -100,8 +101,9 @@ export class WorkOrderDetailsPage {
     this.viewctrl.dismiss();
   }
 
-  //Approve Work Order
-  ApproveClick(wo,i,approve){
+
+   //Approve Work Order
+   ApproveClick(wo,i,approve){
     let date = moment(new Date()).format('MM/DD/YYYY');////changed by Vishnu
     let time = moment(new Date()).format('hh:mm A');////changed by Vishnu;
     console.log(wo);
@@ -116,9 +118,7 @@ export class WorkOrderDetailsPage {
       if(approveData[0].errorId > 0){
         this.approveBtn = true;
 
-         //this.cloneGetWorkOrders(i);
-
-     
+        this.cloneGetWorkOrders(i);     
         //this.paceEnv.stopLoading();
       }   
     },err=>{
@@ -142,8 +142,13 @@ cloneGetWorkOrders(woIndex){
         //console.log(body);
 
         let result = JSON.parse(body[0].result);
-        console.log(result,'vt');
+        console.log('Updated Work Order :',result);
         //this.worDetails = result[0];   
+
+        //Updated global variables for update view
+        this.paceEnv.woIndexUpdate = this.woIndx;
+        this.paceEnv.woUpdateObj   = this.worDetails;
+        this.paceEnv.woUpdateType  = 'Approve';
        
       } else {
         //this.woqEmpty();
