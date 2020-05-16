@@ -28,16 +28,19 @@
     </ion-list>
     </ion-col>
   </ion-row>
+
+  <ion-row  [hidden]=" this.hide_buttons=='Y'">
+    <ion-col>
+     <button ion-button (click)="closeModal()" block>Cancel</button>
+ </ion-col>
+ <ion-col>
+   <button ion-button (click)="saveSite()" block>Done</button>
+ </ion-col>
+
+</ion-row>
   </ion-content>
   <!-- <ion-footer style="background:white !important" *ngIf=" this.hide_buttons=='N'"  > -->
       <!-- <ion-footer [hidden]="this.hide_buttons=='N'"  > -->
 <ion-footer [hidden]=" this.hide_buttons=='Y'" style="background:white!important" no-border>
-    <ion-row  >
-      <ion-col>
-        <button ion-button (click)="saveSite()" block>Done</button>
-      </ion-col>
-      <ion-col>
-          <button ion-button (click)="closeModal()" block>Cancel</button>
-      </ion-col>
-    </ion-row>
+    
   </ion-footer>
