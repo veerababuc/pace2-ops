@@ -37,7 +37,7 @@
 
             <span *ngIf="vin=='' " style="text-align: right;padding-right:10px ">
                 <button ion-button small icon-start (click)="edit(worDetails,'edit')">
-                    <ion-icon name="create " style="font-size: 12px; "></ion-icon>
+                    <ion-icon name="create" style="font-size: 12px; "></ion-icon>
                     Update Vin
                 </button>
             </span>
@@ -117,7 +117,7 @@
 
             <span *ngIf="!approveBtn && (workOrderPermission?.APPROVE=='Y' && worDetails?.APPROVALREQ == 'Y' && worDetails?.APPROVEDBY =='0') && (worDetails?.ACTIVE == 'O' || worDetails?.ACTIVE == 'I' || worDetails?.ACTIVE == 'C')" style="text-align: right;padding-right:10px ">
                     <button ion-button icon-start (click)="ApproveClick(worDetails,woIndx,'Approve')">
-                        <ion-icon name="create " style="font-size: 12px; "></ion-icon>
+                        <ion-icon name="create" style="font-size: 12px; "></ion-icon>
                         Approve
                     </button>
             </span>
