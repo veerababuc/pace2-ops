@@ -66,30 +66,14 @@ export class MyApp {
 
   /****************************************************** */
     /*******************IPADRESS*********************************** */
-      this.networkinteface.getWiFiIPAddress().then((data:any)=>{
-        this.db.ipAddress=data.ip;
-        this.appconst.ipAddress=data.ip;
-      }).catch(err=>{
-        this.db.ipAddress="";
-        this.appconst.ipAddress="";
-        this.networkinteface.getCarrierIPAddress().then((data:any)=>{
-          this.db.ipAddress=data.ip;
-          this.appconst.ipAddress=data.ip;
-       })
-      })
-        
-      this.networkinteface.getCarrierIPAddress().then((data:any)=>{
-        this.db.ipAddress=data.ip;
-        this.appconst.ipAddress=data.ip;
-       }).catch(err=>{
-        this.db.ipAddress="";
-        this.appconst.ipAddress="";
-        this.networkinteface.getWiFiIPAddress().then((data:any)=>{
-          this.db.ipAddress=data.ip;
-          this.appconst.ipAddress=data.ip;
-        })
-      })
-      /****************************************************** */
+    this.db.getIP().subscribe((data:any)=>{
+      this.db.ipAddress=data.ip;
+      this.appconst.ipAddress=data.ip;
+      console.log('ip'+this.db.ipAddress);
+    },error=>{
+          console.log('error at ip addres');
+    });
+/****************************************************** */
        /************************NETWORK CHECK****************************** */
      
       let connct= this.network.onConnect().subscribe((data) => {

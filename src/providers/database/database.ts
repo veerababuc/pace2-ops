@@ -1,4 +1,4 @@
-import { Http } from '@angular/http';
+import { Http,Response } from '@angular/http';
 import { Injectable } from '@angular/core';
 import {SQLite,SQLiteObject} from '@ionic-native/sqlite';
 import { Platform } from 'ionic-angular';
@@ -210,5 +210,9 @@ this.db.executeSql(query,[siteid,sitelogo,sitetitle,sitecount,sitenumber,stockco
           })
   }
 
-
+  getIP(){
+    return this.http.get('https://jsonip.com/')
+    .map((res:Response)=>res.json())
+   }
+ 
 }
