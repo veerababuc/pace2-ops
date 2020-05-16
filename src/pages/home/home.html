@@ -6,7 +6,7 @@
 </ion-header>
 <ion-content scroll="false" [ngClass]="(platform_dlrlbl==true)&& 'dlradj-ios' || 'dlradj-an'" >
   
-  <ion-row style="background-image: linear-gradient(to bottom right,#225ab4,#076bd0);position: sticky;top: 0; z-index: 4;"  (click)="changeSite()"  *ngIf="sitecount>1" >
+  <ion-row style="border: 0.1px solid white;color: white;position: sticky;top: 0; z-index: 4;"  (click)="changeSite()"  *ngIf="sitecount>1" >
     <ion-col style="padding:10px;">
         <ion-label style="font-size:2rem;font-family: 'HelveticaNeueLTStd-Bd';float:left;" [ngClass]="(platform_dlrlbl==true)&& 'dlr_label-ios' || 'dlr_label-android'  ">{{dlrname}}</ion-label>
         <ion-icon name="arrow-dropdown" style="font-size:2rem;float:right;position:relative"  [ngClass]="(platform_dlrarrow==true)&& 'dlr_arrow-ios' || 'dlr_arrow-android'  "></ion-icon>
