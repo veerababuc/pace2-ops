@@ -1,38 +1,39 @@
-page-workorder-queue {
-    .wo_lftBorder_blue {
-        background-color: #599bb3 !important;
+page-work-order-details {
+    // .select {
+    //     padding: 5px 6px 3px 6px !important;
+    //     max-width: 100% !important;
+    //     // margin-top: 0.5rem !important;
+    //     color: #495057;
+    //     background-color: #fff;
+    //     background-clip: padding-box;
+    //     border: 1px solid #ced4da;
+    //     border-radius: .25rem;
+    // }
+    .card-md p {
+        font-size: 1.4rem !important;
+        font-weight: bold !important;
+        color: white !important;
     }
-    .wo_lftBorder_yellow {
-        background-color: #ffab23 !important;
+    .cardfooter ion-col {
+        float: right;
     }
-    .wo_lftBorder_green {
-        background-color: #44c767 !important;
+    .select-icon .select-icon-inner {
+        color: black !important;
+        top: 60% !important;
+        display: none !important;
     }
-    .wo_lftBorder_greenone {
-        background-color: #44c767 !important;
-    }
-    .footerBtns {
-        padding: 0px !important;
-        margin: 0px !important;
-        border-bottom: 2px solid white;
-        ion-col {
-            padding: 0px !important;
-            margin: 0px !important;
-            button {
-                padding: 0px !important;
-                margin: 0px !important;
-            }
-        }
+    .select-text {
+        display: none;
     }
     .select {
-        padding: 5px 6px 3px 6px !important;
-        max-width: 100% !important;
-        // margin-top: 0.5rem !important;
-        color: #495057;
-        background-color: #fff;
-        background-clip: padding-box;
-        border: 1px solid #ced4da;
-        border-radius: .25rem;
+        // max-width: none !important;
+        border: none !important;
+        position: absolute;
+        z-index: 100;
+        /* top: 0px; */
+        left: 72px;
+        bottom: -3px;
+        width: 100px !important;
     }
     .pagenation {
         background: white !important;
@@ -279,139 +280,144 @@ page-workorder-queue {
         // flex-flow: column;
         margin: 8px 5px;
     }
-    //   #empList custom-select .md-select [type=button]{
-    //     color: #000000 !important;
-    //     padding: 4px;
-    //   }
-    //    #empList_1  custom-select .md-select [type=button]{
-    //     color: #000000 !important;
-    //     padding: 4px;
-    //   }
-    //   #empList_ADMIN  custom-select .md-select [type=button]{
-    //     color: #000000 !important;
-    //     padding: 4px;
-    //   }
-    //   #empList_dealer  custom-select .md-select [type=button]{
-    //     color: #000000 !important;
-    //     padding: 4px;
-    //   }
-    //   #empList custom-select .md-select, #empList_1  custom-select .md-select, #empList_ADMIN custom-select .md-select, #empList_text custom-select .md-select, #empList_dealer custom-select .md-select {
-    //     border: 1px solid #000;
-    //   }
-    //   #empList_text custom-select .md-select [type=button]{
-    //     color: #000000 !important;
-    //     padding: 4px;
-    //   }
-    //   #empList_0 custom-select .md-select{
-    //     background: url('../../assets/imgs/Dwn_arrw_black_new.png');
-    //     background-size: 12px;
-    //     background-position: calc(100% - 6px) center;
-    //     background-repeat: no-repeat;
-    //     background-position-y: 13px;
-    //   }
-    //   #empList_1 custom-select .md-select{
-    //     background: url('../../assets/imgs/Dwn_arrw_black_new.png');
-    //     background-size: 12px;
-    //     background-position: calc(100% - 6px) center;
-    //     background-repeat: no-repeat;
-    //     background-position-y: 13px;
-    //   }
-    //   #empList custom-select .md-select{
-    //     background: url('../../assets/imgs/Dwn_arrw_black_new.png');
-    //     background-size: 12px;
-    //     background-position: calc(100% - 6px) center;
-    //     background-repeat: no-repeat;
-    //     background-position-y: 13px;
-    //   }
-    //   #empList_text custom-select .md-select{
-    //     background: url('../../assets/imgs/Dwn_arrw_black_new.png');
-    //     background-size: 12px;
-    //     background-position: calc(100% - 6px) center;
-    //     background-repeat: no-repeat;
-    //     background-position-y: 13px;
-    //   }
-    //  // #dataOpt_1 custom-select .md-select ul[role=listbox]{
-    //  //   top:84px !important;
-    // //  }
-    // #empList_1  custom-select .md-select ul
-    // {
-    //   top:10px;
+    #empList custom-select .md-select [type=button] {
+        color: #000000 !important;
+        padding: 4px;
+    }
+    #empList_1 custom-select .md-select [type=button] {
+        color: #000000 !important;
+        padding: 4px;
+    }
+    #empList_ADMIN custom-select .md-select [type=button] {
+        color: #000000 !important;
+        padding: 4px;
+    }
+    #empList_dealer custom-select .md-select [type=button] {
+        color: #000000 !important;
+        padding: 4px;
+    }
+    #empList custom-select .md-select,
+    #empList_1 custom-select .md-select,
+    #empList_ADMIN custom-select .md-select,
+    #empList_text custom-select .md-select,
+    #empList_dealer custom-select .md-select {
+        border: 1px solid #000;
+    }
+    #empList_text custom-select .md-select [type=button] {
+        color: #000000 !important;
+        padding: 4px;
+    }
+    #empList_0 custom-select .md-select {
+        background: url('../../assets/imgs/Dwn_arrw_black_new.png');
+        background-size: 12px;
+        background-position: calc(100% - 6px) center;
+        background-repeat: no-repeat;
+        background-position-y: 13px;
+    }
+    #empList_1 custom-select .md-select {
+        background: url('../../assets/imgs/Dwn_arrw_black_new.png');
+        background-size: 12px;
+        background-position: calc(100% - 6px) center;
+        background-repeat: no-repeat;
+        background-position-y: 13px;
+    }
+    #empList custom-select .md-select {
+        background: url('../../assets/imgs/Dwn_arrw_black_new.png');
+        background-size: 12px;
+        background-position: calc(100% - 6px) center;
+        background-repeat: no-repeat;
+        background-position-y: 13px;
+    }
+    #empList_text custom-select .md-select {
+        background: url('../../assets/imgs/Dwn_arrw_black_new.png');
+        background-size: 12px;
+        background-position: calc(100% - 6px) center;
+        background-repeat: no-repeat;
+        background-position-y: 13px;
+    }
+    // #dataOpt_1 custom-select .md-select ul[role=listbox]{
+    //   top:84px !important;
+    //  }
+    #empList_1 custom-select .md-select ul {
+        top: 10px;
+    }
+    #empList_dealer custom-select .md-select ul {
+        top: 10px;
+    }
+    #empList_ADMIN custom-select .md-select ul {
+        top: 10px;
+    }
+    #dataOpt_1 custom-select .md-select ul[role=listbox] {
+        top: 13rem !important;
+        width: 15rem !important;
+    }
+    // #dataOpt_0 custom-select .md-select ul[role=listbox]{
+    //   top:63px !important;
     // }
-    // #empList_dealer custom-select .md-select ul
-    // {
-    //   top:10px;
-    // }
-    // #empList_ADMIN custom-select .md-select ul
-    // {
-    //   top:10px;
-    // }
-    //   #dataOpt_1 custom-select .md-select ul[role=listbox]{
-    //     top:13rem !important;
-    //     width:15rem !important;
-    //   }
-    //   // #dataOpt_0 custom-select .md-select ul[role=listbox]{
-    //   //   top:63px !important;
-    //   // }
-    //   #dataOpt_0 custom-select .md-select ul[role=listbox]{
-    //     top:100px !important;
-    //   }
-    //   #dataOpt_2 custom-select .md-select ul[role=listbox]{
-    //     top:84px !important;
-    //   }
-    //   #dataOpt_2,  #dataOpt_0 custom-select .md-select [type=button]{
-    //     height:31px !important;
-    //   }
-    //   #dataOpt_1  custom-select .md-select [type=button]{
-    //     height:31px !important;
-    //   }
-    //   .veh2_brandname{
-    //     width: 100%;
-    //     font-size: 12px;
-    //     margin: 2% auto;
-    //     color: #333;
-    //     text-align: center;
-    //   }
-    //   //added by Vishnut
-    //   .rating {
-    //     float: left;
-    // }
-    // .rating:not(:checked) > input {
-    //   position: absolute;
-    //   top: -9999px;
-    //   clip: rect(0,0,0,0);
-    // }
-    // .rating:not(:checked) > label {
-    //   float: right;
-    //   width: 1em;
-    //   padding: .1em;
-    //   overflow: hidden;
-    //   white-space: nowrap;
-    //   cursor: pointer;
-    //   font-size: 145%;
-    //   line-height: 1.2;
-    //   color: #ddd;
-    //   background: none !important;
-    // }
-    // .rating:not(:checked) > label:before {
-    //     content: '★ ';
-    // }
-    // .rating > input[type=radio]:checked ~ label {
-    //   color: #f70;
-    // }
-    .countNotes {
-        // background-color: #1c5ebb;
-        color: #000;
-        font-size: 9px;
-        margin-left: 5px;
-        // margin-top: 1px;
-        margin-top: 0.2rem;
+    #dataOpt_0 custom-select .md-select ul[role=listbox] {
+        top: 100px !important;
+    }
+    #dataOpt_2 custom-select .md-select ul[role=listbox] {
+        top: 84px !important;
+    }
+    #dataOpt_2,
+    #dataOpt_0 custom-select .md-select [type=button] {
+        height: 31px !important;
+    }
+    #dataOpt_1 custom-select .md-select [type=button] {
+        height: 31px !important;
+    }
+    .veh2_brandname {
+        width: 100%;
+        font-size: 12px;
+        margin: 2% auto;
+        color: #333;
+        text-align: center;
+    }
+    //added by Vishnut
+    .rating {
+        float: left;
+    }
+    .rating:not(:checked)>input {
+        position: absolute;
+        top: -9999px;
+        clip: rect(0, 0, 0, 0);
+    }
+    .rating:not(:checked)>label {
         float: right;
-        border: 1px solid black;
+        width: 1em;
+        padding: .1em;
+        overflow: hidden;
+        white-space: nowrap;
+        cursor: pointer;
+        font-size: 145%;
+        line-height: 1.2;
+        color: #ddd;
+        background: none !important;
+    }
+    .rating:not(:checked)>label:before {
+        content: '★ ';
+    }
+    .rating>input[type=radio]:checked~label {
+        color: #f70;
+    }
+    .countNotes {
+        color: white;
+        font-size: 12px !important;
+        position: absolute;
+        z-index: 100;
+        float: left;
+        font-weight: bold !important;
+        top: 7px;
+        right: 7px;
+        width: 16px;
+        height: 16px;
+        padding: 1px;
     }
     .badge {
         display: inline-block;
         padding: .25em .4em;
-        font-size: 78%;
+        font-size: 58%;
         font-weight: 700;
         line-height: 1;
         text-align: center;
@@ -419,82 +425,5 @@ page-workorder-queue {
         vertical-align: baseline;
         border-radius: 1.25rem;
         transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-    }
-    .wordkOrderQ_Card {
-        // padding: 5px;box-shadow: none !important;-webkit-box-shadow: none !important;border-radius: 3px;margin: 6px 5px ;width: calc(100% - 8px);
-        width: calc(100% - 5%);
-    }
-    ion-content {
-        position: relative !important;
-        height: 100% !important;
-    }
-    .padding_one_px {
-        padding: 1px !important;
-    }
-    .wordkOrderQ_truncate {
-        max-width: 250px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-    .card-content {
-        font-size: 1.2rem !important;
-    }
-    .scroll-content {
-        position: absolute !important;
-        // top: 10rem !important;
-        margin-bottom: 0 !important;
-        //margin-top: 12rem !important;
-        margin-top: none !important;
-    }
-    .fixed-content {
-        margin: 0px !important;
-    }
-    .toolbar-background-md {
-        background: #7587a5 !important;
-    }
-    .label-md {
-        margin: unset;
-    }
-    .toolbar-md {
-        min-height: 6.6rem !important;
-    }
-    .toolbar-background-md {
-        background: #488aff !important;
-    }
-    .packageComma:after {
-        content: ',';
-        position: relative;
-        left: -1px;
-    }
-    .packageComma:last-child:after {
-        content: '';
-    }
-    .labelColorBlue {
-        color: #428bca;
-        font-weight: bold;
-    }
-    .labelColorGray {
-        color: #495057 !important;
-        font-size: 1.3rem !important;
-    }
-    ion-card {
-        // font-size: 1.3rem !important;
-        // border-radius: 1rem !important;
-        //background: #cccccc !important;
-        //border:2px solid #007bff !important; 
-    }
-    ion-item {
-        font-size: 1.3rem !important;
-    }
-    .background {
-        //background-image: linear-gradient(to bottom right, #225ab4, #076bd0);
-        background-color: #365284 !important;
-        color: white !important;
-        font-weight: bold;
-    }
-    .dueByClass {
-        color: white;
-        font-size: 1.2rem;
     }
 }

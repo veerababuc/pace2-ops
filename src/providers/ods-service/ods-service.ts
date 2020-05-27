@@ -8,6 +8,7 @@ import moment from 'moment';
 export class OdsServiceProvider {
   private canGoBack = true;
   http: any;
+  
   constructor(http: Http, public appconst: PaceEnvironment) {
     this.http = http;
   }
@@ -33,6 +34,13 @@ export class OdsServiceProvider {
 
 
 
+  // UpdateWorkOrder(obj: any) {
+  //   let options = new RequestOptions({ headers: this.appconst.headers });
+  //   let body = obj;
+  //   console.log(this.appconst.ApiUrl + "UpdateWorkOrderInfo", body, options)
+  //   return this.http.post(this.appconst.ApiUrl + "UpdateWorkOrderInfo", body, options)
+  //     .map((res: Response) => res);
+  // }
 
   // GetEmployeeInformation(employeeid: any) {
   //   return this.http.get(this.appconst.ApiUrl + "EmployeeInformation/" + employeeid)
@@ -47,15 +55,34 @@ export class OdsServiceProvider {
 
 
  
+  // GetEmployeeSiteInfo(empid, logType) {
+  //   let options = new RequestOptions({ headers: this.appconst.headers })
+  //   if (logType == "C")
+  //     return this.http.get(this.appconst.ApiUrl + "SitesInformationXML/", options)
+  //       .map((res: Response) => res)
+  //   else
+  //     return this.http.get(this.appconst.ApiUrl + "EmployeeSitesInformationXML/" + empid, options)
+  //       .map((res: Response) => res)
+  // }
+
+
   GetEmployeeSiteInfo(empid, logType) {
-    let options = new RequestOptions({ headers: this.appconst.headers })
-    if (logType == "C")
-      return this.http.get(this.appconst.ApiUrl + "SitesInformationXML/", options)
-        .map((res: Response) => res)
-    else
-      return this.http.get(this.appconst.ApiUrl + "EmployeeSitesInformationXML/" + empid, options)
-        .map((res: Response) => res)
-  }
+    const header=this.setHeader();
+    let options = new RequestOptions({ headers: header });    
+    let body=`{"strSearchString":"<Info><type>`+logType+`</type><eid>`+empid+`</eid></Info>"}`;
+    return this.http.post(this.appconst.ApiUrl + "GetDashboardSites/" ,body,options)
+    .map((res: Response) => res.json());
+    
+    }
+
+    private setHeader(): Headers {
+      const headersConfig = new Headers();
+      headersConfig.append('Content-type', 'application/json');
+      headersConfig.append('Accept', 'application/json, text/plain, */*');
+      headersConfig.append('Pragma','no-cache');
+      headersConfig.append('Cache-Control','no-cache');
+      return headersConfig;
+    }
 
   GetStockPORODetails(siteid) {
     let options = new RequestOptions({ headers: this.appconst.headers })

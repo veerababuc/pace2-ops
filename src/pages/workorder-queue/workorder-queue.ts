@@ -66,6 +66,8 @@ export class WorkorderQueuePage {
     private loadingSrv: LoadingServiceProvider,
     public toastCtrl: ToastController,
     public changeDetectorRef:ChangeDetectorRef,
+    public modal:ModalController,
+    private tostcntrl:ToastController,
     private zone: NgZone,) {
     this.db.getAllUsers().then(emdata => {
       console.log('emdata', emdata);
@@ -91,10 +93,24 @@ export class WorkorderQueuePage {
   empListModel:any[] = [];
   selectedEmpId:string = "0";
   selectOptions:true;
-  dataSearchModel=[{name:'Active Work Orders',value:'A'},{name:'Open',value:'O'},{name:'In-Progress',value:'I'},{name:'Completed',value:'C'},{name:'Exception Work Orders',value:'E'}];
+  
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad WorkorderQueuePage');
+  }
+
+  ionViewDidEnter(){
+    console.log("ion View Did Enter ...!");
+
+    // this.paceEnv.woIndexUpdate = this.woIndx;
+    // this.paceEnv.woUpdateObj   = this.worDetails;
+    // this.paceEnv.woUpdateType  = 'Approve';
+    console.log("Call back Obj :", this.paceEnv.woUpdateObj);
+    var woInd = this.paceEnv.woIndexUpdate;
+    if(woInd > -1 && this.paceEnv.woUpdateObj){
+      //this.workOrders[woInd] = this.paceEnv.woUpdateObj;
+      this.workOrders[woInd].APPROVEDBY = this.dataOptions.eid;
+    }
   }
 
   expand(wo, i, serviceIndex, toggle) {
@@ -116,6 +132,7 @@ export class WorkorderQueuePage {
     // else{
     //   this.dataOptions.searchtext = searchText;
     // }
+    //this.workOrders=[];
     this.paceEnv.startLoading();
     let searchOptions: string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>${this.dataOptions.pageNumber}</pageNumber><pageSize>${this.dataOptions.pageSize}</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>${this.dataOptions.searchtype}</searchtype><searchtext>${this.dataOptions.searchtext}</searchtext><searchstatus>${this.dataOptions.searchstatus}</searchstatus></Info>`.trim();
     this.OdsSvc.GetWorkOrderStatus(searchOptions).subscribe(Response => {
@@ -154,6 +171,7 @@ export class WorkorderQueuePage {
             this.workOrders.forEach((selectOd, odIndex) => {
               this.changeDetectorRef.detectChanges();
               this.selectedPackege(odIndex, selectOd.UniquePackeges[0]);
+              ///this.getPackages(odIndex)
 
             });
           });
@@ -183,7 +201,7 @@ export class WorkorderQueuePage {
             this.workOrders.forEach((selectOd, odIndex) => {
               this.changeDetectorRef.detectChanges();
               this.selectedPackege(odIndex, selectOd.UniquePackeges[0]);
-
+                 
             });
           });
 
@@ -203,6 +221,20 @@ export class WorkorderQueuePage {
     });
   }
 
+  //Redirecting to work order details page
+  workOrderDetails(woDetails,indx){
+    let loader = this.loadingSrv.createLoader();
+    loader.present();
+    console.log('IN :',woDetails);
+    this.navCtrl.push('workDetails',{worDetails:woDetails,siteId : this.dataOptions.siteid, empId : this.dataOptions.eid,woIndx : indx}).then(val => {
+      
+      loader.dismiss();
+    }).catch(err => {
+      console.log(err);
+      loader.dismiss();
+    });
+  }
+
 
   search() {
    // this.paceEnv.startLoading();
@@ -213,6 +245,11 @@ export class WorkorderQueuePage {
     this.dataOptions.pageSize = this.pageSize;
     //this.getWorkOrders();
     this.getAssigmentlist();
+  }
+  loadData()
+  {
+    this.workOrders=[];
+    this.getWorkOrders("L")
   }
 
 
@@ -987,7 +1024,76 @@ cloneGetWorkOrders(woIndex){
     });
 
 }
-///
+
+openCustomFilterModel(){
+ // let WoItem={'Title':this.siteTitle,'EmpId':this.empid,'SiteId':this.siteId}
+  let model=this.modal.create('page-customFilter',{'WoItem':""});
+//  model.present();
+  model.onDidDismiss(data => {
+    console.log(data);
+    if (data != undefined) {
+      this.dataOptions.searchstatus = data.searchby;
+      this.dataOptions.searchtype = data.searchtype;
+      this.dataOptions.searchtext = data.searchInput;
+        this.workOrders=[];
+      this.getWorkOrders('L')
+      //this.cust1omSeatchFilter(data.searchby, data.searchInput)
+      //this.selectedSection = "T";
+      //this.initalFunct();
+    }
+  });
+  model.present().then(val => {
+    //this.appconst.stopLoading();
+  }).catch(err => {
+    console.log(err);
+    //this.appconst.stopLoading();
+  });;
+ 
+}
+
+openExceptionFixesModel(woid, deptname, deptid,index){
+  let type = 'woexp';
+  let WoItem={'Data': woid, 'type': type, 'DeptName': deptname, 'DeptId': deptid }
+   let model=this.modal.create('exception-fixes',{'WoItem':WoItem});
+ //  model.present();
+   model.onDidDismiss(data => {
+     console.log(data);
+     if(data == "Success"){
+      setTimeout(() => {         
+        this.workOrders = [];
+        this.getWorkOrders("L");  
+        //this.cloneGetWorkOrders(index)
+      }, 2000);
+      this.paceEnv.stopLoading();
+    }else{
+      this.paceEnv.stopLoading();
+    }
+   });
+   model.present().then(val => {
+     //this.appconst.stopLoading();
+   }).catch(err => {
+     console.log(err);
+     //this.appconst.stopLoading();
+   });;
   
+ }
+presentToastCtrl(position : string) {
+  const toast = this.tostcntrl.create({
+    message: 'Go to Dashboard to change the site..!',
+    duration: 3000,
+    position: position
+  });
+  toast.present();
+}
+
+
+//Getting Status Text
+getStatus(stus){
+  //console.log(stus);
+  if (stus == 'I') { return 'In Progress'; } 
+  else if (stus == 'A') { return 'Pending Approvals'; } 
+  else if (stus == 'C') { return 'Completed'; } 
+  else if (stus == 'O') { return 'Open'; }
+}
   
 }

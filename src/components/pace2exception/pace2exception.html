@@ -68,9 +68,10 @@
 
             <ion-scroll style="height:50px;" scrollX="true">
                 <ion-item style="overflow-x: auto;">
-                    <div item-start *ngFor="let item of ExceptionFixes"><button ion-button small
-                            [ngClass]=" item.CANFIX == 'Y' ? 'btnn' : 'btn' "
-                            (click)="item.CANFIX == 'Y'&& item.FCNAME != 'Delete' && item.FCNAME !='Process As Is' ? AddService('service',item.FCID): item.CANFIX == 'Y'&& item.FCNAME == 'Delete' ? Delete('delete'):item.CANFIX == 'Y'&& item.FCNAME =='Process As Is'? Process('process'):''">{{item.FCNAME}}</button>
+                    <div item-start *ngFor="let item of ExceptionFixes">
+                        <button ion-button small [ngClass]="item.CANFIX == 'Y' ? 'btnn' : 'btn'" (click)="item.CANFIX == 'Y' && item.FCNAME != 'Delete' && item.FCNAME !='Process As Is' ? AddService('service',item.FCID): item.CANFIX == 'Y' && item.FCNAME == 'Delete' ? Delete('delete'):item.CANFIX == 'Y'&& item.FCNAME =='Process As Is'? Process('process'):''">
+                            {{item.FCNAME}}
+                        </button>
                     </div>
                 </ion-item>
             </ion-scroll>
@@ -120,7 +121,9 @@
 
             <ion-row>
                 <ion-col col-5></ion-col>
-                <ion-col col-2><button ion-button small class="btn1" (click)="Cancel()">Cancel</button></ion-col>
+                <ion-col col-2>
+                    <button ion-button small outline color="danger" (click)="Cancel()">Cancel</button>
+                </ion-col>
                 <ion-col col-5></ion-col>
             </ion-row>
         </div>

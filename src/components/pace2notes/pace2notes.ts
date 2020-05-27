@@ -62,7 +62,7 @@ export class Pace2notesComponent {
    
   }
   GetwoData() {
-   
+   console.log("WoDetails :", this.Wodata);
     //this.NotesData = this.Wodata.WONOTES;
    this.Wosid = this.Wodata.WOSID;
    console.log(this.Wosid);

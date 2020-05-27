@@ -8,6 +8,7 @@ import { Network } from '@ionic-native/network';
 import { NetworkInterface } from '@ionic-native/network-interface';
 // import {FCM} from '@ionic-native/fcm';
 import { PaceEnvironment } from '../common/PaceEnvironment';
+import { AppVersion } from '@ionic-native/app-version';
 
 @Component({
   templateUrl: 'app.html'
@@ -19,7 +20,10 @@ export class MyApp {
   user:any={Name:"",Password:""}
   pages:Array<{title:string,component:any,name:string}>
   platform_menulist:boolean=false;
-  constructor( private platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,
+
+  appVersionData : any;
+
+  constructor(private appVersion: AppVersion,private platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,
      public db:DatabaseProvider, public app:App,private network:Network, public networkinteface:NetworkInterface,public ionicapp:IonicApp,
     // public fcm:FCM,
     private appconst:PaceEnvironment, private events:Events,
@@ -27,7 +31,9 @@ export class MyApp {
     private ionicApp: IonicApp,
     public menu: MenuController) {
     platform.ready().then(() => {
- 
+      
+      this.AppVersion(); //Getting App version 
+
       if(platform.is('ios'))
        {
           this.platform_menulist=true;
@@ -36,25 +42,6 @@ export class MyApp {
        {
          this.platform_menulist=false;
        }
-
-    /********FCM TOken********************************************** */
-    //   fcm.subscribeToTopic('all');
-    //   fcm.getToken().then((token)=>{
-    //      db.fcmtoken=token;
-    //  })
-    //  fcm.onNotification().subscribe((data)=>{
-    //    if(data.wasTapped)
-    //    {
-    //      console.log("received Notification");
-    //    }
-    //    else
-    //    {
-    //     console.log("received Notification foreground");
-    //    }
-    //  });
-    //  fcm.onTokenRefresh().subscribe((token)=>{
-    //      db.fcmtoken=token;
-    //  })
 
   /****************************************************** */
     /*******************IPADRESS*********************************** */
@@ -113,6 +100,10 @@ export class MyApp {
       console.log("User data",this.user)
      if(this.user.length>0)
       {
+
+        this.appconst.empName = this.user[0].Empname;
+        this.appconst.empRole = this.user[0].Rolename;
+        this.appconst.empProfileImage = this.user[0].Emplogo;
        
       if(this.user[0].Rem=="Y")
        {
@@ -150,10 +141,16 @@ export class MyApp {
       {title:"Work Order Queue",component:"page-workorderqueue", name:"WorkorderQueue"},
    ];
   });
-  
+    
 
+  }
 
-
+  //Getting App Version
+  AppVersion(){
+    this.appVersion.getVersionNumber().then((data) => {
+      console.log("App Version :",data);
+      this.appVersionData = data;
+    })
   }
    
   Logout()

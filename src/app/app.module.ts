@@ -14,6 +14,7 @@ import { NetworkInterface } from '@ionic-native/network-interface';
 import { LoadingServiceProvider } from '../providers/loading-service/loading-service';
 import { OdsServiceProvider } from '../providers/ods-service/ods-service';
 import { FeedBackComponent } from '../components/feed-back/feed-back';
+import { AppVersion } from '@ionic-native/app-version';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { FeedBackComponent } from '../components/feed-back/feed-back';
     Network,NetworkInterface,
     // FCM,
     LoadingServiceProvider,
-    OdsServiceProvider
+    OdsServiceProvider,
+    AppVersion
   ]
 })
 export class AppModule {}

@@ -79,14 +79,14 @@ export class HomePage {
   getSiteInfo(empid, logType) {
 
     this.odsservice.GetEmployeeSiteInfo(empid, logType).subscribe((data) => {
-
-      if (data.status == 200) {
-        let value = data.json();
+      console.log('site data 1', data);
+      if (data) {
+        let value = JSON.parse(data[0].result);
         // value=value.filter
         value = value.filter((checkStatus) => {
           return checkStatus.siteStatus === 'Y';
         });
-        console.log('site data', value)
+        console.log('site data', value);
         // value[i].siteStatus === 'Y'
         if (value.length > 0) {
 
@@ -156,8 +156,12 @@ export class HomePage {
           this.dealersiteId = 0;
         }
       }
-    })
+    }), (error) => {
+      this.appconst.stopLoading();
+    }
   }
+
+
   ionViewDidEnter() {
     this.appconst.CheckNetwork_Connection();
   }
@@ -168,7 +172,7 @@ export class HomePage {
 
     this.odsservice.GetEmployeeSiteInfo(this.empresult.EmpId, this.empresult.LogType).subscribe((data) => {
 
-      let value = data.json();
+      let value = JSON.parse(data[0].result);
       for (let i = 0; i < value.length; i++) {
         if (value[i].siteStatus === 'Y') {
           let status: boolean = false
@@ -251,7 +255,9 @@ export class HomePage {
 
         }
       })
-    })
+    }),(error) => {
+      this.appconst.stopLoading();      
+    }
   }//end for changeSite()
 
 

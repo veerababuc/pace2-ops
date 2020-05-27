@@ -13,13 +13,21 @@ export class PaceEnvironment implements OnInit{
     public  Paceimg:any;
     public ipAddress:any="";
     public appVersion:any='0.0.1';
+    public empName:any;
+    public empRole:any;
+    public empInfo : any;
+    public empProfileImage : any;
+    public woIndexUpdate = -1;
+    public woUpdateObj  : any;
+    public woUpdateType : any;
 
 constructor( public alertController: AlertController,
     public loadingCtrl: LoadingController,
     public toastController: ToastController,
     public alertCtrl: AlertController )
     {
-      this.ApiUrl="http://api.onsitepace2.com/api/";
+      //this.ApiUrl="http://api.onsitepace2.com/api/";
+      this.ApiUrl="https://servapi.onsitedealersolutions.com/api/";
       // this.ApiUrl="http://pace2api.onsitedealersolutions.com/api/";
       //this.ApiUrl="http://devpace2api.onsitedealersolutions.com/api/";
       // this.ApiUrl="http://paceadmin.onsitedealersolutions.com/ws/api/";
@@ -29,9 +37,9 @@ ngOnInit(){
  
 }
 
-addErrorMessage(msg) {
-    this.n_errorcount = this.n_errorcount + 1;
-    this.v_message =
+  addErrorMessage(msg) {
+      this.n_errorcount = this.n_errorcount + 1;
+      this.v_message =
       this.v_message + "(" + this.n_errorcount + ") " + msg + "<br/>";
   }
 

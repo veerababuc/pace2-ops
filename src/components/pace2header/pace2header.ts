@@ -32,6 +32,11 @@ export class Pace2headerComponent {
       if (data[0].Emplogo != "" && data[0].Emplogo != null) { empimg = this.appconst.Paceimg + "profile/" + data[0].Emplogo; }
       this.emplogo = empimg;
       this.empname = data[0].Empname;
+
+        this.appconst.empName = data[0].Empname;
+        this.appconst.empRole = data[0].Rolename;
+        this.appconst.empProfileImage = data[0].Emplogo;
+        
       if (this.empname.length > 13) {
         this.empname = this.empname.substring(0, 12) + '..';
       }
@@ -39,6 +44,8 @@ export class Pace2headerComponent {
       this.emprole = data[0].Rolename;
     });
   }
+
+
   /**********************************************Camera Methods*************************************************************************** */
   takepicture() {
     this.camera.getPicture({
