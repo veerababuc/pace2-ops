@@ -1,0 +1,183 @@
+page-create-workorder {
+  .scroll-content{
+    margin-top:120px !important;
+    -webkit-overflow-scrolling: unset !important;
+    background: white !important;
+  }
+    .rowpadding{
+        padding:2px 10px 2px 10px;
+    }
+    .tabclass{
+      background-image: url('../assets/imgs/create_workorder/crt_wrkord_img.png');
+    }
+  .timerclass .text-input-md
+  {
+    margin:8px 8px !important;
+  }
+  .timerclass{
+    padding:0px;
+    background:white;
+    color:black;
+    border:1px solid #d7d7d7;
+    border-radius:3px;
+  }
+    
+    .inputtxtclass
+    {
+        padding:0px;
+        background:white;
+        color:black;
+        border:1px solid #d7d7d7;
+        border-radius:3px;
+
+    }
+.inputtxtclass input{
+    // margin:8px;
+     text-transform: uppercase;
+     text-align:center;
+}
+
+
+    .buttonclass
+    {
+      background:linear-gradient(to bottom right,#225ab4,#076bd0);
+         padding:0px;
+    }
+
+    .QA_Info{
+      margin:auto;
+      padding:10px;
+    }
+    ul.info{
+      padding:0px;
+    }
+    ul.info li{
+      text-align:center;
+      border:1px solid grey;
+      color:black;
+      border-radius:3px;
+      display: inline-block;
+      padding:7px 10px 6px;
+      background:white;
+      font-family: 'HelveticaNeueLTStd-Bd';
+    }
+    .tabactive{
+      background:linear-gradient(to bottom right,#225ab4,#076bd0) !important;
+      color:white !important;
+      border:1px solid #076bd0 !important;
+    }
+    .tabinactive
+    {
+         background: white !important;
+         color:black !important;
+         border:1px solid #d7d7d7 !important; 
+    }
+
+    .packageactive{
+      background:linear-gradient(to bottom right,#225ab4,#076bd0) !important;
+      color:white !important;
+      border:1px solid #076bd0 !important;
+    }
+    .packageinactive
+    {
+         background: white !important;
+         color:black !important;
+         border:1px solid #d7d7d7 !important; 
+    }
+
+
+    .vehicleactive{
+      background:linear-gradient(to bottom right,#225ab4,#076bd0) !important;
+      color:white !important;
+      border:1px solid #076bd0 !important;
+    }
+    .vehicleinactive
+    {
+         background: white;
+         color:black !important;
+         border:1px solid #d7d7d7 !important; 
+    }
+    .vehiclepassive
+    {
+         background: #d7d7d7;
+         color:black !important;
+         border:1px solid #d7d7d7 !important; 
+    }
+    .vin_series_block
+    {
+      background:#e6eff5;
+      border:1px solid #b9cbde;
+
+    }
+
+    .buttonactive{
+      background:linear-gradient(to bottom right,#225ab4,#076bd0) !important;
+      color:white !important;
+      border:1px solid #076bd0 !important;
+    }
+    .buttoninactive
+    {
+      background: white !important;
+      color:black !important;
+      border:1px solid #d7d7d7 !important; 
+    }
+
+    .duebyactive{
+      background:linear-gradient(to bottom right,#225ab4,#076bd0) !important;
+      color:white !important;
+      border:1px solid #076bd0 !important;
+    }
+    .duebyinactive
+    {
+         background: white !important;
+         color:black !important;
+         border:1px solid #d7d7d7 !important; 
+    }
+    
+    .item-md.item-input.item-input-has-focus .item-inner, .item-md.item-input.input-has-focus .item-inner {
+      border-bottom-color: none !important;
+      -webkit-box-shadow: unset !important;
+      box-shadow: unset !important;
+    }
+    .item-inner{
+      border-style: unset !important;
+      }
+      .item-md.item-input.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner, .item-md.item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner {
+        border-bottom-color: none !important;
+        -webkit-box-shadow: unset !important;
+        box-shadow: unset !important;
+      }
+
+      .cwlbl{
+        color: black;     
+        text-align:right;
+     
+        font-size:1.4rem !important;
+     
+        font-family: 'HelveticaNeueLTStd-Bd'
+      }
+      .pkgalertcss{
+        width:90%;
+      }
+      .alert-md .alert-wrapper{
+        width:90%;
+      }
+      .alert-md .alert-message, .alert-md .alert-input-group{
+        width:90% !important;
+      }
+      .alert-md .alert-message{
+        width:100% !important;
+      }
+      .divclss1{
+        width:100%;
+      }
+      .divclss2{
+        width:50%;
+        float:left;
+      }
+      .marginTop_SW{
+        margin-top: 25px;
+      }
+      
+      
+}

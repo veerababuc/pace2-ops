@@ -1,0 +1,68 @@
+<ion-content  padding="5px"  scroll="false">
+
+  <ion-row style="min-height:30%">
+    <ion-col ></ion-col>
+  </ion-row>
+       <form [formGroup]='signupForm' (ngSubmit)="checklogin()">
+             
+             <ion-row>
+               <ion-col style="text-align:center;">
+                <img src="assets/imgs/login/Pace_Logo.png" style="width:24vmax;" />
+               </ion-col>
+             </ion-row>
+           <ion-row>
+                 <ion-col style="text-align:center;">
+                        <label style="font-size:3vw;font-weight: bold;">Please Sign In: </label>           
+                 </ion-col>
+           </ion-row> 
+            <ion-row>
+              <ion-col style="text-align:center;">
+                <input type="text" placeholder="User Name" required  formControlName="username" class="Login_input" >
+              </ion-col>
+            </ion-row>
+            <ion-row>
+             <ion-col style="text-align:center;">
+               <input type="password"  placeholder="Password" required formControlName="password" class="Login_input" >
+             </ion-col>
+           </ion-row>
+            <ion-row>
+              <ion-col style="text-align:center;">
+                <button class="Sign_in">Sign in</button>
+              </ion-col>
+           </ion-row>
+          </form>
+           <ion-row>
+             <ion-col style="text-align:center;">
+               
+              <div style="width:100%;">
+                <input type="checkbox" value="N" id="login_chk1" style="display:none;" [(ngModel)]="keepmeloggedin.selected" [checked]="keepmeloggedin.selected">
+                <label  style="font-size:12px;" for="login_chk1">Keep me logged in</label>
+              </div>
+              
+             </ion-col>
+             
+           </ion-row>
+
+  
+</ion-content>
+
+<ion-footer>
+  <ion-row>
+      <ion-col style="padding:0px;">
+          <span style="float:left;color:white !important;margin-left:16px;font-size:8px;">
+             developed by
+          </span>
+          <span style="float:right;color:white !important;padding-right:15px;font-size:8px;">
+          Certified partner of
+          </span>
+      </ion-col>
+    </ion-row>
+  <ion-row>
+      <ion-col style="padding-left: 11px;">
+          <img src="assets/imgs/login/onsite_logo.png" style="width:9vmax;" />
+      </ion-col>
+      <ion-col style="text-align: right;padding-right:20px;">
+          <img src="assets/imgs/login/AIQWare_logo.png" style="width:8vmax;" />
+      </ion-col>
+    </ion-row>
+</ion-footer>

@@ -1,0 +1,154 @@
+ion-content{
+    background: black !important;
+    color: white !important;
+    font-family:"helvetica-neue-regular" !important;
+    padding: 0px !important;
+}
+.scroll-content{
+    padding: 0px !important;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+   
+}
+.header
+{
+    background-color: black !important;
+    background-image: url("../assets/imgs/pace2header/pace2_header_bg.png") !important;
+    background-size: cover !important;
+    color: white;
+    background-repeat: no-repeat;
+    min-height: 74px;
+}
+.toolbar-title.toolbar-title-md
+{
+    color:white;
+}
+ion-title
+{
+    text-transform:uppercase;
+}
+
+input[type=checkbox]:not(old) + label, input[type=radio ]:not(old) + label {     
+    padding-left: 24px;
+    padding-top: 2px;
+    background:url(../../assets/imgs/login/checks.png) no-repeat 0px;
+    line-height: 24px;
+    color:#fff;
+    font-weight: normal;
+    font-family:"helvetica-neue-regular" !important;
+}
+
+ input[type=checkbox]:not(old):checked + label {
+    background-position: 0 -51px;
+}
+@media screen and (orientation:landscape) {
+    .homeheaderclass-an
+    {
+        padding: 5px  0px 0px 0px !important;
+    }
+    .homeheaderclass
+    {
+        padding: 5px  0px 0px 0px !important;
+    }
+    .homeheaderclass-ios
+    {
+        padding: 25px  0px 0px 0px !important;
+    }
+    .div1
+    {
+        padding-top:4%;
+    }
+    .div2
+    {
+        padding-top:3%;
+    }
+    
+}
+@media screen and (orientation:portrait) {
+    .homeheaderclass-an
+    {
+        padding: 5px  0px 0px 0px !important;
+    }
+    
+    .homeheaderclass-ios
+    {
+        padding: 25px  0px 0px 0px !important;
+    }
+    .div1
+    {
+        padding-top:7%;
+    }
+    .div2
+    {
+        padding-top:6%;
+    }
+    
+}
+
+.myitem  .avatars img{
+    margin: auto;
+}
+.myitem  ion-label.label.label-md {
+    margin: 0px !important;
+}
+.item
+{
+ background:transparent;
+}
+
+.tabclass-android
+{
+    margin-top:3%;
+    height:50px;
+    width: 400px;
+    background-repeat: no-repeat;
+    background-size: 230px;
+}
+.tabclass-ios
+{
+    margin-top:12%;
+    height:50px;
+    width: 400px;
+    background-repeat: no-repeat;
+    background-size: 230px;
+}
+
+.menu_list-android
+{
+    margin-top:5px;
+}
+.menu_list-ios
+{
+    margin-top:20px;
+}
+
+ion-app.platform-ios12 ion-content
+{
+    pointer-events:auto; /*Fix for scroll lock on ios12.2 */
+}
+
+
+.alert-title{
+    font-size:1.2rem !important;
+    font-family: 'HelveticaNeueLTStd-Bd' !important;
+}
+
+ion-modal.full-height-modal {
+    ion-backdrop {
+        visibility: visible !important;
+        opacity: 0.8 !important;
+    }
+  }
+  
+  ion-modal.full-height-modal{
+    .modal-wrapper {
+        width:100%;
+        height: calc(100% - 71px);
+        //height:auto;
+        position: absolute;
+        border-radius: 3px;
+        margin:auto;
+        margin-top: 65px;
+        margin-bottom: 35px;
+    }
+    
+  }

@@ -1,0 +1,129 @@
+page-home {
+    .scroll-content {
+        background: url('../assets/imgs/home/Pace2_bg.png') no-repeat !important;
+        background-size: cover !important;
+        background-position: center center;
+    }
+    .dlradj-an {
+        margin-top: 0px;
+    }
+    .tab_icon1 {
+        height: 100% !important;
+        width: 100% !important;
+        background: url('../assets/imgs/home/fst_tile_bg.png') no-repeat !important;
+        background-size: cover !important;
+        position: relative;
+        display: flex;
+        align-items: center;
+        //opacity: .4;
+    }
+    .tab_icon2 {
+        height: 100% !important;
+        width: 100% !important;
+        background: url('../assets/imgs/home/sc_tile_bg.png') no-repeat !important;
+        background-size: cover !important;
+        position: relative;
+        display: flex;
+        align-items: center;
+        opacity: .4;
+    }
+    .tab_icon3 {
+        height: 100% !important;
+        width: 100% !important;
+        background: url('../assets/imgs/home/thr_tile_bg.png') no-repeat !important;
+        background-size: cover !important;
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+    .tab_icon4 {
+        height: 100% !important;
+        width: 100% !important;
+        background: url('../assets/imgs/home/fth_tile_bg.png') no-repeat !important;
+        background-size: cover !important;
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+    .tab_icon5 {
+        height: 100% !important;
+        width: 100% !important;
+        background: url('../assets/imgs/home/last_tile_bg.png') no-repeat !important;
+        background-size: cover !important;
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+    .avatars img {
+        margin: auto;
+    }
+    ion-label.label.label-md {
+        margin: 0px !important;
+    }
+    .dlr_label-android {
+        padding-top: 5px;
+    }
+    .dlr_arrow-android {
+        padding-top: 5px;
+        padding-right: 10px;
+    }
+    .dlr_label-ios {
+        margin: 0px;
+        padding-top: 22px;
+    }
+    .dlr_arrow-ios {
+        padding: 22px 10px 10px 10px;
+    }
+    @media screen and (orientation:landscape) {
+        .row1-an {
+            height: 40vh;
+        }
+        .row2-an {
+            height: 40vh;
+        }
+        .row3-an {
+            height: 30vh;
+        }
+        .row1-ios {
+            height: 35vh;
+        }
+        .row2-ios {
+            height: 35vh;
+        }
+        .row3-ios {
+            height: 35vh;
+        }
+        .scroll-content {
+            margin-top: unset;
+        }
+        .dlradj-ios {
+            margin-top: unset;
+        }
+    }
+    @media screen and (orientation:portrait) {
+        .row1-an {
+            height: 30vh;
+        }
+        .row2-an {
+            height: 30vh;
+        }
+        .row3-an {
+            height: 25vh;
+        }
+        //    .scroll-content{
+        //        margin-top:18% !important;
+        //    }
+        .row1-ios {
+            height: 27vh;
+        }
+        .row2-ios {
+            height: 27vh;
+        }
+        .row3-ios {
+            height: 27vh;
+        }
+        .dlradj-ios {
+            margin-top: 25px;
+        }
+    }
+}

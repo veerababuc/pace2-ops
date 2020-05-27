@@ -1,0 +1,29 @@
+<ion-card>
+    
+    
+    <ion-card-content>
+        <ion-item class="head">
+            <div item-start class="tit">Select Department</div>
+            </ion-item>
+            
+      <div class="main1">
+        <div>
+          <p class="mainnot" *ngIf="modalno == 'one'"><span class="not">Note*:</span>Selected Package exists in the following Departments</p>
+          <p class="mainnot" *ngIf="modalno == 'two'"><span class="not">Note*:</span>Selected packages will be removed if you change the Department.</p>
+        </div>
+          <ion-row> 
+              <!-- class="flipcard"  [ngClass]="{'flipped': card.isflipped }" (click)="card.isflipped = !card.isflipped;" -->
+              <ion-col col-4  *ngFor="let item of Departments;let i = index">
+                <div *ngIf="modalno == 'one'" [ngClass]=" item.ischecked == false ?'check2':'check1'" (click)="OpenService(item)">{{item.DEPARTMENT}}</div>
+                <div *ngIf="modalno == 'two'" [ngClass]=" item.ischecked == false ?'check2':'check1'" (click)="OpenService(item)">{{item.departmentTitle}}</div>
+              </ion-col>   
+              
+            </ion-row>
+      </div>
+      <ion-row>
+          <ion-col col-3></ion-col>
+          <ion-col col-6><button ion-button small class="btn" (click)="Ok()">OK</button> &nbsp;&nbsp;<button ion-button small class="btn1" (click)="Cancel()">Cancel</button></ion-col>
+          <ion-col col-3></ion-col>
+        </ion-row>
+      </ion-card-content>
+      </ion-card>

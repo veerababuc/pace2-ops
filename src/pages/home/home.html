@@ -1,0 +1,59 @@
+<ion-header [ngClass]="(platform_dlrlbl==true)&& 'homeheaderclass-ios' || 'homeheaderclass-an'">
+    <ion-row>
+        <ion-col style="padding:0px;">
+            <pace2header></pace2header>
+        </ion-col>
+    </ion-row>
+    <ion-row style="border: 0.1px solid white;position: sticky;top: 0; z-index: 4;" (click)="changeSite()" *ngIf="sitecount>1">
+        <ion-col style="padding:10px;text-align: center !important">
+            <ion-label style="font-size:2rem;font-family: 'HelveticaNeueLTStd-Bd';" [ngClass]="(platform_dlrlbl==true)&& 'dlr_label-ios' || 'dlr_label-android'  ">{{dlrname}}
+                <ion-icon name="arrow-dropdown" style="font-size:2rem;float:right;position:relative" [ngClass]="(platform_dlrarrow==true)&& 'dlr_arrow-ios' || 'dlr_arrow-android'  "></ion-icon>
+            </ion-label>
+
+        </ion-col>
+    </ion-row>
+    <ion-row style="border: 0.1px solid white;" *ngIf="sitecount<=1">
+        <ion-col style="padding:10px;">
+            <ion-label style="font-size:2rem;font-family: 'HelveticaNeueLTStd-Bd';float:left;" [ngClass]="(platform_dlrlbl==true)&& 'dlr_label-ios' || 'dlr_label-android'  ">{{dlrname}}</ion-label>
+
+        </ion-col>
+    </ion-row>
+</ion-header>
+<ion-content scroll="false" [ngClass]="(platform_dlrlbl==true)&& 'dlradj-ios' || 'dlradj-an'">
+
+
+
+    <ion-row [ngClass]="(platform_dlrlbl==true)&& 'row1-ios' || 'row1-an'">
+        <ion-col style="padding:2px !important" (click)="openPage('page-workorderqueue',1)">
+            <div class="tab_icon1">
+                <img src="/assets/imgs/home/Excp_wrk_ord_icon.png" style="height:8rem;margin:auto;">
+            </div>
+        </ion-col>
+        <ion-col style="padding:2px !important">
+            <div class="tab_icon2">
+                <img src="/assets/imgs/home/wrkord_Hrs_icon.png" style="height:7rem;margin:auto;">
+            </div>
+        </ion-col>
+
+    </ion-row>
+    <ion-row [ngClass]="(platform_dlrlbl==true)&& 'row2-ios' || 'row2-an'">
+        <ion-col style="padding:2px !important" (click)="openPage('page-createworkorder')">
+            <div class="tab_icon3">
+                <img src="/assets/imgs/home/Crt_wrk_ord_icon.png" style="height:7rem;margin:auto;">
+            </div>
+        </ion-col>
+        <ion-col (click)="openPage('page-workorderqueue')" style="padding:2px !important">
+            <div class="tab_icon4">
+                <img src="/assets/imgs/home/wrkord_icon.png" style="height:7rem;margin:auto;">
+            </div>
+        </ion-col>
+    </ion-row>
+
+    <ion-row [ngClass]="(platform_dlrlbl==true)&& 'row2-ios' || 'row2-an'">
+        <ion-col style="padding:2px !important" (click)="openPage('page-createworkorder','SW')">
+            <div class="tab_icon3">
+                <img src="assets/imgs/home/wash_tile.png" style="height:7rem;margin:auto;">
+            </div>
+        </ion-col>
+    </ion-row>
+</ion-content>

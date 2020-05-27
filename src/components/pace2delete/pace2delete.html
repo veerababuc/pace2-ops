@@ -1,0 +1,31 @@
+<!-- Generated template for the Pace2deleteComponent component -->
+<ion-card>
+  <ion-card-header></ion-card-header>
+  <ion-card-content>
+  <p class="tit" *ngIf="typeName != 'process'">Are you sure you want to Void?</p>
+  <p class="tit" *ngIf="typeName == 'process'">Are you sure you want to Fix?</p>
+    <!-- <ion-item style="margin-top: 7px;"> -->
+      <ion-row style="margin-top: 7px;">
+        <ion-col col-2 class="not">Notes:</ion-col>
+        <ion-col col-10><ion-textarea rows="3" autosize class="txtarea" [(ngModel)]="notes"></ion-textarea></ion-col>
+      </ion-row>
+        <!-- <ion-label position="floating" class="not">Notes:</ion-label>
+        <ion-textarea rows="3" autosize class="txtarea" [(ngModel)]="notes"></ion-textarea> -->
+      <!-- </ion-item> -->
+      <ion-row *ngIf="typeName != 'process'">
+          
+    <ion-col col-4 class="colclass">
+      <button ion-button small class="btn2" (click)="VoidNotify()">Void and Notify</button></ion-col> 
+      <ion-col col-4 class="colclass"><button ion-button small class="btn2" (click)="AddServices('CreateNew')">Void and Create New</button></ion-col>
+      <ion-col col-4 ><button ion-button small class="btn1" (click)="Cancel()">Cancel</button></ion-col>
+       
+  </ion-row>
+  <ion-row *ngIf="typeName == 'process'">
+          
+      <ion-col col-3></ion-col>
+           <ion-col col-6 class="colclass"><button ion-button small class="btn" (click)="OK()">OK</button> &nbsp;&nbsp;<button ion-button small class="btn1" (click)="Cancel()">Cancel</button></ion-col>
+           <ion-col col-3></ion-col>
+         
+    </ion-row>
+</ion-card-content>
+</ion-card>

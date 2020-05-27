@@ -1,0 +1,128 @@
+pace2exception {
+    .flex-container {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: stretch;
+      }
+    .card-header {
+       padding :0 !important;
+       background-color: #076bd0;
+       .card-title{
+        padding-left:15px;
+       h2{
+        color:white !important;
+       }
+       }
+    }
+    .main{
+        padding-top: 13px !important;
+    }
+    .item{
+        padding-left: 5px !important;
+        font-size: 1.3rem !important;
+        font-weight: 500 !important;
+        min-height: 0 !important;
+       
+    }
+    .item-inner {
+        padding: 0 !important; 
+    }
+.imgs{
+    width:30px !important;
+    height: 30px !important;
+}
+.item ion-avatar {
+    min-width: 35px;
+    min-height: 35px;
+    margin: 0 !important;
+}
+
+.lbtit{
+     font-size: 1.2rem !important;
+    // //padding: 2px; 
+    // margin: 0 !important;
+     font-weight: normal !important;
+    // z-index:10000;
+    // //z-index:-1;
+    // text-overflow: ellipsis !important;
+    // overflow: hidden !important;
+    // white-space:nowrap !important;
+     display: inline-block !important;
+     max-width:70px;
+    //display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color:#4a5663;
+
+} 
+.bellclass{
+    color:#4a5663;
+   position: absolute;
+    //  right:10px;
+    // top:11px;
+    // float: right;
+    
+}
+.imgitem{
+   
+  
+        
+    .label{
+        margin: 0 !important;
+       
+    }
+}
+.btn{
+    //padding:6px !important;
+    font-size: 1.2rem !important;
+    text-transform: capitalize;
+    background-color:#4a5663 !important;
+    color:white;
+    border-radius :2px;
+    text-align: center;
+    
+}
+.btnn{
+    font-size: 1.2rem !important;
+    text-transform: capitalize;
+    background-color:#076bd0 !important;
+    color:white;
+    border-radius :2px;
+    text-align: center;
+}
+.btn1{
+    background-color:#ffc107 !important;
+    color:black !important;
+    font-size: 1.2rem !important;
+    text-transform: capitalize;
+}
+
+// .bell{
+//     margin-left: 3px;
+// }
+.label {
+    margin: 5px 8px 8px 0;
+}
+h2{
+    font-weight: 500 !important;
+}
+p{
+    font-size: 1.3rem !important;
+    margin-top: 5px !important;
+    text-overflow: inherit !important;
+     overflow: inherit !important;
+}
+
+.vin{
+    margin: 0 !important; 
+}
+.vinp{
+    padding-left: 2px !important;
+}
+.exp{
+    margin-left: 5px !important;
+}
+
+}
