@@ -22,8 +22,8 @@ export class Pace2exceptionComponent {
   EmpId: any;
   ExpData: any;
   EmpList: any = [];
-  ExceptionName: any;
-  ExceptionNotes: any;
+  ExceptionName: any='';
+  ExceptionNotes: any='';
   ExceptionVin: any;
   ExceptionPack: any;
   ExceptionService: any;
