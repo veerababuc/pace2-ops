@@ -64,6 +64,7 @@ export class WorkOrderDetailsPage {
     this.worDetails = this.navParams.get('worDetails');
     this.siteid     = this.navParams.get('siteId');
     this.woIndx     = this.navParams.get('woIndx');
+    this.paceEnv.woIndexUpdate = this.woIndx;
     console.log('Out Put :' , this.worDetails);
 
     if(platform.is('ios'))
@@ -226,20 +227,23 @@ cloneGetWorkOrders(woIndex){
   }
 
 
-  NotesModal(notes, wo, notetype, woIndex,SId) {
-    console.log('subworkorder note', notes, wo, notetype,SId);
+  NotesModal(notes, wo, notetype, woIndex,SId, woNum, woid) {
+    console.log('subworkorder note', notes, wo, notetype, woIndex, SId, woNum, woid);
     // let loader = this.loadingSrv.createLoader();
     // loader.present();
     var nots = notes;
     var woDetais = wo;
-    let Modal = this.modalctrl.create('TestPage', { 'type': nots, 'Wodata': woDetais, 'NType': notetype, 'SId':SId }, { cssClass: "full-height-modal" });
+    let Modal = this.modalctrl.create('TestPage', { 'type': nots, 'Wodata': woDetais, 'NType': notetype, 'SId':SId ,'Woid' : woid }, { cssClass: "full-height-modal" });
     Modal.onDidDismiss((val) => {
+      console.log("Post Notes :", val);
       //this.ViewCtrl.dismiss();
       if(val==1){
       this.paceEnv.startLoading();
       console.log('in workorderqueu page');
-      let searchOptions: string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>1</pageNumber><pageSize>5</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>WO</searchtype><searchtext>${this.worDetails[woIndex].WONUMBER}</searchtext><searchstatus>${this.dataOptions.searchstatus}</searchstatus></Info>`.trim();
+      let searchOptions: string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>1</pageNumber><pageSize>5</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>WO</searchtype><searchtext>${woDetais.WONUMBER}</searchtext><searchstatus>${this.dataOptions.searchstatus}</searchstatus></Info>`.trim();
+      console.log("Search String :", searchOptions);
       this.OdsSvc.GetWorkOrderStatus(searchOptions).subscribe(Response => {
+        console.log("Notes Modal get workOrder Status :", Response);
         this.paceEnv.stopLoading();
         if (Response.status === 200) {
           let body = JSON.parse(Response._body);
@@ -250,33 +254,9 @@ cloneGetWorkOrders(woIndex){
           } else {
             let result = JSON.parse(body[0].result);
             console.log('workorder', result);
-            result.forEach((element, index) => {
-              element.expanded = false;
-              element.selectedPackege = 0;
-              element.UniquePackeges = [...this.getPackeges(element)];
-              element.filterPackeges = [];
-              element.WOSERVICES.forEach((ws: any) => {
-                ws.expanded = false;
-                ws.value = '0';
-              });
-              if (element.SUBWORKORDER.length > 0) {
-                element.SUBWORKORDER.forEach(subOrder => {
-                  subOrder.WOSERVICES.forEach((ws: any) => {
-                    ws.expanded = false;
-                    ws.empid = '0';
-                  });
-                });
-
-              }
-              this.worDetails[woIndex] = result[0];
-              this.worDetails.forEach((selectOd, odIndex) => {
-                this.changeDetectorRef.detectChanges();
-                this.selectedPackege(odIndex, selectOd.UniquePackeges[0]);
-              });
-
-            });
-            this.infinitescrollactions(true, false, false);
-            this.woqEmpty();
+            this.worDetails = result[0];
+            this.worDetails.UniquePackeges = [...this.getPackeges(this.worDetails)];
+            this.worDetails.SubWOPackages = [...this.getSubWoPackeges(this.worDetails)];                 
           }
         } else {
           this.woqEmpty();
@@ -301,10 +281,18 @@ cloneGetWorkOrders(woIndex){
   
   }
 
-
+  //Getting Main workOrder Services Unique Packages
   getPackeges(workOrder: any) {
     let newArray = workOrder.WOSERVICES.reduce(
       (accumulator, current) => accumulator.some(x => x.PACKAGENAME === current.PACKAGENAME) ? accumulator : [...accumulator, current], []
+    );
+    return newArray;
+  }
+
+  //Getting Sub workOrder Services Unique Packages
+  getSubWoPackeges(workOrder: any) {
+    let newArray = workOrder.SUBWORKORDER.reduce(
+      (accumulator, current) => accumulator.some(x => x.WOSERVICES[0].PACKAGENAME === current.WOSERVICES[0].PACKAGENAME) ? accumulator : [...accumulator, current], []
     );
     return newArray;
   }
@@ -478,7 +466,7 @@ cloneGetWorkOrders(woIndex){
   }
 
 
-  pickService(serviceobj, woMainIndex,woindex, serviceindex, action,subWorkorder) {
+  pickService(serviceobj, woMainIndex,woindex, serviceindex, action, serviceType) {
     let self = this;
     let alertMsg = action == 'D' ? "Are you sure you want to Cancel your pickup?" : action == 'P' ? "Are you sure you want to Pickup service?" : "Are you sure you want to Complete?"
     let alert = this.alert.create({
@@ -513,9 +501,14 @@ cloneGetWorkOrders(woIndex){
                     console.log('serviceres1', result[0].SERVICEITEM[0]);
                     console.log('index',woMainIndex,serviceindex,woindex, action);
 
-                    this.worDetails.filterPackeges[serviceindex] = Object.assign({}, result[0].SERVICEITEM[0]);
+                   // this.worDetails.filterPackeges[serviceindex] = Object.assign({}, result[0].SERVICEITEM[0]);
+                   if(serviceType == 'main'){
                     this.worDetails.WOSERVICES[serviceindex] = result[0].SERVICEITEM[0];
-                    this.serviceUpdatedObj = result[0].SERVICEITEM[0];   
+                   }else if(serviceType == 'sub'){
+                    this.worDetails.SUBWORKORDER[serviceindex].WOSERVICES[0] = result[0].SERVICEITEM[0];
+                   }
+                    
+                   // this.serviceUpdatedObj = result[0].SERVICEITEM[0];   
                   }
                 }, (err) => {
                   //self.paceEnv.stopLoading();
@@ -538,14 +531,14 @@ cloneGetWorkOrders(woIndex){
     alert.present();
   }
 
-  empSelectionUpdate(woService, woIndex, serviceIndex, empId, subWorkorder, subWoindex) {
+  empSelectionUpdate(woService, woIndex, serviceIndex, empId, serviceType) {
     console.log('emp update', woService, woIndex, serviceIndex, empId);
     if (this.selectpackege == true) {
       this.selectpackege = false;
     } else {
       if (woService.empId !== '0') {
         woService.empid = empId;
-        this.assigment(woService, empId,woIndex, serviceIndex, subWorkorder, subWoindex);
+        this.assigment(woService, empId,woIndex, serviceIndex, serviceType);
       } else {
         this.presentToast('Select employee', 'bottom');
       }
@@ -553,14 +546,14 @@ cloneGetWorkOrders(woIndex){
   }
 
 
-  empSelection(woService,selcEmpId, woIndex, serviceIndex, subWorkorder, subWoindex) {
+  empSelection(woService,selcEmpId, woIndex, serviceIndex,serviceType) {
     if (this.selectpackege == true) {
       this.selectpackege = false;
     } else {
       if (selcEmpId !== '0') {
         
         //console.log(selcEmpId);
-        this.assigment(woService,selcEmpId, woIndex, serviceIndex, subWorkorder, subWoindex);
+        this.assigment(woService,selcEmpId, woIndex, serviceIndex,serviceType);
       } else {
         this.presentToast('Select employee', 'bottom');
       }
@@ -568,9 +561,9 @@ cloneGetWorkOrders(woIndex){
 
   }
 
-  assigment(woservice,selectedEmpid, woindex, serviceindex, subWorkorder, subWoindex) {
+  assigment(woservice,selectedEmpid, woindex, serviceindex, serviceType) {
     //let self = this;   
-     console.log('testggggggggggg',woservice,selectedEmpid, woindex, serviceindex, subWorkorder, subWoindex);
+     console.log('testggggggggggg',woservice,selectedEmpid, woindex, serviceindex);
 
     let servive: any = {
       eid       : this.dataOptions.eid,
@@ -583,7 +576,7 @@ cloneGetWorkOrders(woIndex){
       action    : 'A'
     };
     this.paceEnv.startLoading();
-    console.log(subWorkorder);
+
     
     this.OdsSvc.assignWOItem(servive).subscribe(Response => {
       if (Response[0].errorId > 0 ) {
@@ -593,10 +586,14 @@ cloneGetWorkOrders(woIndex){
           if (serviceres[0].result !== '') {
             let result = JSON.parse(serviceres[0].result);
             console.log("Assign to :",result);
-            console.log('sub workorder', subWorkorder);
-            
-            this.worDetails.WOSERVICES[serviceindex] = result[0].SERVICEITEM[0];
-            this.serviceUpdatedObj = result[0].SERVICEITEM[0];
+                 
+            //this.worDetails.WOSERVICES[serviceindex] = result[0].SERVICEITEM[0];
+            if(serviceType == 'main'){
+              this.worDetails.WOSERVICES[serviceindex] = result[0].SERVICEITEM[0];
+             }else if(serviceType == 'sub'){
+              this.worDetails.SUBWORKORDER[serviceindex].WOSERVICES[0] = result[0].SERVICEITEM[0];
+             }
+            //this.serviceUpdatedObj = result[0].SERVICEITEM[0];
           }
         }, (err) => {
           this.paceEnv.stopLoading();

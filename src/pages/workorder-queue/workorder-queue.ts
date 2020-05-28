@@ -99,18 +99,15 @@ export class WorkorderQueuePage {
     console.log('ionViewDidLoad WorkorderQueuePage');
   }
 
+
   ionViewDidEnter(){
     console.log("ion View Did Enter ...!");
 
-    // this.paceEnv.woIndexUpdate = this.woIndx;
-    // this.paceEnv.woUpdateObj   = this.worDetails;
-    // this.paceEnv.woUpdateType  = 'Approve';
+   
     console.log("Call back Obj :", this.paceEnv.woUpdateObj);
     var woInd = this.paceEnv.woIndexUpdate;
-    if(woInd > -1 && this.paceEnv.woUpdateObj){
-      //this.workOrders[woInd] = this.paceEnv.woUpdateObj;
-      this.workOrders[woInd].APPROVEDBY = this.dataOptions.eid;
-    }
+   
+    this.cloneGetWorkOrders(woInd);
   }
 
   expand(wo, i, serviceIndex, toggle) {
