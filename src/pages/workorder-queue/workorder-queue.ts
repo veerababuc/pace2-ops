@@ -99,14 +99,18 @@ export class WorkorderQueuePage {
     console.log('ionViewDidLoad WorkorderQueuePage');
   }
 
-
   ionViewDidEnter(){
     console.log("ion View Did Enter ...!");
 
-   
+    // this.paceEnv.woIndexUpdate = this.woIndx;
+    // this.paceEnv.woUpdateObj   = this.worDetails;
+    // this.paceEnv.woUpdateType  = 'Approve';
     console.log("Call back Obj :", this.paceEnv.woUpdateObj);
     var woInd = this.paceEnv.woIndexUpdate;
-   
+    // if(woInd > -1 && this.paceEnv.woUpdateObj){
+    //   //this.workOrders[woInd] = this.paceEnv.woUpdateObj;
+    //   this.workOrders[woInd].APPROVEDBY = this.dataOptions.eid;
+    // }
     this.cloneGetWorkOrders(woInd);
   }
 
@@ -150,6 +154,7 @@ export class WorkorderQueuePage {
             element.expanded = false;
             element.selectedPackege = 0;
             element.UniquePackeges = [...this.getPackeges(element)];
+            element.SubWOPackages = [...this.getSubWoPackeges(element)];
             element.filterPackeges = [];
             element.WOSERVICES.forEach((ws: any) => {
               ws.expanded = false;
@@ -177,6 +182,7 @@ export class WorkorderQueuePage {
             element.expanded = false;
             element.selectedPackege = 0;
             element.UniquePackeges = [...this.getPackeges(element)];
+            element.SubWOPackages = [...this.getSubWoPackeges(element)];
             element.filterPackeges = [];
             element.WOSERVICES.forEach((ws: any) => {
               ws.expanded = false;
@@ -352,6 +358,7 @@ export class WorkorderQueuePage {
     });
     Modal.present();
   }
+  
   NotesModal(notes, wo, notetype, woIndex,SId) {
     console.log('subworkorder note', notes, wo, notetype,SId);
     // let loader = this.loadingSrv.createLoader();
@@ -378,6 +385,7 @@ export class WorkorderQueuePage {
               element.expanded = false;
               element.selectedPackege = 0;
               element.UniquePackeges = [...this.getPackeges(element)];
+              element.SubWOPackages = [...this.getSubWoPackeges(element)];
               element.filterPackeges = [];
               element.WOSERVICES.forEach((ws: any) => {
                 ws.expanded = false;
@@ -846,9 +854,17 @@ export class WorkorderQueuePage {
     });
   
   }
+
   getPackeges(workOrder: any) {
     let newArray = workOrder.WOSERVICES.reduce(
       (accumulator, current) => accumulator.some(x => x.PACKAGENAME === current.PACKAGENAME) ? accumulator : [...accumulator, current], []
+    );
+    return newArray;
+  }
+
+  getSubWoPackeges(workOrder: any) {
+    let newArray = workOrder.SUBWORKORDER.reduce(
+      (accumulator, current) => accumulator.some(x => x.WOSERVICES[0].PACKAGENAME === current.WOSERVICES[0].PACKAGENAME) ? accumulator : [...accumulator, current], []
     );
     return newArray;
   }
@@ -975,6 +991,7 @@ cloneGetWorkOrders(woIndex){
             element.expanded = false;
             element.selectedPackege = 0;
             element.UniquePackeges = [...this.getPackeges(element)];
+            element.SubWOPackages = [...this.getSubWoPackeges(element)];
             element.filterPackeges = [];
             element.WOSERVICES.forEach((ws: any) => {
               ws.expanded = false;

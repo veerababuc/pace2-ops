@@ -131,7 +131,7 @@
     </ion-row>
     <!--  ************************ Service Order Details- *************   -->
     <ion-row style="text-align: center;padding: 10px;font-weight: bold;">
-        <ion-col><label>Main Work Orders</label></ion-col>
+        <ion-col><label>MAIN WORK ORDERS</label></ion-col>
     </ion-row>
     <ion-row *ngFor="let x of worDetails.UniquePackeges" style="background: white !important;border-top: 10px solid black;">
         <ion-col style="margin:0px !important;padding:0px !important">
@@ -269,7 +269,7 @@
 
     <!-------- Sub Work Order services list ------->
     <ion-row style="text-align: center;padding: 10px;font-weight: bold;">
-        <ion-col><label>Sub Work Orders</label></ion-col>
+        <ion-col><label>SUB WORK ORDERS</label></ion-col>
     </ion-row>
     <ion-row *ngFor="let x of worDetails.SubWOPackages" style="background: white !important;border-top: 10px solid black;">
         <ion-col style="margin:0px !important;padding:0px !important">
@@ -291,7 +291,7 @@
 
                                 </ion-col>
 
-                                <ion-col col-2 class="textcenter" (click)="NotesModal('notes',worDetails,'S',woIndx,y.WOSID,z.WONUMBER,z.WOID)">
+                                <ion-col col-2 class="textcenter" (click)="NotesModal('notes',worDetails,'S',woIndx,y.WOSID,y.WONUMBER,z.WOID)">
                                     <p style="text-align: right !important;padding-right: 14px;">
                                         <ion-icon name="md-document" style="font-size:25px;color:white;margin-top: 6px;font-size: 20px;"></ion-icon>
                                         <span *ngIf="getlength('S',worDetails.WONOTES,y.WOSID)>0" class="badge countNotes">
@@ -351,7 +351,7 @@
 
                                                     <!-- Complete -->
                                                     <ion-col col-2 *ngIf="(y.ASSIGNMENTINFO?.length > 0 && y.ASSIGNMENTINFO[0].ASSIGNEDTO==dataOptions.eid) && y.STATUS=='I'" style="text-align: right !important;">
-                                                        <div (click)="pickService(y,'',woIndx,subIndex,'C','sub')" stlye="padding-right: 15px !important;">
+                                                        <div (click)="pickService(y,'',woIndx,subIndex,'C','sub')" style="padding-right: 15px !important;">
                                                             <ion-icon name="checkmark-circle" style="color:green;font-size:25px !important"></ion-icon>
                                                         </div>
                                                     </ion-col>
