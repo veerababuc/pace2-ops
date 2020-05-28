@@ -101,17 +101,13 @@ export class WorkorderQueuePage {
 
   ionViewDidEnter(){
     console.log("ion View Did Enter ...!");
-
-    // this.paceEnv.woIndexUpdate = this.woIndx;
-    // this.paceEnv.woUpdateObj   = this.worDetails;
-    // this.paceEnv.woUpdateType  = 'Approve';
+    
     console.log("Call back Obj :", this.paceEnv.woUpdateObj);
-    var woInd = this.paceEnv.woIndexUpdate;
-    // if(woInd > -1 && this.paceEnv.woUpdateObj){
-    //   //this.workOrders[woInd] = this.paceEnv.woUpdateObj;
-    //   this.workOrders[woInd].APPROVEDBY = this.dataOptions.eid;
-    // }
-    this.cloneGetWorkOrders(woInd);
+    if(this.paceEnv.woIndexUpdate != -1){
+      var woInd = this.paceEnv.woIndexUpdate; 
+      this.cloneGetWorkOrders(woInd);
+    }
+     
   }
 
   expand(wo, i, serviceIndex, toggle) {
@@ -958,17 +954,14 @@ export class WorkorderQueuePage {
 }
 ////clone get workOrders
 cloneGetWorkOrders(woIndex){
-  //console.log(woObj);
-  
-   
-    
-    
+  //console.log(woObj);   
+    this.paceEnv.woIndexUpdate = -1;
     this.paceEnv.startLoading();
     let searchOptions:string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>1</pageNumber><pageSize>5</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>WO</searchtype><searchtext>${this.workOrders[woIndex].WONUMBER}</searchtext><searchstatus>${this.dataOptions.searchstatus}</searchstatus></Info>`.trim();
     //let searchOptions: string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>${this.dataOptions.pageNumber}</pageNumber><pageSize>${this.dataOptions.pageSize}</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>${this.dataOptions.searchtype}</searchtype><searchtext>${this.workOrders[woIndex].WONUMBER}</searchtext><searchstatus>${this.dataOptions.searchstatus}</searchstatus></Info>`.trim();
     
     this.OdsSvc.GetWorkOrderStatus(searchOptions).subscribe(Response => {
-      console.log('getworkOrder Queue', Response);
+      console.log('single getworkOrder Queue', Response);
       this.paceEnv.stopLoading();
       if (Response.status === 200) {
         let body = JSON.parse(Response._body);
@@ -1036,7 +1029,7 @@ cloneGetWorkOrders(woIndex){
       this.paceEnv.stopLoading();
       this.woqEmpty();
     });
-
+    
 }
 
 openCustomFilterModel(){
