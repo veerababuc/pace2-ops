@@ -201,7 +201,7 @@
                                             <ion-col col-4>
                                                 <ion-label style="font-weight: bold;margin:0px;color:#208cfe;float:left">Status:</ion-label>
                                             </ion-col>
-                                            <ion-col col-8 *ngIf="worDetails.VINID.length != 0">
+                                            <ion-col col-8>
                                                 <span style="color: #007bff !important;">
                                                             {{y.STATUS=='O'?'OPEN':y.STATUS=='I'?'IN-PROGRESS':y.STATUS=='A'?'ACTIVE':y.STATUS=='C'?'COMPLETED':''}}
                                                     </span>
@@ -339,7 +339,7 @@
                                                 <ion-col col-4>
                                                     <ion-label style="font-weight: bold;margin:0px;color:#208cfe;float:left">Status:</ion-label>
                                                 </ion-col>
-                                                <ion-col col-8 *ngIf="worDetails.VINID.length != 0">
+                                                <ion-col col-8>
                                                     <span style="color: #007bff !important;">
                                                             {{y.STATUS=='O'?'OPEN':y.STATUS=='I'?'IN-PROGRESS':y.STATUS=='A'?'ACTIVE':y.STATUS=='C'?'COMPLETED':''}}
                                                     </span>

@@ -227,7 +227,7 @@ export class WorkorderQueuePage {
     console.log('IN :', woDetails);
     this.navCtrl.push('workDetails', { worDetails: woDetails, siteId: this.dataOptions.siteid, empId: this.dataOptions.eid, woIndx: indx }).then(val => {
       this.navCtrl.getActive().onDidDismiss((data) => {
-        console.log(data);
+        console.log("Modal Dismiss val:", data);
         if (data != undefined) {
           //this.cloneGetWorkOrders(data);
           this.workOrders = [];
