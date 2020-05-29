@@ -90,24 +90,32 @@
     </div> -->
 
         <ion-col>
-            <div style="flex-grow: 1;padding: 3px;" id="dataOpt_0">
+            <span style="flex-grow: 1;padding: 3px;" id="dataOpt_0">
                 <custom-select class="gheader" name="dataOption" defaultOptTxt="Select" [(optSelectActive)]="selectOptions" [(value)]="dataOptionsText" [optionsModel]="dataOptionsModel" (change)="selectDataOpt($event)">
                 </custom-select>
-            </div>
+              </span>
         </ion-col>
         <ion-col *ngIf="dataOptions.searchtype!='0'">
-            <div class="searchtext">
-                <ion-input type="text" [(ngModel)]="dataOptions.searchtext" style="color: black;" placeholder="{{dataOptions.searchtype=='V'?'VIN':dataOptions.searchtype=='S'?'Stock':'Work Order'}} #">
+            <span class="searchtext">
+                <ion-input type="text" [(ngModel)]="dataOptions.searchtext" style="color: black;margin-top: 18px;height: 38px;" placeholder="{{dataOptions.searchtype=='V'?'VIN':dataOptions.searchtype=='S'?'Stock':'Work Order'}} #">
                 </ion-input>
-            </div>
+              </span>
         </ion-col>
-        <ion-col>
-            <div style="width: 250px;color: white;flex-grow: 1;padding: 3px;" id="dataOpt_1">
+        <ion-col *ngIf="dataOptions.searchtype=='0'">
+            <span style="width: 250px;color: white;flex-grow: 1;padding: 3px;" id="dataOpt_1">
                 <custom-select class="gheader" name="dataOpt" [(value)]="dataOptions.searchstatus" [optionsModel]="dataSearchModel" (change)="selectDataSearch($event)">
                 </custom-select>
-            </div>
+              </span>
         </ion-col>
 
+    </ion-row>
+    <ion-row *ngIf="dataOptions.searchtype!='0'">
+        <ion-col>
+            <span style="width: 250px;color: white;flex-grow: 1;padding: 3px;" id="dataOpt_1">
+            <custom-select class="gheader" name="dataOpt" [(value)]="dataOptions.searchstatus" [optionsModel]="dataSearchModel" (change)="selectDataSearch($event)">
+            </custom-select>
+          </span>
+        </ion-col>
     </ion-row>
     <ion-row>
         <ion-col>
