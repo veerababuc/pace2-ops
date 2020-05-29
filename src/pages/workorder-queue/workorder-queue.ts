@@ -227,9 +227,11 @@ export class WorkorderQueuePage {
     console.log('IN :', woDetails);
     this.navCtrl.push('workDetails', { worDetails: woDetails, siteId: this.dataOptions.siteid, empId: this.dataOptions.eid, woIndx: indx }).then(val => {
       this.navCtrl.getActive().onDidDismiss((data) => {
-        console.log(data);
+        console.log("Modal Dismiss val:", data);
         if (data != undefined) {
-          this.cloneGetWorkOrders(data);
+          //this.cloneGetWorkOrders(data);
+          this.workOrders = [];
+          this.getWorkOrders('L')
         }
 
       })
@@ -262,7 +264,7 @@ export class WorkorderQueuePage {
     this.infinitescrollactions(false, false, true);
     this.infinitescrollactions(false, true, false);
     this.dataOptions.searchtype = 0;
-    this.dataOptions.searchstatus = 'A';
+    this.dataOptions.searchstatus = '';
     this.dataOptions.searchtext = '';
     this.dataOptions.pageNumber = 1;
     this.dataOptions.pageSize = this.pageSize;

@@ -97,6 +97,7 @@ export class WorkOrderDetailsPage {
 
 
   closeModal() {
+    console.log("Close Modal :", this.woIndx);
     if (this.flagAction == "Y") {
       this.viewctrl.dismiss(this.woIndx);
     } else {
