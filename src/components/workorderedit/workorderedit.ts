@@ -5,7 +5,7 @@ import moment from 'moment';
 import { DatabaseProvider } from '../../providers/database/database';
 import { PaceEnvironment } from '../../common/PaceEnvironment';
 import { LoadingServiceProvider } from '../../providers/loading-service/loading-service';
-
+import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner';
 
 /**
  * Generated class for the WorkordereditComponent component.
@@ -31,7 +31,14 @@ export class WorkordereditComponent {
   }
   stock_length: any = 0;
   stockcount_db: any = "";
-  constructor(public viewController: ViewController,
+  
+  isScan:any;
+
+  options: BarcodeScannerOptions;
+  scannedData: any = {};
+
+  constructor(public scanner: BarcodeScanner,
+    public viewController: ViewController,
     public odsService: OdsServiceProvider,
     private toastCtrl: ToastController,
     public db: DatabaseProvider,
@@ -65,36 +72,115 @@ export class WorkordereditComponent {
   }
 
   updateWO() {
-    let loader = this.loadingSrv.createLoader({ content: 'Updating ...' });
-    loader.present();
-    let searchOptions: string = `<Info><woid>${this.workOrderObj.WOID}</woid><vin>${this.workOrderObj.VINID}</vin><stock>${this.workOrderObj.STOCKID}</stock><ro>${this.workOrderObj.RO}</ro><po>${this.workOrderObj.PO}</po></Info>`
-    this.odsService.updateWorkOrderVechileInfo(searchOptions).subscribe(Response => {
-      //console.log('update workorder', Response);
-      loader.dismiss();
-      if (Response.status === 200) {
-        let body = JSON.parse(Response._body);
-        if (body[0].status == "0") {
-
-          // setTimeout(() => {
-          let wo = {
-            woorder: this.workOrderObj,
-            status: Response.status
-          }
-          this.viewController.dismiss(wo);
-          // }, 1500)
-          this.presentToast('Work order details updated successfully');
-        } else {
-          //this.presentToast('Try again');
-        }
-        //console.log('update workorder body', body);
-      } else {
-        //this.presentToast('Try again');
+    if (this.workOrderObj.VINID == "" || this.workOrderObj.STOCKID == "") {
+        console.log("No vin");
+        //alert("Enter VIN or STOCK");
+        this.appconst.ShowAlert("Enter VIN or STOCK");
+    }
+    if (this.workOrderObj.VINID != "") {
+      if (this.workOrderObj.VINID.length <= 16) {
+        this.appconst.ShowAlert("Enter valid Vin Number");
       }
-    }, (err) => {
-      loader.dismiss();
-      //this.presentToast('Try again');
-    });
+      else if (this.workOrderObj.VINID.length > 17) {
+        this.appconst.ShowAlert("VIN characters should not be more than 17");
+      }else if(this.workOrderObj.VINID.length == 17 && this.workOrderObj.STOCKID != ""){
+
+        let loader = this.loadingSrv.createLoader({ content: 'Updating ...' });
+        loader.present();
+
+        let searchOptions: string = `<Info><woid>${this.workOrderObj.WOID}</woid><vin>${this.workOrderObj.VINID}</vin><stock>${this.workOrderObj.STOCKID}</stock><ro>${this.workOrderObj.RO}</ro><po>${this.workOrderObj.PO}</po></Info>`
+        console.log("Submit XML :" + searchOptions);
+        this.odsService.updateWorkOrderVechileInfo(searchOptions).subscribe(Response => {
+          console.log('update workorder', Response);
+          loader.dismiss();
+          if (Response.status === 200) {
+            let body = JSON.parse(Response._body);
+            if (body[0].status == "0") {
+    
+              // setTimeout(() => {
+              let wo = {
+                woorder: this.workOrderObj,
+                status: Response.status
+              }
+              this.viewController.dismiss(wo);
+              // }, 1500)
+              this.presentToast('Work order details updated successfully');
+            } else {
+              //this.presentToast('Try again');
+            }
+            //console.log('update workorder body', body);
+          } else {
+            //this.presentToast('Try again');
+          }
+          }, (err) => {
+            loader.dismiss();
+            //this.presentToast('Try again');
+          });
+      }      
+    }
+    
   }
+
+
+  // updateWO() {
+
+  //   if (this.workOrderObj.VINID == "" && this.workOrderObj.STOCKID == "") {
+  //     this.appconst.addErrorMessage("Enter VIN or STOCK");
+  //   }
+  //   if (this.workOrderObj.VINID != "") {
+  //     if (this.workOrderObj.VINID.length <= 16) {
+  //       this.appconst.addErrorMessage("Enter valid Vin Number");
+  //     }
+  //     else if (this.isScan == "N") {
+  //       if (this.workOrderObj.VINID.length > 17) {
+  //         this.appconst.addErrorMessage("VIN characters should not be more than 17");
+  //       }
+  //     }
+  //   }
+  //   if (this.appconst.displayErrors() == true) {
+  //     let reqObj: any = {
+  //       "WONumber": this.workOrderObj.workOrderNumber,
+  //       "WOVinNumber": this.workOrderObj.VINID.trim().toUpperCase(),
+  //       "WOStockId": this.workOrderObj.STOCKID.trim().toUpperCase(),
+  //       "WOROId": this.workOrderObj.RO,
+  //       "WOPOId": this.workOrderObj.PO,
+  //       "WODate": this.workOrderObj.workOrderRequestDate,
+  //       "WOTime": this.workOrderObj.workOrderRequestTime,
+  //       "WODueTime": this.workOrderObj.workOrderRequestTimeDue,
+  //       "WORequestedBy": this.workOrderObj.workOrderRequestedId,
+  //       "WOCreatedDate": this.workOrderObj.workOrderCreatedDate,
+  //       "WOIPAddress": this.db.ipAddress,
+  //     };
+  //     this.appconst.startLoading();
+  //     this.odsService.UpdateWorkOrder(reqObj).subscribe(Response => {
+  //       this.appconst.stopLoading();
+  //       console.log('update workorder', Response);
+  //       // loader.dismiss();
+
+  //       var val = Response.json();
+  //       if (val.toLowerCase().indexOf("sucess") >= 0) {
+  //         console.log("success");
+  //         // setTimeout(() => {
+  //         let wo = {
+  //           woorder: this.workOrderObj,
+  //           status: Response.status
+  //         }
+  //         // this.viewController.dismiss(wo);
+  //         // }, 1500)
+  //         this.appconst.ShowAlert('Work Order Updated Successfully');
+  //         this.viewController.dismiss("SuccessfullyUpdated");
+  //         //this.refreshdata("1");
+  //         // this.navCtrl.setRoot('home-page');
+  //       } else {
+  //         //this.presentToast('Try again');
+  //       }
+  //       //console.log('update workorder body', body);
+  //     },
+  //       (err) => {
+  //         //this.presentToast('Try again');
+  //       });
+  //   }
+  // }
 
   presentToast(mgs) {
     let toast = this.toastCtrl.create({
@@ -309,5 +395,51 @@ export class WorkordereditComponent {
     }
     else
       this.workOrderObj.STOCKID = "";
+  }
+
+
+
+  scan() {
+    // this.vin = "";
+    // this.stock = "";
+    this.options = {
+      prompt: "Place a barcode inside the viewfinder rectangle to scan it",
+      orientation: "landscape",
+    }
+
+    this.scanner.scan(this.options).then((data) => {
+
+      if (data.text.length > 18) {
+       this.workOrderObj.VINID = data.text.substring(1, data.text.length);
+      }
+      else if (data.text.length == 17) {
+       this.workOrderObj.VINID = data.text.trim();
+        if (this.workOrderObj.STOCKID.trim() == "") {
+          this.workOrderObj.STOCKID =this.workOrderObj.VINID.substring(17 - this.stock_length);
+        }
+        this.isScan = "Y";
+        //this.openVinInfoPage(data.text.trim());
+      }
+      else if (data.text.length == 18) {
+       this.workOrderObj.VINID = data.text.trim();
+       this.workOrderObj.VINID = data.text.substring(1, data.text.length);
+        if (this.workOrderObj.STOCKID.trim() == "") {
+          this.workOrderObj.STOCKID =this.workOrderObj.VINID.substring(data.text.length - this.stock_length);
+        }
+        this.isScan = "Y";
+        //this.openVinInfoPage(data.text.trim());
+      } else if (data.cancelled == true) {
+        this.odsService.setValue(false);
+      }
+      else {
+       this.workOrderObj.VINID = data.text.trim();
+        if (this.workOrderObj.STOCKID.trim() == "") {
+          this.workOrderObj.STOCKID =this.workOrderObj.VINID.substring(data.text.length - this.stock_length);
+        }
+        this.isScan = "Y";
+      }
+    }, (err) => {
+      console.log("Error:", err);
+    });
   }
 }

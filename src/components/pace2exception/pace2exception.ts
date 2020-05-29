@@ -22,8 +22,8 @@ export class Pace2exceptionComponent {
   EmpId: any;
   ExpData: any;
   EmpList: any = [];
-  ExceptionName: any;
-  ExceptionNotes: any;
+  ExceptionName: any='';
+  ExceptionNotes: any='';
   ExceptionVin: any;
   ExceptionPack: any;
   ExceptionService: any;
@@ -71,6 +71,7 @@ export class Pace2exceptionComponent {
   Cancel() {
     this.ViewCtrl.dismiss();
   }
+  
   AddService(type,fcid){
     let Modal = this.modalctrl.create('TestPage',{'type':type ,'Data':this.workid,'DeptName':this.Depname,'DeptId':this.Depid,'FCID':fcid},{ cssClass: "full-height-modal" });
     Modal.onDidDismiss((data) => {
@@ -80,6 +81,7 @@ export class Pace2exceptionComponent {
     }); 
     Modal.present();
   }
+
   Delete(type){
     let Modal = this.modalctrl.create('TestPage',{'type':type ,'Data':this.workid,},{ cssClass: "full-height-modal" });
     Modal.onDidDismiss((data) => {

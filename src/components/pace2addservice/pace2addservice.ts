@@ -48,7 +48,7 @@ export class Pace2addserviceComponent {
       let packageOptions =`<Info>
             <s_id>${emdata[0].SiteNumber}</s_id>
             <type>M</type>
-            <dept_id>${self.FCID}</dept_id>
+            <dept_id>${self.Depid}</dept_id>
             <e_id>${emdata[0].EmpId}</e_id>
             <logtype>${emdata[0].LogType}</logtype>
           </Info>`

@@ -19,6 +19,7 @@ export class Pace2notesComponent {
   @Input() Wodata: any;
   @Input() NoteType: any;
   @Input() SId: any;
+  @Input() servWoid : any;
   show: boolean;
   Notes: any;
   Result: any;
@@ -62,7 +63,8 @@ export class Pace2notesComponent {
    
   }
   GetwoData() {
-   
+   console.log("WoDetails :", this.Wodata);
+   console.log("Woid :", this.servWoid);
     //this.NotesData = this.Wodata.WONOTES;
    this.Wosid = this.Wodata.WOSID;
    console.log(this.Wosid);
@@ -76,7 +78,8 @@ export class Pace2notesComponent {
           self.wossid = ele.WOSID;
          
         });
-        self.workid = element.WOID;
+
+        self.workid = this.servWoid;
         console.log('sub work wosid...',self.workid);
       });
       self.wsi = self.wossid;
@@ -84,7 +87,7 @@ export class Pace2notesComponent {
       this.GetOrders(this.workid,self.wsi,this.NoteType);
     }
     else {
-      self.workid = this.Wodata.WOID;
+      self.workid = this.servWoid;
       self.wsi = this.SId;
       this.GetOrders(this.workid,self.wsi,this.NoteType);
     }
@@ -99,7 +102,7 @@ export class Pace2notesComponent {
   }else{
     //self.wsi = 0;
     self.wsi= this.SId;
-    this.workid = this.Wodata.WOID;
+    this.workid = this.servWoid;
     console.log('wsi..else.', self.wsi);
     this.GetOrders(this.workid,self.wsi,this.NoteType);
     
@@ -197,8 +200,8 @@ export class Pace2notesComponent {
       console.log('date and time save...',this.date,this.time,this.ActualTime);
       this.body = {
         "strSearchString": `<Info><eid>${this.EmpId}</eid><logtype>${this.LogType}</logtype><serviceid>${this.wsi}</serviceid><date>${this.date.trim()}</date><time>${this.ActualTime.trim()}</time><ip>${this.appconst.ipAddress}</ip><type>${this.NoteType}</type><action>U</action><wonid>${this.WonId}</wonid><woid>${this.workid}</woid><notes>${this.Notes}</notes></Info>`
-
       }
+      console.log("Save String :" , this.body);
     } else {
       this.flag = 0;
       this.openload=1;
@@ -217,6 +220,8 @@ export class Pace2notesComponent {
         this.body = {
           "strSearchString": `<Info><eid>${this.EmpId}</eid><logtype>${this.LogType}</logtype><serviceid>${this.wsi}</serviceid><date>${this.date.trim()}</date><time>${this.ActualTime.trim()}</time><ip>${this.appconst.ipAddress}</ip><type>${this.NoteType}</type><action>A</action><wonid>0</wonid><woid>${this.workid}</woid><notes>${this.Notes}</notes></Info>`
         }
+
+        console.log("Save String :" , this.body);
       }
       this.notdata = {
         INSERTEDBY: this.EmpId,

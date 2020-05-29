@@ -23,7 +23,7 @@
         </ion-col>
     </ion-row>
 
-<!-- 
+    <!-- 
     <ion-row style="background-image: linear-gradient(to bottom right,#225ab4,#076bd0);">
         <ion-col style="padding:0px;" (click)="appconst.sitechangealert()">
             <ion-label style="font-size:2rem;padding:8px;margin:0px;padding-left:20px;color:white">{{dlrname}}</ion-label>
@@ -52,7 +52,7 @@
             <ion-input type="text" style="color: black;" [(ngModel)]="searchedText" placeholder="{{searchtext=='V'?'VIN':searchtext=='S'?'STOCK #':searchtext=='W'?'WORK ORDER #':searchtext=='R'?'RO #':searchtext=='F'?'RATING':searchtext=='N'?'INVOICE':''}}">
             </ion-input>
         </ion-col> -->
-         <div style="margin-bottom: 4px; position: sticky;top: 0px;z-index: 1000;">
+        <!-- <div style="margin-bottom: 4px; position: sticky;top: 0px;z-index: 1000;">
 
       <div
         style="justify-content: center;align-items: center;display: flex;padding: 2px 5px;flex-wrap: wrap;"
@@ -75,7 +75,7 @@
           <custom-select class="gheader" name="dataOpt" [(value)]="dataOptions.searchstatus"
             [optionsModel]="dataSearchModel" (change)="selectDataSearch($event)">
           </custom-select>
-        </div>
+        </div> -->
 
 
         <!-- <div style="padding: 3px !important;">
@@ -85,10 +85,28 @@
           <button ion-button color="danger" (click)="cancel()">Cancel</button>
         </div> -->
 
-      </div>
+        <!-- </div>
 
-    </div>
+    </div> -->
 
+        <ion-col>
+            <div style="flex-grow: 1;padding: 3px;" id="dataOpt_0">
+                <custom-select class="gheader" name="dataOption" defaultOptTxt="Select" [(optSelectActive)]="selectOptions" [(value)]="dataOptionsText" [optionsModel]="dataOptionsModel" (change)="selectDataOpt($event)">
+                </custom-select>
+            </div>
+        </ion-col>
+        <ion-col *ngIf="dataOptions.searchtype!='0'">
+            <div class="searchtext">
+                <ion-input type="text" [(ngModel)]="dataOptions.searchtext" style="color: black;" placeholder="{{dataOptions.searchtype=='V'?'VIN':dataOptions.searchtype=='S'?'Stock':'Work Order'}} #">
+                </ion-input>
+            </div>
+        </ion-col>
+        <ion-col>
+            <div style="width: 250px;color: white;flex-grow: 1;padding: 3px;" id="dataOpt_1">
+                <custom-select class="gheader" name="dataOpt" [(value)]="dataOptions.searchstatus" [optionsModel]="dataSearchModel" (change)="selectDataSearch($event)">
+                </custom-select>
+            </div>
+        </ion-col>
 
     </ion-row>
     <ion-row>

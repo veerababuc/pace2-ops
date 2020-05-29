@@ -34,7 +34,8 @@ export class MyApp {
     private ionicApp: IonicApp,
     public menu: MenuController) {
     platform.ready().then(() => {
- 
+      
+      this.AppVersion(); //Getting App version 
 
       if(platform.is('ios'))
        {
@@ -44,25 +45,6 @@ export class MyApp {
        {
          this.platform_menulist=false;
        }
-
-    /********FCM TOken********************************************** */
-    //   fcm.subscribeToTopic('all');
-    //   fcm.getToken().then((token)=>{
-    //      db.fcmtoken=token;
-    //  })
-    //  fcm.onNotification().subscribe((data)=>{
-    //    if(data.wasTapped)
-    //    {
-    //      console.log("received Notification");
-    //    }
-    //    else
-    //    {
-    //     console.log("received Notification foreground");
-    //    }
-    //  });
-    //  fcm.onTokenRefresh().subscribe((token)=>{
-    //      db.fcmtoken=token;
-    //  })
 
   /****************************************************** */
     /*******************IPADRESS*********************************** */
@@ -105,6 +87,10 @@ export class MyApp {
       console.log("User data",this.user)
      if(this.user.length>0)
       {
+
+        this.appconst.empName = this.user[0].Empname;
+        this.appconst.empRole = this.user[0].Rolename;
+        this.appconst.empProfileImage = this.user[0].Emplogo;
        
       if(this.user[0].Rem=="Y")
        {
@@ -145,11 +131,16 @@ export class MyApp {
       {title:"Work Order Queue",component:"page-workorderqueue", name:"WorkorderQueue"},
    ];
   });
-  
-  
+    
 
+  }
 
-
+  //Getting App Version
+  AppVersion(){
+    this.appVersion.getVersionNumber().then((data) => {
+      console.log("App Version :",data);
+      this.appVersionData = data;
+    })
   }
    
   Logout()

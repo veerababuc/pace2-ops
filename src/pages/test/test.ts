@@ -33,6 +33,7 @@ SId:any;
 loggedEmp:any;
 Type:any;
 wodataObj:any;
+servWoid:any;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.type = this.navParams.get('type');
     this.woid = this.navParams.get('Data');
@@ -48,10 +49,11 @@ wodataObj:any;
     this.modalno = this.navParams.get('modalno');
     this.notes = this.navParams.get('NotesData');
     this.Packid = this.navParams.get('PackId');
+    this.servWoid = this.navParams.get('Woid');
     // this.wodataObj = this.navParams.get('workOrderObj');
     // this.Type = this.navParams.get('type');
     // this.loggedEmp = this.navParams.get('logged');
-    console.log(' TestPage  empid.....', this.Type,this.woid,this.wodataObj,this.NoteType,this.SId );
+    console.log(' TestPage  empid.....', this.type,this.woid,this.Wodata,this.NoteType,this.SId );
   }
 
   ionViewDidLoad() {

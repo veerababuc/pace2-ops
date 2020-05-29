@@ -49,7 +49,7 @@
                 </ion-col>
                 <ion-col col-8 style="padding-bottom: 0px !important;font-size: 16px !important;" (click)="workOrderDetails(item,i)">
                     <ion-label>
-                        <span>VIN# :</span> &nbsp;{{item.VINID}}<br>
+                        <span>VIN# :</span> &nbsp;<span [ngStyle]="item.VINID == '' && { 'color': 'red' }">{{item.VINID == ''?'Please update VIN': item.VINID}}</span><br>
                         <!-- <span style="font-size:11px;margin:3px">Status : {{getStatus(item.ACTIVE)}}  &nbsp;| &nbsp; Due by : &nbsp;{{item.REQDATE}} @ {{item.REQTIME}}</span> -->
                     </ion-label>
                 </ion-col>
@@ -60,11 +60,11 @@
                 </ion-col>
             </ion-row>
             <ion-row class="background">
-                <ion-col col-5 style="text-align: left !important">
-                    <span style="font-size:14px;margin:3px">Status : <i style="text-transform: uppercase">{{getStatus(item.ACTIVE)}}</i></span>
-                </ion-col>
-                <ion-col col-7 style="text-align: right !important" (click)="workOrderDetails(item,i)">
-                    <span style="font-size:14px;margin:3px">Due by : &nbsp;{{item.REQDATE}} @ {{item.REQTIME}}</span>
+                <!-- <ion-col col-12 style="text-align: center !important">
+                    <span style="font-size:14px;margin:3px">Status : <span style="text-transform: uppercase">{{getStatus(item.ACTIVE)}}</span></span>
+                </ion-col> -->
+                <ion-col col-12 style="text-align: center !important" (click)="workOrderDetails(item,i)">
+                    <span style="font-size:12px;margin:3px">Due by : &nbsp;{{item.REQDATE}} @ {{item.REQTIME}}</span>
                 </ion-col>
             </ion-row>
 
@@ -94,12 +94,19 @@
                     <ion-label class="labelColorBlue">Packages</ion-label>
                 </ion-col>
                 <ion-col col-9>
-                    <ion-label class="packageComma labelColorGray" *ngIf="item.filterPackeges && item.filterPackeges.length > 0">
+                    <ion-label class="packageComma labelColorGray" *ngIf="item.WOSERVICES && item.filterPackeges.length > 0">
                         : {{item.filterPackeges[0].PACKAGENAME==""?'---':item.filterPackeges[0].PACKAGENAME }}
+
+                    </ion-label>
+                </ion-col>
+                <ion-col col-3>
+                    <ion-label class="labelColorBlue">Status</ion-label>
+                </ion-col>
+                <ion-col col-9>
+                    <ion-label class="labelColorGray">: {{getStatus(item.ACTIVE)}}
                         <span *ngIf="item.SUBWORKORDER.length > 0" style="float:right;padding-right:10px;font-weight: bold;font-size: 15px;color: blue;text-decoration: underline;" (click)="item.expanded == false?expand(item,i,serviceindex,true):expand(item,i,serviceindex,false)">More  <ion-icon name="ios-arrow-down-outline"></ion-icon></span>
                     </ion-label>
                 </ion-col>
-
                 <!-- <ion-col text-right *ngIf="item.SUBWORKORDER.length>0" class="labelColorGray" (click)="item.expanded == false?expand(item,i,serviceindex,true):expand(item,i,serviceindex,false)">
                     <ion-col *ngIf="item.expanded == false">More <span class="badge countNotes">{{item.SUBWORKORDER.length}}</span></ion-col>
                     <ion-col *ngIf="item.expanded == true">Less</ion-col>
@@ -123,6 +130,15 @@
                         <ion-col col-9>
                             <ion-label class="packageComma labelColorGray" *ngIf="item.filterPackeges && item.filterPackeges.length > 0">
                                 : {{item.filterPackeges[0].PACKAGENAME==""?'---':item.filterPackeges[0].PACKAGENAME }}
+
+                            </ion-label>
+                        </ion-col>
+                        <ion-col col-3 style="">
+                            <ion-label class="labelColorBlue">Status</ion-label>
+                        </ion-col>
+                        <ion-col col-9>
+                            <ion-label class="packageComma labelColorGray">
+                                : {{getStatus(item.ACTIVE)}}
                                 <span style="float:right;padding-right:10px;font-weight: bold;font-size: 15px;color: blue;text-decoration: underline;" (click)="item.expanded == false?expand(item,i,serviceindex,true):expand(item,i,serviceindex,false)">Less  <ion-icon name="ios-arrow-up-outline"></ion-icon></span>
                             </ion-label>
                         </ion-col>
@@ -150,8 +166,15 @@
                                 <ion-label class="labelColorBlue">Packages</ion-label>
                             </ion-col>
                             <ion-col col-8>
-                                <ion-label class="packageComma labelColorGray" *ngIf="item.filterPackeges && item.filterPackeges.length > 0">
+                                <ion-label class="packageComma labelColorGray">
                                     : {{package.PACKAGENAME }} </ion-label>
+                            </ion-col>
+                            <ion-col col-3 style="">
+                                <ion-label class="labelColorBlue">Status</ion-label>
+                            </ion-col>
+                            <ion-col col-9>
+                                <ion-label class="packageComma labelColorGray">
+                                    : {{getStatus(package.STATUS)}} </ion-label>
                             </ion-col>
                         </ion-row>
                     </div>

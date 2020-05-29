@@ -38,7 +38,7 @@ export class WorkorderQueuePage {
     searchstatus: 'A',
     searchtype: 0
   }
-  
+
   addinfinitescroll: boolean = false;
   infintescrollevent: any;
   selectemp = {
@@ -54,8 +54,8 @@ export class WorkorderQueuePage {
   // serviceIndex: any;
   headerName: any;
   PageNo: any;
-  
-  dataOptionsText:any = "0";
+
+  dataOptionsText: any = "0";
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public OdsSvc: OdsServiceProvider,
@@ -65,10 +65,10 @@ export class WorkorderQueuePage {
     public alert: AlertController,
     private loadingSrv: LoadingServiceProvider,
     public toastCtrl: ToastController,
-    public changeDetectorRef:ChangeDetectorRef,
-    public modal:ModalController,
-    private tostcntrl:ToastController,
-    private zone: NgZone,) {
+    public changeDetectorRef: ChangeDetectorRef,
+    public modal: ModalController,
+    private tostcntrl: ToastController,
+    private zone: NgZone, ) {
     this.db.getAllUsers().then(emdata => {
       console.log('emdata', emdata);
       this.dataOptions.siteid = emdata[0].SiteNumber;
@@ -84,33 +84,30 @@ export class WorkorderQueuePage {
     });
     this.PageNo = this.navParams.get('itm');
     console.log('PageName.....', this.PageNo);
-    if(this.PageNo == 1){
-    this.dataOptions.searchstatus = 'E';
+    if (this.PageNo == 1) {
+      this.dataOptions.searchstatus = 'E';
     }
 
   }
-  dataOptionsModel=[{name:'VIN #',value:'V'},{name:'Stock #',value:'S'},{name:'Work Order #',value:'WO'}];
-  empListModel:any[] = [];
-  selectedEmpId:string = "0";
-  selectOptions:true;
-  
+  dataOptionsModel = [{ name: 'VIN #', value: 'V' }, { name: 'Stock #', value: 'S' }, { name: 'Work Order #', value: 'WO' }];
+  empListModel: any[] = [];
+  selectedEmpId: string = "0";
+  selectOptions: true;
+
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad WorkorderQueuePage');
   }
 
-  ionViewDidEnter(){
+  ionViewDidEnter() {
     console.log("ion View Did Enter ...!");
 
-    // this.paceEnv.woIndexUpdate = this.woIndx;
-    // this.paceEnv.woUpdateObj   = this.worDetails;
-    // this.paceEnv.woUpdateType  = 'Approve';
     console.log("Call back Obj :", this.paceEnv.woUpdateObj);
-    var woInd = this.paceEnv.woIndexUpdate;
-    if(woInd > -1 && this.paceEnv.woUpdateObj){
-      //this.workOrders[woInd] = this.paceEnv.woUpdateObj;
-      this.workOrders[woInd].APPROVEDBY = this.dataOptions.eid;
+    if (this.paceEnv.woIndexUpdate != -1) {
+      var woInd = this.paceEnv.woIndexUpdate;
+      //this.cloneGetWorkOrders(woInd);
     }
+
   }
 
   expand(wo, i, serviceIndex, toggle) {
@@ -137,10 +134,10 @@ export class WorkorderQueuePage {
     let searchOptions: string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>${this.dataOptions.pageNumber}</pageNumber><pageSize>${this.dataOptions.pageSize}</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>${this.dataOptions.searchtype}</searchtype><searchtext>${this.dataOptions.searchtext}</searchtext><searchstatus>${this.dataOptions.searchstatus}</searchstatus></Info>`.trim();
     this.OdsSvc.GetWorkOrderStatus(searchOptions).subscribe(Response => {
       console.log('getworkOrder Queue', Response);
-  this.paceEnv.stopLoading();
-  if (Response.status === 200) {
-    let body = JSON.parse(Response._body);
-    //console.log(body);
+      this.paceEnv.stopLoading();
+      if (Response.status === 200) {
+        let body = JSON.parse(Response._body);
+        //console.log(body);
 
         if (body[0].result === '') {
           this.woqEmpty();
@@ -148,68 +145,70 @@ export class WorkorderQueuePage {
         } else {
           let result = JSON.parse(body[0].result);
           console.log(result, this.emplogtype, 'vv');
-          if(woCompeltedIndex == "L"){
-          result.forEach((element, index) => {
-            element.expanded = false;
-            element.selectedPackege = 0;
-            element.UniquePackeges = [...this.getPackeges(element)];
-            element.filterPackeges = [];
-            element.WOSERVICES.forEach((ws: any) => {
-              ws.expanded = false;
-              ws.value = '0';
-            });
-            if (element.SUBWORKORDER.length > 0) {
-              element.SUBWORKORDER.forEach(subOrder => {
-                subOrder.WOSERVICES.forEach((ws: any) => {
-                  ws.expanded = false;
-                  ws.empid = '0';
-                });
+          if (woCompeltedIndex == "L") {
+            result.forEach((element, index) => {
+              element.expanded = false;
+              element.selectedPackege = 0;
+              element.UniquePackeges = [...this.getPackeges(element)];
+              element.SubWOPackages = [...this.getSubWoPackeges(element)];
+              element.filterPackeges = [];
+              element.WOSERVICES.forEach((ws: any) => {
+                ws.expanded = false;
+                ws.value = '0';
               });
-
-            }
-            this.workOrders.push(Object.assign({}, element));
-            this.workOrders.forEach((selectOd, odIndex) => {
-              this.changeDetectorRef.detectChanges();
-              this.selectedPackege(odIndex, selectOd.UniquePackeges[0]);
-              ///this.getPackages(odIndex)
-
-            });
-          });
-        }else{
-          result.forEach((element, woCompeltedIndex) => {
-            element.expanded = false;
-            element.selectedPackege = 0;
-            element.UniquePackeges = [...this.getPackeges(element)];
-            element.filterPackeges = [];
-            element.WOSERVICES.forEach((ws: any) => {
-              ws.expanded = false;
-              ws.value = '0';
-            });
-            if (element.SUBWORKORDER.length > 0) {
-              element.SUBWORKORDER.forEach(subOrder => {
-                subOrder.WOSERVICES.forEach((ws: any) => {
-                  ws.expanded = false;
-                  ws.empid = '0';
+              if (element.SUBWORKORDER.length > 0) {
+                element.SUBWORKORDER.forEach(subOrder => {
+                  subOrder.WOSERVICES.forEach((ws: any) => {
+                    ws.expanded = false;
+                    ws.empid = '0';
+                  });
                 });
-              });
-              
-            }
-            ///this.workOrders.push(Object.assign({}, element));
-            
-           // console.log('test',element);
-            this.workOrders[woCompeltedIndex]=element;
-            this.workOrders.forEach((selectOd, odIndex) => {
-              this.changeDetectorRef.detectChanges();
-              this.selectedPackege(odIndex, selectOd.UniquePackeges[0]);
-                 
-            });
-          });
 
-        }
+              }
+              this.workOrders.push(Object.assign({}, element));
+              this.workOrders.forEach((selectOd, odIndex) => {
+                this.changeDetectorRef.detectChanges();
+                this.selectedPackege(odIndex, selectOd.UniquePackeges[0]);
+                ///this.getPackages(odIndex)
+
+              });
+            });
+          } else {
+            result.forEach((element, woCompeltedIndex) => {
+              element.expanded = false;
+              element.selectedPackege = 0;
+              element.UniquePackeges = [...this.getPackeges(element)];
+              element.SubWOPackages = [...this.getSubWoPackeges(element)];
+              element.filterPackeges = [];
+              element.WOSERVICES.forEach((ws: any) => {
+                ws.expanded = false;
+                ws.value = '0';
+              });
+              if (element.SUBWORKORDER.length > 0) {
+                element.SUBWORKORDER.forEach(subOrder => {
+                  subOrder.WOSERVICES.forEach((ws: any) => {
+                    ws.expanded = false;
+                    ws.empid = '0';
+                  });
+                });
+
+              }
+              ///this.workOrders.push(Object.assign({}, element));
+
+              // console.log('test',element);
+              this.workOrders[woCompeltedIndex] = element;
+              this.workOrders.forEach((selectOd, odIndex) => {
+                this.changeDetectorRef.detectChanges();
+                this.selectedPackege(odIndex, selectOd.UniquePackeges[0]);
+
+              });
+            });
+
+          }
           this.infinitescrollactions(true, false, false);
           this.woqEmpty();
         }
-        console.log('workorder end', this.workOrders,woCompeltedIndex);
+        console.log('workorder end', this.workOrders, woCompeltedIndex);
 
       } else {
         this.woqEmpty();
@@ -222,12 +221,18 @@ export class WorkorderQueuePage {
   }
 
   //Redirecting to work order details page
-  workOrderDetails(woDetails,indx){
+  workOrderDetails(woDetails, indx) {
     let loader = this.loadingSrv.createLoader();
     loader.present();
-    console.log('IN :',woDetails);
-    this.navCtrl.push('workDetails',{worDetails:woDetails,siteId : this.dataOptions.siteid, empId : this.dataOptions.eid,woIndx : indx}).then(val => {
-      
+    console.log('IN :', woDetails);
+    this.navCtrl.push('workDetails', { worDetails: woDetails, siteId: this.dataOptions.siteid, empId: this.dataOptions.eid, woIndx: indx }).then(val => {
+      this.navCtrl.getActive().onDidDismiss((data) => {
+        console.log(data);
+        if (data != undefined) {
+          this.cloneGetWorkOrders(data);
+        }
+
+      })
       loader.dismiss();
     }).catch(err => {
       console.log(err);
@@ -237,7 +242,7 @@ export class WorkorderQueuePage {
 
 
   search() {
-   // this.paceEnv.startLoading();
+    // this.paceEnv.startLoading();
     this.workOrders = [];
     this.infinitescrollactions(false, false, true);
     this.infinitescrollactions(false, true, false);
@@ -246,9 +251,8 @@ export class WorkorderQueuePage {
     //this.getWorkOrders();
     this.getAssigmentlist();
   }
-  loadData()
-  {
-    this.workOrders=[];
+  loadData() {
+    this.workOrders = [];
     this.getWorkOrders("L")
   }
 
@@ -293,12 +297,12 @@ export class WorkorderQueuePage {
 
 
   woqEmpty() {
-    
+
     if (this.workOrders.length == 0) {
       this.workOrders = 'No Data Found';
     }
-  
-  
+
+
   }
 
 
@@ -309,7 +313,7 @@ export class WorkorderQueuePage {
     Modal.onDidDismiss(data => {
       if (String(data) !== 'undefined') {
         //console.log(action);
-        
+
         if (action == 'addparts') {
           this.dataOptions.pageNumber = 1;
           this.dataOptions.pageSize = this.workOrders.length;
@@ -317,9 +321,9 @@ export class WorkorderQueuePage {
           //this.getWorkOrders();
           this.cloneGetWorkOrders(i);
           //this.getWorkOrders(i);
-        } else if(action == "void") {
-           this.workOrders.splice(i,1);
-        }else{
+        } else if (action == "void") {
+          this.workOrders.splice(i, 1);
+        } else {
           this.workOrders[i] = Object.assign({}, data.woorder);
         }
       }
@@ -332,20 +336,20 @@ export class WorkorderQueuePage {
     });;
 
   }
-  exceptionFixes(woid, deptname, deptid,index) {
+  exceptionFixes(woid, deptname, deptid, index) {
     console.log('response exceptionFixes', this.workOrders, woid, deptname, deptid);
     let type = 'woexp';
     let Modal = this.modalctrl.create('TestPage', { 'Data': woid, 'type': type, 'DeptName': deptname, 'DeptId': deptid }, { cssClass: "full-height-modal" });
     Modal.onDidDismiss((data) => {
       this.paceEnv.startLoading();
-      if(data == "Success"){
-        setTimeout(() => {         
+      if (data == "Success") {
+        setTimeout(() => {
           this.workOrders = [];
-          this.getWorkOrders("L");  
+          this.getWorkOrders("L");
           //this.cloneGetWorkOrders(index)
         }, 2000);
         this.paceEnv.stopLoading();
-      }else{
+      } else {
         this.paceEnv.stopLoading();
       }
       //this.ViewCtrl.dismiss();
@@ -355,87 +359,89 @@ export class WorkorderQueuePage {
     });
     Modal.present();
   }
-  NotesModal(notes, wo, notetype, woIndex,SId) {
-    console.log('subworkorder note', notes, wo, notetype,SId);
+
+  NotesModal(notes, wo, notetype, woIndex, SId) {
+    console.log('subworkorder note', notes, wo, notetype, SId);
     // let loader = this.loadingSrv.createLoader();
     // loader.present();
-    let Modal = this.modalctrl.create('TestPage', { 'type': notes, 'Wodata': wo, 'NType': notetype, 'SId':SId }, { cssClass: "full-height-modal" });
+    let Modal = this.modalctrl.create('TestPage', { 'type': notes, 'Wodata': wo, 'NType': notetype, 'SId': SId }, { cssClass: "full-height-modal" });
     Modal.onDidDismiss((val) => {
       //this.ViewCtrl.dismiss();
-      if(val==1){
-      this.paceEnv.startLoading();
-      console.log('in workorderqueu page');
-      let searchOptions: string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>1</pageNumber><pageSize>5</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>WO</searchtype><searchtext>${this.workOrders[woIndex].WONUMBER}</searchtext><searchstatus>${this.dataOptions.searchstatus}</searchstatus></Info>`.trim();
-      this.OdsSvc.GetWorkOrderStatus(searchOptions).subscribe(Response => {
-        this.paceEnv.stopLoading();
-        if (Response.status === 200) {
-          let body = JSON.parse(Response._body);
+      if (val == 1) {
+        this.paceEnv.startLoading();
+        console.log('in workorderqueu page');
+        let searchOptions: string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>1</pageNumber><pageSize>5</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>WO</searchtype><searchtext>${this.workOrders[woIndex].WONUMBER}</searchtext><searchstatus>${this.dataOptions.searchstatus}</searchstatus></Info>`.trim();
+        this.OdsSvc.GetWorkOrderStatus(searchOptions).subscribe(Response => {
+          this.paceEnv.stopLoading();
+          if (Response.status === 200) {
+            let body = JSON.parse(Response._body);
 
-          if (body[0].result === '') {
-            this.woqEmpty();
-            this.infinitescrollactions(false, false, true);
-          } else {
-            let result = JSON.parse(body[0].result);
-            console.log('workorder', result);
-            result.forEach((element, index) => {
-              element.expanded = false;
-              element.selectedPackege = 0;
-              element.UniquePackeges = [...this.getPackeges(element)];
-              element.filterPackeges = [];
-              element.WOSERVICES.forEach((ws: any) => {
-                ws.expanded = false;
-                ws.value = '0';
-              });
-              if (element.SUBWORKORDER.length > 0) {
-                element.SUBWORKORDER.forEach(subOrder => {
-                  subOrder.WOSERVICES.forEach((ws: any) => {
-                    ws.expanded = false;
-                    ws.empid = '0';
+            if (body[0].result === '') {
+              this.woqEmpty();
+              this.infinitescrollactions(false, false, true);
+            } else {
+              let result = JSON.parse(body[0].result);
+              console.log('workorder', result);
+              result.forEach((element, index) => {
+                element.expanded = false;
+                element.selectedPackege = 0;
+                element.UniquePackeges = [...this.getPackeges(element)];
+                element.SubWOPackages = [...this.getSubWoPackeges(element)];
+                element.filterPackeges = [];
+                element.WOSERVICES.forEach((ws: any) => {
+                  ws.expanded = false;
+                  ws.value = '0';
+                });
+                if (element.SUBWORKORDER.length > 0) {
+                  element.SUBWORKORDER.forEach(subOrder => {
+                    subOrder.WOSERVICES.forEach((ws: any) => {
+                      ws.expanded = false;
+                      ws.empid = '0';
+                    });
                   });
+
+                }
+                this.workOrders[woIndex] = result[0];
+                this.workOrders.forEach((selectOd, odIndex) => {
+                  this.changeDetectorRef.detectChanges();
+                  this.selectedPackege(odIndex, selectOd.UniquePackeges[0]);
                 });
 
-              }
-              this.workOrders[woIndex] = result[0];
-              this.workOrders.forEach((selectOd, odIndex) => {
-                this.changeDetectorRef.detectChanges();
-                this.selectedPackege(odIndex, selectOd.UniquePackeges[0]);
               });
-
-            });
-            this.infinitescrollactions(true, false, false);
+              this.infinitescrollactions(true, false, false);
+              this.woqEmpty();
+            }
+          } else {
             this.woqEmpty();
           }
-        } else {
+        }, (err) => {
+          console.log('get order err', err);
+          this.paceEnv.stopLoading();
           this.woqEmpty();
-        }
-      }, (err) => {
-        console.log('get order err', err);
-        this.paceEnv.stopLoading();
-        this.woqEmpty();
-      });
-    }
+        });
+      }
     });
     Modal.present().then(val => {
       // this.paceEnv.startLoading();
       // this.workOrders = [];
       // this.getWorkOrders();
       // loader.dismiss();
-      
+
     }).catch(err => {
       console.log(err);
       this.paceEnv.stopLoading();
     });
-  
+
   }
 
-  empSelection(woService,selcEmpId, woIndex, serviceIndex, subWorkorder, subWoindex) {
+  empSelection(woService, selcEmpId, woIndex, serviceIndex, subWorkorder, subWoindex) {
     if (this.selectpackege == true) {
       this.selectpackege = false;
     } else {
       if (selcEmpId !== '0') {
-        
+
         //console.log(selcEmpId);
-        this.assigment(woService,selcEmpId, woIndex, serviceIndex, subWorkorder, subWoindex);
+        this.assigment(woService, selcEmpId, woIndex, serviceIndex, subWorkorder, subWoindex);
       } else {
         this.presentToast('Select employee', 'bottom');
       }
@@ -449,7 +455,7 @@ export class WorkorderQueuePage {
     } else {
       if (woService.empId !== '0') {
         woService.empid = empId;
-        this.assigment(woService, empId,woIndex, serviceIndex, subWorkorder, subWoindex);
+        this.assigment(woService, empId, woIndex, serviceIndex, subWorkorder, subWoindex);
       } else {
         this.presentToast('Select employee', 'bottom');
       }
@@ -459,33 +465,33 @@ export class WorkorderQueuePage {
   }
 
   getlength(ex, list, SId) {
-    if(ex == 'S'){
-      let newlist = list.filter((x: any) => { if( x.WOSID == SId) return x.TYPE === ex; })
+    if (ex == 'S') {
+      let newlist = list.filter((x: any) => { if (x.WOSID == SId) return x.TYPE === ex; })
       return newlist.length;
     }
-    else{
+    else {
       let newlist = list.filter((x: any) => { return x.TYPE === ex; })
       return newlist.length;
-    }  
+    }
   }
 
   getAssigmentlist() {
     let self = this;
-    this.empListModel =[];
+    this.empListModel = [];
     this.paceEnv.startLoading();
-   // let loader = this.loadingSrv.createLoader();
-   // loader.present();
+    // let loader = this.loadingSrv.createLoader();
+    // loader.present();
     this.OdsSvc.getAssignmentEmployeeList(this.dataOptions).subscribe(Response => {
-     // loader.dismiss();
+      // loader.dismiss();
       this.paceEnv.stopLoading();
       if (Response[0].result !== '') {
         let result = JSON.parse(Response[0].result);
         self.emplist = result[0].EMPLOYEES;
-        for(let i= 0; i <self.emplist.length; i++  ){
-        this.empListModel.push({name:self.emplist[i].NAME,value:self.emplist[i].EID})
+        for (let i = 0; i < self.emplist.length; i++) {
+          this.empListModel.push({ name: self.emplist[i].NAME, value: self.emplist[i].EID })
         }
         console.log(this.empListModel);
-        
+
         self.employeeWorkOrderPermissionforactions();
         //self.getWorkOrders();
       }
@@ -494,9 +500,9 @@ export class WorkorderQueuePage {
     })
   }
 
-  assigment(woservice,selectedEmpid, woindex, serviceindex, subWorkorder, subWoindex) {
+  assigment(woservice, selectedEmpid, woindex, serviceindex, subWorkorder, subWoindex) {
     //let self = this;   
-     console.log('testggggggggggg',woservice,selectedEmpid, woindex, serviceindex, subWorkorder, subWoindex);
+    console.log('testggggggggggg', woservice, selectedEmpid, woindex, serviceindex, subWorkorder, subWoindex);
 
     let servive: any = {
       eid: this.dataOptions.eid,
@@ -510,9 +516,9 @@ export class WorkorderQueuePage {
     };
     this.paceEnv.startLoading();
     console.log(subWorkorder);
-    
+
     this.OdsSvc.assignWOItem(servive).subscribe(Response => {
-      if (Response[0].errorId > 0 ) {
+      if (Response[0].errorId > 0) {
         console.log(Response);
         this.OdsSvc.refreshServiceItems(servive.serid).subscribe(serviceres => {
           this.paceEnv.stopLoading();
@@ -520,9 +526,9 @@ export class WorkorderQueuePage {
             let result = JSON.parse(serviceres[0].result);
             console.log('sub workorder', subWorkorder);
             if (subWorkorder == true) {
-            //if (subWorkorder != "0") {
+              //if (subWorkorder != "0") {
               //this.workOrders[woindex].SUBWORKORDER[serviceindex].WOSERVICES[serviceindex] = result[0].SERVICEITEM[0];
-              console.log('sub workorder true', serviceindex,woindex);
+              console.log('sub workorder true', serviceindex, woindex);
               //this.workOrders[woindex].WOSERVICES[serviceindex] =  result[0].SERVICEITEM[0];
               //this.workOrders[woindex].filterPackeges[serviceindex] =  result[0].SERVICEITEM[0];
               //this.workOrders[woindex].filterPackeges[serviceindex]="Vishnu"
@@ -536,10 +542,10 @@ export class WorkorderQueuePage {
               // this.paceEnv.stopLoading();
               //this.employeeWorkOrderPermissionforactions();
               let arry = JSON.stringify(result[0].SERVICEITEM[0])
-              this.zone.run(() => { this.workOrders[woindex].SUBWORKORDER[subWoindex].WOSERVICES[serviceindex] =  JSON.parse(arry)});
-              console.log("Vishnu",this.workOrders);
+              this.zone.run(() => { this.workOrders[woindex].SUBWORKORDER[subWoindex].WOSERVICES[serviceindex] = JSON.parse(arry) });
+              console.log("Vishnu", this.workOrders);
               console.log(result[0].SERVICEITEM[0]);
-              
+
             } else {
 
               console.log('sub workorder else', subWorkorder);
@@ -548,22 +554,22 @@ export class WorkorderQueuePage {
               let woserviceindex = this.workOrders[woindex].WOSERVICES.findIndex(service => {
                 return service.WOSID === woservice.WOSID
               });
-              
-              this.workOrders[woindex].WOSERVICES[woserviceindex] =  result[0].SERVICEITEM[0];
-              this.workOrders[woindex].filterPackeges[serviceindex] =  result[0].SERVICEITEM[0];
+
+              this.workOrders[woindex].WOSERVICES[woserviceindex] = result[0].SERVICEITEM[0];
+              this.workOrders[woindex].filterPackeges[serviceindex] = result[0].SERVICEITEM[0];
               // let packegeindex = this.workOrders[woindex].UniquePackeges.findIndex(p => {
               //   return p.SSIID === this.workOrders[woindex].filterPackeges[serviceindex].SSIID;
               // })
               //this.workOrders[woindex].selectedPackege = packegeindex;
-              console.log('Vishnu1',this.workOrders);
-              
+              console.log('Vishnu1', this.workOrders);
+
               // setTimeout(() => {
               //   this.paceEnv.startLoading();
               //   this.workOrders = [];
               //   this.getWorkOrders(this.dataOptions.searchtext);  
               // }, 2000);
               // this.paceEnv.stopLoading();
-              
+
             }
 
           }
@@ -661,7 +667,7 @@ export class WorkorderQueuePage {
   //   alert.present();
   // }
 
-  pickService(serviceobj, woMainIndex,woindex, serviceindex, action,subWorkorder) {
+  pickService(serviceobj, woMainIndex, woindex, serviceindex, action, subWorkorder) {
     let self = this;
     let alertMsg = action == 'D' ? "Are you sure you want to Cancel your pickup?" : action == 'P' ? "Are you sure you want to Pickup service?" : "Are you sure you want to Complete?"
     let alert = this.alert.create({
@@ -688,25 +694,24 @@ export class WorkorderQueuePage {
             let loader = this.loadingSrv.createLoader();
             loader.present();
             self.OdsSvc.pickUpService(servive).subscribe(Response => {
-            loader.dismiss();
+              loader.dismiss();
               if (Response[0].status > 0) {
                 self.OdsSvc.refreshServiceItems(servive.serid).subscribe(serviceres => {
                   if (serviceres[0].result !== '') {
                     let result = JSON.parse(serviceres[0].result);
                     console.log('serviceres1', result[0].SERVICEITEM[0]);
-                    console.log('index',woMainIndex,serviceindex,woindex, action)
-                    if(subWorkorder  == true){
-                      this.workOrders[woMainIndex].SUBWORKORDER[woindex].WOSERVICES[serviceindex]= Object.assign({},result[0].SERVICEITEM[0]);
-                      this.selectedEmpId="0";
+                    console.log('index', woMainIndex, serviceindex, woindex, action)
+                    if (subWorkorder == true) {
+                      this.workOrders[woMainIndex].SUBWORKORDER[woindex].WOSERVICES[serviceindex] = Object.assign({}, result[0].SERVICEITEM[0]);
+                      this.selectedEmpId = "0";
                       setTimeout(() => {
                         //this.cloneGetWorkOrders(woMainIndex,action)
-                        if(action=="C"){
-                        //this.workOrders = [];
-                        this.getWorkOrders(woMainIndex); 
-                        } 
-                      }, 1000);                      
-                      }else
-                    {
+                        if (action == "C") {
+                          //this.workOrders = [];
+                          this.getWorkOrders(woMainIndex);
+                        }
+                      }, 1000);
+                    } else {
                       //console.log('emp data empid, this.emplogtype', self.dataOptions.eid, self.emplogtype,this.workOrders,this.workOrders[woindex].WOSERVICES[serviceindex + 1]);
                       if (this.workOrders[woindex].WOSERVICES[serviceindex + 1] != undefined) {
                         if (this.workOrders[woindex].WOSERVICES[serviceindex + 1].SSIID == result[0].SERVICEITEM[0].SSIID) {
@@ -715,26 +720,26 @@ export class WorkorderQueuePage {
                           this.workOrders[woindex].filterPackeges[serviceindex] = result[0].SERVICEITEM[0];
                           setTimeout(() => {
                             //this.cloneGetWorkOrders(woindex,action)
-                            if(action=="C"){
-                            //this.workOrders = [];
-                            this.getWorkOrders(woindex);
-                            }  
+                            if (action == "C") {
+                              //this.workOrders = [];
+                              this.getWorkOrders(woindex);
+                            }
                           }, 1000);
-                             
+
                         }
                         else {
                           if (this.workOrders[woindex].WOSERVICES[serviceindex].SSIID == result[0].SERVICEITEM[0].SSIID) {
                             //console.log('hicode');
                             this.workOrders[woindex].filterPackeges[serviceindex] = result[0].SERVICEITEM[0]
-                             this.workOrders[woindex].WOSERVICES[serviceindex] = result[0].SERVICEITEM[0]
-                             setTimeout(() => {
+                            this.workOrders[woindex].WOSERVICES[serviceindex] = result[0].SERVICEITEM[0]
+                            setTimeout(() => {
                               //this.cloneGetWorkOrders(woindex,action)
-                              if(action=="C"){
-                              //this.workOrders = [];
-                              this.getWorkOrders(woindex);  
+                              if (action == "C") {
+                                //this.workOrders = [];
+                                this.getWorkOrders(woindex);
                               }
                             }, 1000);
-                            
+
                           }
                         }
                       } else {
@@ -742,19 +747,19 @@ export class WorkorderQueuePage {
                         this.workOrders[woindex].WOSERVICES[serviceindex] = result[0].SERVICEITEM[0]
                         setTimeout(() => {
                           //this.cloneGetWorkOrders(woindex,action)
-                          if(action=="C"){
-                          //this.workOrders = [];
-                          this.getWorkOrders(woindex); 
-                          } 
+                          if (action == "C") {
+                            //this.workOrders = [];
+                            this.getWorkOrders(woindex);
+                          }
                         }, 1000);
-                        
+
                       }
                       //this.workOrders[woindex].WOSERVICES[serviceindex] =Object.assign({},result[0].SERVICEITEM[0]);
                       //this.cloneGetWorkOrders(woindex);
                       //this.zone.run(() => { this.workOrders[woindex].filterPackeges[serviceindex] =Object.assign({},result[0].SERVICEITEM[0])});
                     }
-                   
-                     //this.employeeWorkOrderPermissionforactions("");
+
+                    //this.employeeWorkOrderPermissionforactions("");
                     //  if(subWorkorder  == true){
                     //  this.workOrders[woindex].SUBWORKORDER[serviceindex].WOSERVICES[serviceindex]= Object.assign({},result[0].SERVICEITEM[0]);
                     //  }
@@ -763,13 +768,13 @@ export class WorkorderQueuePage {
                     //      
                     //   }
                     // })
-                    
-                   
-                  
-                    console.log('emp data empid, this.emplogtype', self.dataOptions.eid, self.emplogtype,this.workOrders);
+
+
+
+                    console.log('emp data empid, this.emplogtype', self.dataOptions.eid, self.emplogtype, this.workOrders);
                     //self.workOrders = [];
                     //self.paceEnv.stopLoading();y
-                   // self.paceEnv.startLoading();
+                    // self.paceEnv.startLoading();
                     //self.cloneGetWorkOrders();
                     // if(action=='D')
                     //   self.workOrders[woindex].WOSERVICES[serviceindex].empid = "--Select--";
@@ -814,9 +819,9 @@ export class WorkorderQueuePage {
         let result = JSON.parse(Response[0].result);
         self.getWorkOrders("L");
         self.workOrderPermission = Object.assign({}, result[0].WOPERMISSIONS[0]);
-        console.log('Permissions',self.workOrderPermission);
-        
-       
+        console.log('Permissions', self.workOrderPermission);
+
+
       }
     }, (err) => {
       console.log('err', err);
@@ -840,18 +845,26 @@ export class WorkorderQueuePage {
     //console.log('woSindex', workOderIndex,packege);
     //let loader = this.loadingSrv.createLoader();
     //loader.present();
-    
+
     this.workOrders[workOderIndex].selectedPackege = woSindex;
     this.workOrders[workOderIndex].filterPackeges = this.workOrders[workOderIndex].WOSERVICES.filter(data => {
       //loader.dismiss();
       return data.SSIID == packege.SSIID;
-      
+
     });
-  
+
   }
+
   getPackeges(workOrder: any) {
     let newArray = workOrder.WOSERVICES.reduce(
       (accumulator, current) => accumulator.some(x => x.PACKAGENAME === current.PACKAGENAME) ? accumulator : [...accumulator, current], []
+    );
+    return newArray;
+  }
+
+  getSubWoPackeges(workOrder: any) {
+    let newArray = workOrder.SUBWORKORDER.reduce(
+      (accumulator, current) => accumulator.some(x => x.WOSERVICES[0].PACKAGENAME === current.WOSERVICES[0].PACKAGENAME) ? accumulator : [...accumulator, current], []
     );
     return newArray;
   }
@@ -864,25 +877,25 @@ export class WorkorderQueuePage {
   //     this.empSelectionUpdate(spackage, i, serviceindex, spackage.empid, subWorkorder, subWoindex);
   // }
 
-  selectDataOpt(data){
-           // console.log(data);
-            
-       this.dataOptions.searchtype = data;
-       
+  selectDataOpt(data) {
+    // console.log(data);
+
+    this.dataOptions.searchtype = data;
+
   }
-  ApproveClick(wo,i,approve){
+  ApproveClick(wo, i, approve) {
     let date = moment(new Date()).format('MM/DD/YYYY');////changed by Vishnu
     let time = moment(new Date()).format('hh:mm A');////changed by Vishnu;
     console.log(wo);
-    
-    let paramObj = {strWoId :wo.WOID,strApprovedBy:this.loggedEmp, strApprovedDt:date,strApprovedTime:time,strIPAddress:this.paceEnv.ipAddress }
+
+    let paramObj = { strWoId: wo.WOID, strApprovedBy: this.loggedEmp, strApprovedDt: date, strApprovedTime: time, strIPAddress: this.paceEnv.ipAddress }
     console.log(paramObj);
     //this.paceEnv.startLoading();
     let loader = this.loadingSrv.createLoader();
     loader.present();
-    this.OdsSvc.approveAdmin(paramObj).subscribe((approveData:any)=>{
+    this.OdsSvc.approveAdmin(paramObj).subscribe((approveData: any) => {
       loader.dismiss();
-      if(approveData[0].errorId > 0){
+      if (approveData[0].errorId > 0) {
         setTimeout(() => {
           //this.paceEnv.startLoading();
           //this.workOrders = [];
@@ -890,72 +903,69 @@ export class WorkorderQueuePage {
           this.cloneGetWorkOrders(i);
         }, 2000);
         //this.paceEnv.stopLoading();
-      }   
-    },err=>{
+      }
+    }, err => {
       loader.dismiss();
     })
 
   }
 
-  onClick(rating,list,index){
+  onClick(rating, list, index) {
     let date = moment(new Date()).format('MM/DD/YYYY');////changed by Vishnu
     let time = moment(new Date()).format('hh:mm A');////changed by Vishnu;
-   let SearchString ="";
-   let body:any ='';
+    let SearchString = "";
+    let body: any = '';
     list.RATING = rating;
-    SearchString =`<WORating>
+    SearchString = `<WORating>
     <ratingId>${list.WONUMBER}</ratingId>
     <ratingValue>${rating}</ratingValue>
     <ratingAcceptedById>${this.loggedEmp}</ratingAcceptedById>
     <ratingAcceptedDate>${date}</ratingAcceptedDate>
     <ratingAcceptedTime>${time}</ratingAcceptedTime>
   </WORating>`
-   this.OdsSvc.fiveStarRating(SearchString).subscribe((fiveStarData:any)=>{
-     body = JSON.parse(fiveStarData._body);
-     
-     if(body[0].errorId > 0){
-      // setTimeout(() => {
-      //   this.paceEnv.startLoading();
-       //this.workOrders = [];
-      //this.getWorkOrders();  
-      // }, 2000);
-       // this.paceEnv.stopLoading();
-      this.cloneGetWorkOrders(index);
+    this.OdsSvc.fiveStarRating(SearchString).subscribe((fiveStarData: any) => {
+      body = JSON.parse(fiveStarData._body);
 
-     }
-   })
-    console.log(rating,list)
+      if (body[0].errorId > 0) {
+        // setTimeout(() => {
+        //   this.paceEnv.startLoading();
+        //this.workOrders = [];
+        //this.getWorkOrders();  
+        // }, 2000);
+        // this.paceEnv.stopLoading();
+        this.cloneGetWorkOrders(index);
+
+      }
+    })
+    console.log(rating, list)
   }
-  openFeedBack(woList){
+  openFeedBack(woList) {
     console.log(woList);
-    if(woList.RATING == "0"){
-          this.paceEnv.ShowAlert("Please Enter Rating ");
-    }else{
+    if (woList.RATING == "0") {
+      this.paceEnv.ShowAlert("Please Enter Rating ");
+    } else {
       let loader = this.loadingSrv.createLoader();
-    loader.present();
-    let Modal = this.modalctrl.create(FeedBackComponent, {workOrderObj: woList,logged:this.loggedEmp,type:'feedBack'}, { cssClass: "full-height-modal" });
-    Modal.present().then(val => {
-      loader.dismiss();
-    }).catch(err => {
-      console.log(err);
-      loader.dismiss();
-    });;
+      loader.present();
+      let Modal = this.modalctrl.create(FeedBackComponent, { workOrderObj: woList, logged: this.loggedEmp, type: 'feedBack' }, { cssClass: "full-height-modal" });
+      Modal.present().then(val => {
+        loader.dismiss();
+      }).catch(err => {
+        console.log(err);
+        loader.dismiss();
+      });;
+    }
+
   }
-    
-}
-////clone get workOrders
-cloneGetWorkOrders(woIndex){
-  //console.log(woObj);
-  
-   
-    
-    
+  ////clone get workOrders
+  cloneGetWorkOrders(woIndex) {
+    //console.log(woObj);   
+    this.paceEnv.woIndexUpdate = -1;
     this.paceEnv.startLoading();
-    let searchOptions:string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>1</pageNumber><pageSize>5</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>WO</searchtype><searchtext>${this.workOrders[woIndex].WONUMBER}</searchtext><searchstatus>${this.dataOptions.searchstatus}</searchstatus></Info>`.trim();
+    let searchOptions: string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>1</pageNumber><pageSize>5</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>WO</searchtype><searchtext>${this.workOrders[woIndex].WONUMBER}</searchtext><searchstatus>${this.dataOptions.searchstatus}</searchstatus></Info>`.trim();
     //let searchOptions: string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>${this.dataOptions.pageNumber}</pageNumber><pageSize>${this.dataOptions.pageSize}</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>${this.dataOptions.searchtype}</searchtype><searchtext>${this.workOrders[woIndex].WONUMBER}</searchtext><searchstatus>${this.dataOptions.searchstatus}</searchstatus></Info>`.trim();
-    
+
     this.OdsSvc.GetWorkOrderStatus(searchOptions).subscribe(Response => {
-      console.log('getworkOrder Queue', Response);
+      console.log('single getworkOrder Queue', Response);
       this.paceEnv.stopLoading();
       if (Response.status === 200) {
         let body = JSON.parse(Response._body);
@@ -966,18 +976,19 @@ cloneGetWorkOrders(woIndex){
           this.infinitescrollactions(false, false, true);
         } else {
           let result = JSON.parse(body[0].result);
-          console.log(result,'vt');
-          
+          console.log(result, 'vt');
+
           result.forEach((element, index) => {
             //console.log(action);
-            
+
             // if(action == 'C'){
             //   element.ACTIVE =action
             // }
-            
+
             element.expanded = false;
             element.selectedPackege = 0;
             element.UniquePackeges = [...this.getPackeges(element)];
+            element.SubWOPackages = [...this.getSubWoPackeges(element)];
             element.filterPackeges = [];
             element.WOSERVICES.forEach((ws: any) => {
               ws.expanded = false;
@@ -992,14 +1003,14 @@ cloneGetWorkOrders(woIndex){
               });
 
             }
-            this.cloneWorkOrders=[];
+            this.cloneWorkOrders = [];
             //this.cloneWorkOrders.push(Object.assign({}, element));
             //this.workOrders[Woindex]
             this.workOrders[woIndex] = result[0];
             this.workOrders.forEach((selectOd, odIndex) => {
               this.changeDetectorRef.detectChanges();
               this.selectedPackege(odIndex, selectOd.UniquePackeges[0]);
-              
+
             });
           });
           //this.selectedPackege(Woindex, woObj.UniquePackeges[0]);
@@ -1012,8 +1023,8 @@ cloneGetWorkOrders(woIndex){
         // else{
         //   this.workOrders.concat(this.cloneWorkOrders)
         // }
-        console.log('workorder end', this.workOrders,'cloneObj',this.cloneWorkOrders);
-       
+        console.log('workorder end', this.workOrders, 'cloneObj', this.cloneWorkOrders);
+
       } else {
         this.woqEmpty();
       }
@@ -1023,77 +1034,77 @@ cloneGetWorkOrders(woIndex){
       this.woqEmpty();
     });
 
-}
+  }
 
-openCustomFilterModel(){
- // let WoItem={'Title':this.siteTitle,'EmpId':this.empid,'SiteId':this.siteId}
-  let model=this.modal.create('page-customFilter',{'WoItem':""});
-//  model.present();
-  model.onDidDismiss(data => {
-    console.log(data);
-    if (data != undefined) {
-      this.dataOptions.searchstatus = data.searchby;
-      this.dataOptions.searchtype = data.searchtype;
-      this.dataOptions.searchtext = data.searchInput;
-        this.workOrders=[];
-      this.getWorkOrders('L')
-      //this.cust1omSeatchFilter(data.searchby, data.searchInput)
-      //this.selectedSection = "T";
-      //this.initalFunct();
-    }
-  });
-  model.present().then(val => {
-    //this.appconst.stopLoading();
-  }).catch(err => {
-    console.log(err);
-    //this.appconst.stopLoading();
-  });;
- 
-}
-
-openExceptionFixesModel(woid, deptname, deptid,index){
-  let type = 'woexp';
-  let WoItem={'Data': woid, 'type': type, 'DeptName': deptname, 'DeptId': deptid }
-   let model=this.modal.create('exception-fixes',{'WoItem':WoItem});
- //  model.present();
-   model.onDidDismiss(data => {
-     console.log(data);
-     if(data == "Success"){
-      setTimeout(() => {         
+  openCustomFilterModel() {
+    // let WoItem={'Title':this.siteTitle,'EmpId':this.empid,'SiteId':this.siteId}
+    let model = this.modal.create('page-customFilter', { 'WoItem': "" });
+    //  model.present();
+    model.onDidDismiss(data => {
+      console.log(data);
+      if (data != undefined) {
+        this.dataOptions.searchstatus = data.searchby;
+        this.dataOptions.searchtype = data.searchtype;
+        this.dataOptions.searchtext = data.searchInput;
         this.workOrders = [];
-        this.getWorkOrders("L");  
-        //this.cloneGetWorkOrders(index)
-      }, 2000);
-      this.paceEnv.stopLoading();
-    }else{
-      this.paceEnv.stopLoading();
-    }
-   });
-   model.present().then(val => {
-     //this.appconst.stopLoading();
-   }).catch(err => {
-     console.log(err);
-     //this.appconst.stopLoading();
-   });;
-  
- }
-presentToastCtrl(position : string) {
-  const toast = this.tostcntrl.create({
-    message: 'Go to Dashboard to change the site..!',
-    duration: 3000,
-    position: position
-  });
-  toast.present();
-}
+        this.getWorkOrders('L')
+        //this.cust1omSeatchFilter(data.searchby, data.searchInput)
+        //this.selectedSection = "T";
+        //this.initalFunct();
+      }
+    });
+    model.present().then(val => {
+      //this.appconst.stopLoading();
+    }).catch(err => {
+      console.log(err);
+      //this.appconst.stopLoading();
+    });;
+
+  }
+
+  openExceptionFixesModel(woid, deptname, deptid, index) {
+    let type = 'woexp';
+    let WoItem = { 'Data': woid, 'type': type, 'DeptName': deptname, 'DeptId': deptid }
+    let model = this.modal.create('exception-fixes', { 'WoItem': WoItem });
+    //  model.present();
+    model.onDidDismiss(data => {
+      console.log(data);
+      if (data == "Success") {
+        setTimeout(() => {
+          this.workOrders = [];
+          this.getWorkOrders("L");
+          //this.cloneGetWorkOrders(index)
+        }, 2000);
+        this.paceEnv.stopLoading();
+      } else {
+        this.paceEnv.stopLoading();
+      }
+    });
+    model.present().then(val => {
+      //this.appconst.stopLoading();
+    }).catch(err => {
+      console.log(err);
+      //this.appconst.stopLoading();
+    });;
+
+  }
+  presentToastCtrl(position: string) {
+    const toast = this.tostcntrl.create({
+      message: 'Go to Dashboard to change the site..!',
+      duration: 3000,
+      position: position
+    });
+    toast.present();
+  }
 
 
-//Getting Status Text
-getStatus(stus){
-  //console.log(stus);
-  if (stus == 'I') { return 'In Progress'; } 
-  else if (stus == 'A') { return 'Pending Approvals'; } 
-  else if (stus == 'C') { return 'Completed'; } 
-  else if (stus == 'O') { return 'Open'; }
-}
-  
+  //Getting Status Text
+  getStatus(stus) {
+    //console.log(stus);
+    if (stus == 'I') { return 'In Progress'; }
+    else if (stus == 'A') { return 'Pending Approvals'; }
+    else if (stus == 'C') { return 'Completed'; }
+    else if (stus == 'O') { return 'Open'; }
+  }
+
 }

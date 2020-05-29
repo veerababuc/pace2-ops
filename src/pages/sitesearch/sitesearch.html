@@ -1,9 +1,7 @@
+<ion-header [ngClass]="(platform_tabclass==true)&& 'homeheaderclass-ios' || 'homeheaderclass-an'">
+    <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="setFilter()" (ionFocus)="hideButtons('Y')" (ionBlur)="hideButtons('N')"></ion-searchbar>
+</ion-header>
 
-
-<ion-header [ngClass]="(platform_tabclass==true)&& 'homeheaderclass-ios' || 'homeheaderclass-an'" >
-     <ion-searchbar  [(ngModel)]="searchTerm"  (ionInput)="setFilter()" (ionFocus)="hideButtons('Y')" (ionBlur)="hideButtons('N')"></ion-searchbar>  
-  </ion-header>
-  
 <!--   
   <ion-content padding style="background:white !important; margin-bottom:unset !important" > -->
     <ion-content padding style="background:white !important;" >
