@@ -351,7 +351,7 @@ export class WorkOrderDetailsPage {
           this.empListModel.push({ name: self.emplist[i].NAME, value: self.emplist[i].EID })
         }
         console.log("Emp modal :", this.empListModel);
-
+        this.flagAction = "Y";
         self.employeeWorkOrderPermissionforactions();
         //self.getWorkOrders();
       }

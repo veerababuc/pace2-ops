@@ -229,9 +229,9 @@ export class WorkorderQueuePage {
       this.navCtrl.getActive().onDidDismiss((data) => {
         console.log("Modal Dismiss val:", data);
         if (data != undefined) {
-          //this.cloneGetWorkOrders(data);
-          this.workOrders = [];
-          this.getWorkOrders('L')
+          this.cloneGetWorkOrders(data);
+          //this.workOrders = [];
+          //this.getWorkOrders('L')
         }
 
       })
@@ -856,6 +856,19 @@ export class WorkorderQueuePage {
     });
 
   }
+  selectedClonePackege(workOderIndex, packege, woSindex = 0) {
+    //console.log('woSindex', workOderIndex,packege);
+    //let loader = this.loadingSrv.createLoader();
+    //loader.present();
+
+    this.cloneWorkOrders[workOderIndex].selectedPackege = woSindex;
+    this.cloneWorkOrders[workOderIndex].filterPackeges = this.cloneWorkOrders[workOderIndex].WOSERVICES.filter(data => {
+      //loader.dismiss();
+      return data.SSIID == packege.SSIID;
+
+    });
+
+  }
 
   getPackeges(workOrder: any) {
     let newArray = workOrder.WOSERVICES.reduce(
@@ -963,7 +976,7 @@ export class WorkorderQueuePage {
     //console.log(woObj);   
     this.paceEnv.woIndexUpdate = -1;
     this.paceEnv.startLoading();
-    let searchOptions: string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>1</pageNumber><pageSize>5</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>WO</searchtype><searchtext>${this.workOrders[woIndex].WONUMBER}</searchtext><searchstatus>${this.dataOptions.searchstatus}</searchstatus></Info>`.trim();
+    let searchOptions: string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>1</pageNumber><pageSize>20</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>WO</searchtype><searchtext></searchtext><searchstatus>${this.dataOptions.searchstatus}</searchstatus></Info>`.trim();
     //let searchOptions: string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>${this.dataOptions.pageNumber}</pageNumber><pageSize>${this.dataOptions.pageSize}</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>${this.dataOptions.searchtype}</searchtype><searchtext>${this.workOrders[woIndex].WONUMBER}</searchtext><searchstatus>${this.dataOptions.searchstatus}</searchstatus></Info>`.trim();
 
     this.OdsSvc.GetWorkOrderStatus(searchOptions).subscribe(Response => {
@@ -1005,26 +1018,25 @@ export class WorkorderQueuePage {
               });
 
             }
-            this.cloneWorkOrders = [];
-            //this.cloneWorkOrders.push(Object.assign({}, element));
+            //this.cloneWorkOrders = [];
+            this.cloneWorkOrders.push(Object.assign({}, element));
             //this.workOrders[Woindex]
-            this.workOrders[woIndex] = result[0];
-            this.workOrders.forEach((selectOd, odIndex) => {
+            //this.workOrders.push(Object.assign({}, element));
+            this.cloneWorkOrders.forEach((selectOd, odIndex) => {
               this.changeDetectorRef.detectChanges();
-              this.selectedPackege(odIndex, selectOd.UniquePackeges[0]);
-
+              this.selectedClonePackege(odIndex, selectOd.UniquePackeges[0]);
             });
           });
           //this.selectedPackege(Woindex, woObj.UniquePackeges[0]);
           this.infinitescrollactions(true, false, false);
           this.woqEmpty();
         }
-        // if(this.workOrders.length == 20){
-        // this.workOrders = [...this.cloneWorkOrders]
-        // }
-        // else{
-        //   this.workOrders.concat(this.cloneWorkOrders)
-        // }
+        if (this.workOrders.length == 20) {
+          this.workOrders = [...this.cloneWorkOrders]
+        }
+        else {
+          this.workOrders.concat(this.cloneWorkOrders)
+        }
         console.log('workorder end', this.workOrders, 'cloneObj', this.cloneWorkOrders);
 
       } else {
