@@ -130,7 +130,7 @@
     <ion-row style="margin:25px;border-bottom:2px solid white;" *ngIf="service_details?.length>0">
     </ion-row>
     <!--  ************************ Service Order Details- *************   -->
-    <ion-row style="text-align: center;padding: 10px;font-weight: bold;">
+    <ion-row *ngIf="worDetails.UniquePackeges.length > 0" style="text-align: center;padding: 10px;font-weight: bold;">
         <ion-col><label>MAIN WORK ORDERS</label></ion-col>
     </ion-row>
     <ion-row *ngFor="let x of worDetails.UniquePackeges" style="background: white !important;border-top: 10px solid black;">
@@ -168,7 +168,7 @@
                             </ion-col> -->
                         </ion-row>
                     </ion-card-header>
-                    <ion-card-content style="padding:0px;border: 1px solid #c6c6c6 !important;" *ngIf="y.WOSTYPE=='S'">
+                    <ion-card-content style="padding:0px;border: 1px solid #c6c6c6 !important;" *ngIf="y.WOSTYPE=='S' || y.WOSTYPE=='D'">
                         <ion-grid style="padding: 0px !important;margin: 0px !important;">
                             <ion-row>
                                 <ion-col col-12 style="padding: 0px !important;margin: 0px !important;">
@@ -207,7 +207,7 @@
                                                     </span>
                                             </ion-col>
                                         </ion-row>
-                                        <ion-row class="cardfooter" *ngIf="y.HASEXCEPTION=='N' && y.WOSTYPE=='S'" style="background: #cde6f7 !important;min-height: 35px !important;">
+                                        <ion-row class="cardfooter" *ngIf="y.HASEXCEPTION=='N' && (y.WOSTYPE=='S'  || y.WOSTYPE=='D')" style="background: #cde6f7 !important;min-height: 35px !important;">
                                             <div style="float:right;width: 100%;">
 
 
@@ -251,7 +251,7 @@
                                         </ion-row>
                                         <ion-row *ngIf="worDetails.HASEXCEPTION=='Y'" style="background: #cde6f7 !important;text-align: right;min-height: 35px;">
                                             <ion-col>
-                                                <p *ngIf="y.EXCEPTIONTITLE!='' && y.WOSTYPE=='S'" style="font-weight: 500;color: black !important;text-align: left;font-size: 15px !important;">
+                                                <p *ngIf="y.EXCEPTIONTITLE!='' && (y.WOSTYPE=='S'  || y.WOSTYPE=='D')" style="font-weight: 500;color: black !important;text-align: left;font-size: 15px !important;">
                                                     Exception Status : <span style="font-weight: 400;">{{y.EXCEPTIONTITLE}}</span>
                                                 </p>
                                             </ion-col>
@@ -306,7 +306,7 @@
                             </ion-col> -->
                             </ion-row>
                         </ion-card-header>
-                        <ion-card-content style="padding:0px;border: 1px solid #c6c6c6 !important;" *ngIf="y.WOSTYPE=='S'">
+                        <ion-card-content style="padding:0px;border: 1px solid #c6c6c6 !important;" *ngIf="y.WOSTYPE=='S' || y.WOSTYPE=='D'">
                             <ion-grid style="padding: 0px !important;margin: 0px !important;">
                                 <ion-row>
                                     <ion-col col-12 style="padding: 0px !important;margin: 0px !important;">
@@ -345,7 +345,7 @@
                                                     </span>
                                                 </ion-col>
                                             </ion-row>
-                                            <ion-row class="cardfooter" *ngIf="y.HASEXCEPTION=='N' && y.WOSTYPE=='S'" style="background: #cde6f7 !important;min-height: 35px !important;">
+                                            <ion-row class="cardfooter" *ngIf="y.HASEXCEPTION=='N' && (y.WOSTYPE=='S'  || y.WOSTYPE=='D')" style="background: #cde6f7 !important;min-height: 35px !important;">
                                                 <div style="float:right;width: 100%;">
 
 
@@ -389,7 +389,7 @@
                                             </ion-row>
                                             <ion-row *ngIf="worDetails.HASEXCEPTION=='Y'" style="background: #cde6f7 !important;text-align: right;min-height: 35px !important;">
                                                 <ion-col>
-                                                    <p *ngIf="y.EXCEPTIONTITLE!='' && y.WOSTYPE=='S'" style="font-weight: 500;color: black !important;text-align: left;font-size: 15px !important;">
+                                                    <p *ngIf="y.EXCEPTIONTITLE!='' && (y.WOSTYPE=='S' || y.WOSTYPE=='D')" style="font-weight: 500;color: black !important;text-align: left;font-size: 15px !important;">
                                                         Exception Status : <span style="font-weight: 400;">{{y.EXCEPTIONTITLE}}</span>
                                                     </p>
                                                 </ion-col>
