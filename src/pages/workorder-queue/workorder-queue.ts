@@ -28,11 +28,11 @@ export class WorkorderQueuePage {
   public currentWoQ: any;
   public previousIndex: any;
   public NoImg: string = "../../assets/imgs/workorderqueue/no-user-image.png";
-  public pageSize = 20;
+  public pageSize = 8;
   public dataOptions: any = {
     siteid: 3269,
     pageNumber: 1,
-    pageSize: 20,
+    pageSize: 8,
     eid: 1,
     searchtext: '',
     searchstatus: 'A',
@@ -974,9 +974,10 @@ export class WorkorderQueuePage {
   ////clone get workOrders
   cloneGetWorkOrders(woIndex) {
     //console.log(woObj);   
+    this.cloneWorkOrders = [];
     this.paceEnv.woIndexUpdate = -1;
     this.paceEnv.startLoading();
-    let searchOptions: string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>1</pageNumber><pageSize>20</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>WO</searchtype><searchtext></searchtext><searchstatus>${this.dataOptions.searchstatus}</searchstatus></Info>`.trim();
+    let searchOptions: string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>1</pageNumber><pageSize>8</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>WO</searchtype><searchtext></searchtext><searchstatus>${this.dataOptions.searchstatus}</searchstatus></Info>`.trim();
     //let searchOptions: string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>${this.dataOptions.pageNumber}</pageNumber><pageSize>${this.dataOptions.pageSize}</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>${this.dataOptions.searchtype}</searchtype><searchtext>${this.workOrders[woIndex].WONUMBER}</searchtext><searchstatus>${this.dataOptions.searchstatus}</searchstatus></Info>`.trim();
 
     this.OdsSvc.GetWorkOrderStatus(searchOptions).subscribe(Response => {
@@ -1018,7 +1019,7 @@ export class WorkorderQueuePage {
               });
 
             }
-            //this.cloneWorkOrders = [];
+
             this.cloneWorkOrders.push(Object.assign({}, element));
             //this.workOrders[Woindex]
             //this.workOrders.push(Object.assign({}, element));
@@ -1031,7 +1032,7 @@ export class WorkorderQueuePage {
           this.infinitescrollactions(true, false, false);
           this.woqEmpty();
         }
-        if (this.workOrders.length == 20) {
+        if (this.workOrders.length == 8) {
           this.workOrders = [...this.cloneWorkOrders]
         }
         else {
