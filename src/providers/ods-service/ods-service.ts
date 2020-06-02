@@ -8,7 +8,6 @@ import moment from 'moment';
 export class OdsServiceProvider {
   private canGoBack = true;
   http: any;
-  
   constructor(http: Http, public appconst: PaceEnvironment) {
     this.http = http;
   }
@@ -31,9 +30,6 @@ export class OdsServiceProvider {
     return this.http.get(this.appconst.ApiUrl + "CMSEmployeeInformation/" + employeeid)
       .map((res: Response) => res.json())
   }
-
-
-
   // UpdateWorkOrder(obj: any) {
   //   let options = new RequestOptions({ headers: this.appconst.headers });
   //   let body = obj;
@@ -175,6 +171,7 @@ let body=`{"strDeviceInfo":"<deviceInfo>
     return this.http.post(this.appconst.ApiUrl + "CheckWOExceptions", body, options)
       .map((res: Response) => res.json());
   }
+
   GetWOPermissionDetails(empid, siteid) {
     let options = new RequestOptions({ headers: this.appconst.headers });
     let body = {
@@ -183,8 +180,6 @@ let body=`{"strDeviceInfo":"<deviceInfo>
     return this.http.post(this.appconst.ApiUrl + "GetWOPermissionDetails", body, options)
       .map((res: Response) => res.json());
   }
-
-
   GetSiteServicesInfo(siteid, empid) {
     let str = "<Info><s_id>" + siteid + "</s_id>";
     str += "<packagename></packagename>";
