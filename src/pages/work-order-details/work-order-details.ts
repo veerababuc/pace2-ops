@@ -24,7 +24,7 @@ export class WorkOrderDetailsPage {
 
   woIndx: any;
   float_button: boolean = false;
-  worDetails: any;
+  worDetails: any = [];
   siteid: any;
   empid: any;
   loggedEmp: any;
@@ -118,12 +118,13 @@ export class WorkOrderDetailsPage {
     let loader = this.loadingSrv.createLoader();
     loader.present();
     this.OdsSvc.approveAdmin(paramObj).subscribe((approveData: any) => {
+      console.log("Approve Resp :",approveData);
       loader.dismiss();
       if (approveData[0].errorId > 0) {
         this.approveBtn = true;
         this.flagAction = 'Y';
 
-        this.cloneGetWorkOrders(i);
+        this.cloneGetWorkOrders(i,wo.ACTIVE);
         //this.paceEnv.stopLoading();
       }
     }, err => {
@@ -133,12 +134,12 @@ export class WorkOrderDetailsPage {
 
 
   ////clone get workOrders
-  cloneGetWorkOrders(woIndex) {
+  cloneGetWorkOrders(woIndex,stype) {
     //console.log(woObj);  
     this.paceEnv.startLoading();
-    let searchOptions: string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>1</pageNumber><pageSize>5</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>WO</searchtype><searchtext>${this.worDetails.WONUMBER}</searchtext><searchstatus>${this.dataOptions.searchstatus}</searchstatus></Info>`.trim();
+    let searchOptions: string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>1</pageNumber><pageSize>5</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>WO</searchtype><searchtext>${this.worDetails.WONUMBER}</searchtext><searchstatus>${stype}</searchstatus></Info>`.trim();
     //let searchOptions: string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>${this.dataOptions.pageNumber}</pageNumber><pageSize>${this.dataOptions.pageSize}</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>${this.dataOptions.searchtype}</searchtype><searchtext>${this.workOrders[woIndex].WONUMBER}</searchtext><searchstatus>${this.dataOptions.searchstatus}</searchstatus></Info>`.trim();
-
+    
     this.OdsSvc.GetWorkOrderStatus(searchOptions).subscribe(Response => {
       console.log('getworkOrder Queue', Response);
       this.paceEnv.stopLoading();
@@ -148,7 +149,12 @@ export class WorkOrderDetailsPage {
 
         let result = JSON.parse(body[0].result);
         console.log('Updated Work Order :', result);
-        //this.worDetails = result[0];   
+       // this.worDetails = result[0];   
+        this.worDetails.APPROVALREQ = result[0].APPROVALREQ;
+        this.worDetails.APPROVEDBY = result[0].APPROVEDBY;
+        this.worDetails.APPROVEDBYIMAGE = result[0].APPROVEDBYIMAGE;
+        this.worDetails.APPROVEDBYNAME= result[0].APPROVEDBYNAME;
+        this.worDetails.APPROVETS = result[0].APPROVETS;
 
         //Updated global variables for update view
         this.paceEnv.woIndexUpdate = this.woIndx;
@@ -165,6 +171,7 @@ export class WorkOrderDetailsPage {
     });
 
   }
+
 
   //Edit VIN
   edit(wo, action) {
