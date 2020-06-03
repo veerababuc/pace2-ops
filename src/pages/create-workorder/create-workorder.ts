@@ -626,6 +626,7 @@ export class CreateWorkorderPage {
                              'SSIID':element1.SSIID,
                              'PACKAGE_TITLE':element.TITLE,
                              'SERVICEITEMNAME':element1.SERVICEITEMNAME
+                              ,'SICODE':element1.SICODE
                             });
 
                             // msg +=`<div class="divclss1">
@@ -639,7 +640,7 @@ export class CreateWorkorderPage {
            let result=[];
 
            servicelist.forEach((item, index) => {
-            if (index !== servicelist.findIndex(i => i.SIID === item.SIID)) {
+            if (index !== servicelist.findIndex(i => i.SICODE === item.SICODE)) {
               
               result.push(item);
 
