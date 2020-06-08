@@ -44,7 +44,8 @@ export class WorkordereditComponent {
     public db: DatabaseProvider,
     public alertController: AlertController,
     private loadingSrv: LoadingServiceProvider,
-    public appconst: PaceEnvironment) {
+    public appconst: PaceEnvironment
+    ) {
     console.log('Hello WorkordereditComponent Component');
     this.db.getAllUsers().then(emdata => {
       console.log('emdata', emdata);
@@ -72,18 +73,19 @@ export class WorkordereditComponent {
   }
 
   updateWO() {
-    if (this.workOrderObj.VINID == "" || this.workOrderObj.STOCKID == "") {
-        console.log("No vin");
-        //alert("Enter VIN or STOCK");
-        this.appconst.ShowAlert("Enter VIN or STOCK");
-    }
-    if (this.workOrderObj.VINID != "") {
-      if (this.workOrderObj.VINID.length <= 16) {
+    console.log("Tot Obj :",this.workOrderObj);
+    
+    this.updateVinOrStock();
+  }
+
+  updateVinOrStock(){
+    //if (this.workOrderObj.VINID != "") {
+      if(this.workOrderObj.VINID != "" && this.workOrderObj.VINID.length <= 16) {
         this.appconst.ShowAlert("Enter valid Vin Number");
       }
-      else if (this.workOrderObj.VINID.length > 17) {
+      else if(this.workOrderObj.VINID != "" && this.workOrderObj.VINID.length > 17) {
         this.appconst.ShowAlert("VIN characters should not be more than 17");
-      }else if(this.workOrderObj.VINID.length == 17 && this.workOrderObj.STOCKID != ""){
+      }else if((this.workOrderObj.VINID.length == 17 || this.workOrderObj.VINID.length == '') && this.workOrderObj.STOCKID != ""){
 
         let loader = this.loadingSrv.createLoader({ content: 'Updating ...' });
         loader.present();
@@ -117,10 +119,8 @@ export class WorkordereditComponent {
             //this.presentToast('Try again');
           });
       }      
-    }
-    
+    //}
   }
-
 
   // updateWO() {
 
