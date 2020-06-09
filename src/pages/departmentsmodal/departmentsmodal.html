@@ -53,7 +53,7 @@
       <ion-col col-10>
         <div><ion-label style="margin:0px;"> Selected Packages have duplicate items  </ion-label></div>
       </ion-col>
-      <ion-col col-2><div> <img src= "assets/imgs/departmentsmodal/close_icon1.png" style="width:20px;float:right" (click)="closeModal()"/></div> </ion-col>
+      <ion-col col-2><div> <img src= "assets/icon/close_icon1.png" style="width:20px;float:right" (click)="closeModal()"/></div> </ion-col>
     </ion-row>
 
     <ion-row style="background: white;">
@@ -70,8 +70,11 @@
                     </ion-col>
                     <ion-col  *ngIf="z>0 && pkg_service[z-1].PACKAGE_TITLE == pkg.PACKAGE_TITLE && !l"  style="border-left:  0.5px solid lightgray;">
                   </ion-col>
-                  <ion-col  *ngIf="l"  style="border-left:  0.5px solid lightgray;border-bottom:  0.5px solid lightgray;border-top:  0.5px solid lightgray;">
+                  <ion-col  *ngIf="z>0 && pkg_service[z-1].PACKAGE_TITLE != pkg.PACKAGE_TITLE && l"  style="border-left:  0.5px solid lightgray;border-bottom:  0.5px solid lightgray;border-top:  0.5px solid lightgray;">
                     <span style="font-size: 16px;" >{{pkg.PACKAGE_TITLE}}</span>
+                  </ion-col>
+                  <ion-col  *ngIf="z>0 && pkg_service[z-1].PACKAGE_TITLE == pkg.PACKAGE_TITLE && l"  style="border-left:  0.5px solid lightgray;border-bottom:  0.5px solid lightgray;">
+                    <!-- <span style="font-size: 16px;" >{{pkg.PACKAGE_TITLE}}</span> -->
                   </ion-col>
                     <ion-col *ngIf="z==0" style="border:  0.5px solid lightgray;border-bottom: none;">
                       <span style="font-size: 16px;" >{{pkg.PACKAGE_TITLE}}</span>
