@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget AndroidVersion="24" id="com.pllc.pace2emp" version="1.0.6" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget AndroidVersion="24" id="com.pllc.pace2emp" version="1.0.7" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>PACE2 OPS</name>
     <description>PACE2 OPS</description>
     <author email="apps@pllcsoftwaresolutions.com" href="https://pllcsoftwaresolutions.com/">PLLC App Team</author>
