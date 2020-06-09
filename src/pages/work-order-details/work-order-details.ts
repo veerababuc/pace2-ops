@@ -147,19 +147,22 @@ export class WorkOrderDetailsPage {
         let body = JSON.parse(Response._body);
         //console.log(body);
 
-        let result = JSON.parse(body[0].result);
-        console.log('Updated Work Order :', result);
-       // this.worDetails = result[0];   
-        this.worDetails.APPROVALREQ = result[0].APPROVALREQ;
-        this.worDetails.APPROVEDBY = result[0].APPROVEDBY;
-        this.worDetails.APPROVEDBYIMAGE = result[0].APPROVEDBYIMAGE;
-        this.worDetails.APPROVEDBYNAME= result[0].APPROVEDBYNAME;
-        this.worDetails.APPROVETS = result[0].APPROVETS;
-
-        //Updated global variables for update view
-        this.paceEnv.woIndexUpdate = this.woIndx;
-        this.paceEnv.woUpdateObj = this.worDetails;
-        this.paceEnv.woUpdateType = 'Approve';
+        if(body[0].result != ""){
+          let result = JSON.parse(body[0].result);
+          console.log('Updated Work Order :', result);
+         // this.worDetails = result[0];   
+          this.worDetails.APPROVALREQ = result[0].APPROVALREQ;
+          this.worDetails.APPROVEDBY = result[0].APPROVEDBY;
+          this.worDetails.APPROVEDBYIMAGE = result[0].APPROVEDBYIMAGE;
+          this.worDetails.APPROVEDBYNAME= result[0].APPROVEDBYNAME;
+          this.worDetails.APPROVETS = result[0].APPROVETS;
+  
+          //Updated global variables for update view
+          this.paceEnv.woIndexUpdate = this.woIndx;
+          this.paceEnv.woUpdateObj = this.worDetails;
+          this.paceEnv.woUpdateType = 'Approve';
+        }
+        
 
       } else {
         //this.woqEmpty();
@@ -476,6 +479,16 @@ export class WorkOrderDetailsPage {
 
 
   pickService(serviceobj, woMainIndex, woindex, serviceindex, action, serviceType) {
+    if(action == 'C' && this.worDetails.VINID == ''){
+      
+      const alt = this.alert.create({
+        title: '<h3>Alert!</h3>',
+        subTitle: 'Please update the #VIN to complete this service item..!',
+        buttons: ['OK']
+      });
+      alt.present();
+      
+    }else{
     let self = this;
     let alertMsg = action == 'D' ? "Are you sure you want to Cancel your pickup?" : action == 'P' ? "Are you sure you want to Pickup service?" : "Are you sure you want to Complete?"
     let alert = this.alert.create({
@@ -500,6 +513,7 @@ export class WorkOrderDetailsPage {
               isscanned: 'N'
             };
             let loader = this.loadingSrv.createLoader();
+                      
             loader.present();
             self.OdsSvc.pickUpService(servive).subscribe(Response => {
               loader.dismiss();
@@ -536,10 +550,13 @@ export class WorkOrderDetailsPage {
               console.log('err', err);
             })
           }
-        }
+          
+          }
+        
       ]
     });
     alert.present();
+    }
   }
 
   empSelectionUpdate(woService, woIndex, serviceIndex, empId, serviceType) {
