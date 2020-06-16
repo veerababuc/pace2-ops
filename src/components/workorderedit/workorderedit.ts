@@ -7,12 +7,6 @@ import { PaceEnvironment } from '../../common/PaceEnvironment';
 import { LoadingServiceProvider } from '../../providers/loading-service/loading-service';
 import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner';
 
-/**
- * Generated class for the WorkordereditComponent component.
- *
- * See https://angular.io/api/core/Component for more info on Angular
- * Components.
- */
 
 @Component({
   selector: 'workorderedit',
