@@ -134,7 +134,7 @@ export class HomePage {
 
 
                 this.db.UpdateSiteInfo_EMP(this.dealersiteId, siteLogo, this.dlrname, this.empresult.EmpId, this.sitecount, this.sitenumber, stockcount, po, ro, create).then((data) => {
-                  
+
                 })
               }
               else {
@@ -255,35 +255,46 @@ export class HomePage {
 
         }
       })
-    }),(error) => {
-      this.appconst.stopLoading();      
+    }), (error) => {
+      this.appconst.stopLoading();
     }
   }//end for changeSite()
 
 
 
-  openPage(pageName: string,item) {
-    let loader = this.loadingSrv.createLoader();
+  openPage(pageName: string, item) {
+    let loader = this.loadingSrv.createLoader(
+      {
+        enableBackdropDismiss: true,
+        content: `<div class="loading-Header" ></div>
+       <div class="custom-spinner-container">
+       <div class="custom-spinner-box">
+       <div class="loading-body"> Loading... </div>
+       </div>
+     </div>`,
+        duration: 1000 * 20
+      }
+    );
     if (pageName == 'page-createworkorder')
       if (this.access_permission != 'Y') {
         alert("You have no permissions to create work order");
         return false;
       }
-      
-    loader.present().then((value:any)=>{
-      this.navController.push(pageName,{itm:item}).then(val => {
+
+    loader.present().then((value: any) => {
+      this.navController.push(pageName, { itm: item }).then(val => {
         loader.dismiss();
       }).catch(err => {
         console.log(err);
         loader.dismiss();
       });
-    },err=>{
+    }, err => {
       console.log(err);
-      
+
     });
     //console.log('hi');
-    
-    
+
+
   }
 
 }

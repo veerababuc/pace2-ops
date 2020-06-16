@@ -114,11 +114,12 @@ export class WorkOrderDetailsPage {
 
     let paramObj = { strWoId: wo.WOID, strApprovedBy: this.loggedEmp, strApprovedDt: date, strApprovedTime: time, strIPAddress: this.paceEnv.ipAddress }
     console.log(paramObj);
-    //this.paceEnv.startLoading();
-    let loader = this.loadingSrv.createLoader();
-    loader.present();
+    this.paceEnv.startLoading();
+    //let loader = this.loadingSrv.createLoader();
+    //loader.present()
     this.OdsSvc.approveAdmin(paramObj).subscribe((approveData: any) => {
-      loader.dismiss();
+      //loader.dismiss();
+      this.paceEnv.stopLoading();
       if (approveData[0].errorId > 0) {
         this.approveBtn = true;
         this.flagAction = 'Y';
@@ -127,7 +128,8 @@ export class WorkOrderDetailsPage {
         //this.paceEnv.stopLoading();
       }
     }, err => {
-      loader.dismiss();
+      //loader.dismiss();
+      this.paceEnv.stopLoading();
     })
   }
 
