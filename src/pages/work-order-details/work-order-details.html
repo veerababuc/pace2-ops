@@ -111,24 +111,24 @@
             <span *ngIf="worDetails.APPROVALREQ == 'Y' && worDetails.APPROVEDBY > 0">
                 <ion-label style="color:white">{{worDetails.APPROVEDBYNAME}}</ion-label>
                 <ion-label style="color:white"> {{worDetails.APPROVETS}}</ion-label>
-                </span>
+            </span>
 
 
-            <span *ngIf="!approveBtn && (workOrderPermission?.APPROVE=='Y' && worDetails?.APPROVALREQ == 'Y' && worDetails?.APPROVEDBY =='0') && (worDetails?.ACTIVE == 'O' || worDetails?.ACTIVE == 'I' || worDetails?.ACTIVE == 'C')" style="text-align:right;padding-right:10px">
+            <span *ngIf="(worDetails.APPROVALREQ == 'Y' && worDetails.APPROVEDBY =='0') && (worDetails.ACTIVE == 'O' || worDetails.ACTIVE == 'I' || worDetails.ACTIVE == 'C')" style="text-align:right;padding-right:10px">
                         <button ion-button small icon-start (click)="ApproveClick(worDetails,woIndx,'Approve')">
                             <ion-icon name="checkmark" style="font-size: 12px;"></ion-icon>
                             Approve
                         </button>
                 </span>
-            <span *ngIf="approveBtn">
+            <!-- <span *ngIf="approveBtn">
                         Approved
-                </span>
+            </span> -->
 
         </ion-col>
     </ion-row>
 
-    <ion-row style="margin:25px;border-bottom:2px solid white;" *ngIf="service_details?.length>0">
-    </ion-row>
+    <!-- <ion-row style="margin:25px;border-bottom:2px solid white;" *ngIf="service_details?.length>0">
+    </ion-row> -->
     <!--  ************************ Service Order Details- *************   -->
     <ion-row *ngIf="worDetails.UniquePackeges.length > 0" style="text-align: center;padding: 10px;font-weight: bold;">
         <ion-col><label>MAIN WORK ORDERS</label></ion-col>

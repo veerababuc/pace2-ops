@@ -44,7 +44,8 @@ export class WorkordereditComponent {
     public db: DatabaseProvider,
     public alertController: AlertController,
     private loadingSrv: LoadingServiceProvider,
-    public appconst: PaceEnvironment) {
+    public appconst: PaceEnvironment
+  ) {
     console.log('Hello WorkordereditComponent Component');
     this.db.getAllUsers().then(emdata => {
       console.log('emdata', emdata);
@@ -72,57 +73,56 @@ export class WorkordereditComponent {
   }
 
   updateWO() {
-    if (this.workOrderObj.VINID == "" || this.workOrderObj.STOCKID == "") {
-      console.log("No vin");
-      //alert("Enter VIN or STOCK");
-      this.appconst.ShowAlert("Enter VIN or STOCK");
+    console.log("Tot Obj :", this.workOrderObj);
+
+    this.updateVinOrStock();
+  }
+
+  updateVinOrStock() {
+    //if (this.workOrderObj.VINID != "") {
+    if (this.workOrderObj.VINID != "" && this.workOrderObj.VINID.length <= 16) {
+      this.appconst.ShowAlert("Enter valid Vin Number");
     }
-    if (this.workOrderObj.VINID != "") {
-      if (this.workOrderObj.VINID.length <= 16) {
-        this.appconst.ShowAlert("Enter valid Vin Number");
-      }
-      else if (this.workOrderObj.VINID.length > 17) {
-        this.appconst.ShowAlert("VIN characters should not be more than 17");
-      } else if (this.workOrderObj.STOCKID.length < 4) {
-        this.appconst.ShowAlert("Stock characters should  be more than 4");
-      } else if (this.workOrderObj.VINID.length == 17 && this.workOrderObj.STOCKID != "") {
+    else if (this.workOrderObj.VINID != "" && this.workOrderObj.VINID.length > 17) {
+      this.appconst.ShowAlert("VIN characters should not be more than 17");
+    } else if (this.workOrderObj.STOCKID.length < 4) {
+      this.appconst.ShowAlert("Stock characters should  be more than 4");
+    } else if (this.workOrderObj.VINID.length == 17 && this.workOrderObj.STOCKID != "") {
 
-        let loader = this.loadingSrv.createLoader({ content: 'Updating ...' });
-        loader.present();
+      let loader = this.loadingSrv.createLoader({ content: 'Updating ...' });
+      loader.present();
 
-        let searchOptions: string = `<Info><woid>${this.workOrderObj.WOID}</woid><vin>${this.workOrderObj.VINID}</vin><stock>${this.workOrderObj.STOCKID}</stock><ro>${this.workOrderObj.RO}</ro><po>${this.workOrderObj.PO}</po></Info>`
-        console.log("Submit XML :" + searchOptions);
-        this.odsService.updateWorkOrderVechileInfo(searchOptions).subscribe(Response => {
-          console.log('update workorder', Response);
-          loader.dismiss();
-          if (Response.status === 200) {
-            let body = JSON.parse(Response._body);
-            if (body[0].status == "0") {
+      let searchOptions: string = `<Info><woid>${this.workOrderObj.WOID}</woid><vin>${this.workOrderObj.VINID}</vin><stock>${this.workOrderObj.STOCKID}</stock><ro>${this.workOrderObj.RO}</ro><po>${this.workOrderObj.PO}</po></Info>`
+      console.log("Submit XML :" + searchOptions);
+      this.odsService.updateWorkOrderVechileInfo(searchOptions).subscribe(Response => {
+        console.log('update workorder', Response);
+        loader.dismiss();
+        if (Response.status === 200) {
+          let body = JSON.parse(Response._body);
+          if (body[0].status == "0") {
 
-              // setTimeout(() => {
-              let wo = {
-                woorder: this.workOrderObj,
-                status: Response.status
-              }
-              this.viewController.dismiss(wo);
-              // }, 1500)
-              this.presentToast('Work order details updated successfully');
-            } else {
-              //this.presentToast('Try again');
+            // setTimeout(() => {
+            let wo = {
+              woorder: this.workOrderObj,
+              status: Response.status
             }
-            //console.log('update workorder body', body);
+            this.viewController.dismiss(wo);
+            // }, 1500)
+            this.presentToast('Work order details updated successfully');
           } else {
             //this.presentToast('Try again');
           }
-        }, (err) => {
-          loader.dismiss();
+          //console.log('update workorder body', body);
+        } else {
           //this.presentToast('Try again');
-        });
-      }
+        }
+      }, (err) => {
+        loader.dismiss();
+        //this.presentToast('Try again');
+      });
     }
-
+    //}
   }
-
 
   // updateWO() {
 

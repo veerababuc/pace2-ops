@@ -24,7 +24,7 @@ export class WorkOrderDetailsPage {
 
   woIndx: any;
   float_button: boolean = false;
-  worDetails: any;
+  worDetails: any = [];
   siteid: any;
   empid: any;
   loggedEmp: any;
@@ -124,7 +124,7 @@ export class WorkOrderDetailsPage {
         this.approveBtn = true;
         this.flagAction = 'Y';
 
-        this.cloneGetWorkOrders(i);
+        this.cloneGetWorkOrders(i, wo.ACTIVE);
         //this.paceEnv.stopLoading();
       }
     }, err => {
@@ -135,10 +135,10 @@ export class WorkOrderDetailsPage {
 
 
   ////clone get workOrders
-  cloneGetWorkOrders(woIndex) {
+  cloneGetWorkOrders(woIndex, stype) {
     //console.log(woObj);  
     this.paceEnv.startLoading();
-    let searchOptions: string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>1</pageNumber><pageSize>5</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>WO</searchtype><searchtext>${this.worDetails.WONUMBER}</searchtext><searchstatus>${this.dataOptions.searchstatus}</searchstatus></Info>`.trim();
+    let searchOptions: string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>1</pageNumber><pageSize>5</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>WO</searchtype><searchtext>${this.worDetails.WONUMBER}</searchtext><searchstatus>${stype}</searchstatus></Info>`.trim();
     //let searchOptions: string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>${this.dataOptions.pageNumber}</pageNumber><pageSize>${this.dataOptions.pageSize}</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>${this.dataOptions.searchtype}</searchtype><searchtext>${this.workOrders[woIndex].WONUMBER}</searchtext><searchstatus>${this.dataOptions.searchstatus}</searchstatus></Info>`.trim();
 
     this.OdsSvc.GetWorkOrderStatus(searchOptions).subscribe(Response => {
@@ -148,14 +148,22 @@ export class WorkOrderDetailsPage {
         let body = JSON.parse(Response._body);
         //console.log(body);
 
-        let result = JSON.parse(body[0].result);
-        console.log('Updated Work Order :', result);
-        //this.worDetails = result[0];   
+        if (body[0].result != "") {
+          let result = JSON.parse(body[0].result);
+          console.log('Updated Work Order :', result);
+          // this.worDetails = result[0];   
+          this.worDetails.APPROVALREQ = result[0].APPROVALREQ;
+          this.worDetails.APPROVEDBY = result[0].APPROVEDBY;
+          this.worDetails.APPROVEDBYIMAGE = result[0].APPROVEDBYIMAGE;
+          this.worDetails.APPROVEDBYNAME = result[0].APPROVEDBYNAME;
+          this.worDetails.APPROVETS = result[0].APPROVETS;
 
-        //Updated global variables for update view
-        this.paceEnv.woIndexUpdate = this.woIndx;
-        this.paceEnv.woUpdateObj = this.worDetails;
-        this.paceEnv.woUpdateType = 'Approve';
+          //Updated global variables for update view
+          this.paceEnv.woIndexUpdate = this.woIndx;
+          this.paceEnv.woUpdateObj = this.worDetails;
+          this.paceEnv.woUpdateType = 'Approve';
+        }
+
 
       } else {
         //this.woqEmpty();
@@ -167,6 +175,7 @@ export class WorkOrderDetailsPage {
     });
 
   }
+
 
   //Edit VIN
   edit(wo, action) {
@@ -474,70 +483,84 @@ export class WorkOrderDetailsPage {
 
 
   pickService(serviceobj, woMainIndex, woindex, serviceindex, action, serviceType) {
-    let self = this;
-    let alertMsg = action == 'D' ? "Are you sure you want to Cancel your pickup?" : action == 'P' ? "Are you sure you want to Pickup service?" : "Are you sure you want to Complete?"
-    let alert = this.alert.create({
-      message: alertMsg,
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'OK',
-          handler: () => {
-            let servive: any = {
-              action: action,
-              empid: this.dataOptions.eid,
-              eidlogtype: this.emplogtype,
-              serid: serviceobj.WOSID,
-              ip: this.paceEnv.ipAddress,
-              isscanned: 'N'
-            };
-            let loader = this.loadingSrv.createLoader();
-            loader.present();
-            self.OdsSvc.pickUpService(servive).subscribe(Response => {
-              loader.dismiss();
-              if (Response[0].status > 0) {
-                self.OdsSvc.refreshServiceItems(servive.serid).subscribe(serviceres => {
-                  if (serviceres[0].result !== '') {
-                    let result = JSON.parse(serviceres[0].result);
-                    console.log('serviceres1', result[0].SERVICEITEM[0]);
-                    console.log('index', woMainIndex, serviceindex, woindex, action);
+    if (action == 'C' && this.worDetails.VINID == '') {
 
-                    // this.worDetails.filterPackeges[serviceindex] = Object.assign({}, result[0].SERVICEITEM[0]);
-                    if (serviceType == 'main') {
-                      this.worDetails.WOSERVICES[serviceindex] = result[0].SERVICEITEM[0];
-                      this.flagAction = 'Y';
-                    } else if (serviceType == 'sub') {
-                      this.worDetails.SUBWORKORDER[serviceindex].WOSERVICES[0] = result[0].SERVICEITEM[0];
-                      this.flagAction = 'Y';
-                    }
+      const alt = this.alert.create({
+        title: '<h3>Alert!</h3>',
+        subTitle: 'Please update the #VIN to complete this service item..!',
+        buttons: ['OK']
+      });
+      alt.present();
 
-                    // this.serviceUpdatedObj = result[0].SERVICEITEM[0];   
-                  }
-                }, (err) => {
-                  //self.paceEnv.stopLoading();
-                  loader.dismiss();
-                  console.log('err', err);
-                })
-              } else {
+    } else {
+      let self = this;
+      let alertMsg = action == 'D' ? "Are you sure you want to Cancel your pickup?" : action == 'P' ? "Are you sure you want to Pickup service?" : "Are you sure you want to Complete?"
+      let alert = this.alert.create({
+        message: alertMsg,
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            handler: () => {
+              console.log('Cancel clicked');
+            }
+          },
+          {
+            text: 'OK',
+            handler: () => {
+              let servive: any = {
+                action: action,
+                empid: this.dataOptions.eid,
+                eidlogtype: this.emplogtype,
+                serid: serviceobj.WOSID,
+                ip: this.paceEnv.ipAddress,
+                isscanned: 'N'
+              };
+              let loader = this.loadingSrv.createLoader();
+
+              loader.present();
+              self.OdsSvc.pickUpService(servive).subscribe(Response => {
                 loader.dismiss();
-                //self.paceEnv.stopLoading();
-              }
-            }, (err) => {
-              loader.dismiss();
-              //this.paceEnv.stopLoading();
-              console.log('err', err);
-            })
+                if (Response[0].status > 0) {
+                  self.OdsSvc.refreshServiceItems(servive.serid).subscribe(serviceres => {
+                    if (serviceres[0].result !== '') {
+                      let result = JSON.parse(serviceres[0].result);
+                      console.log('serviceres1', result[0].SERVICEITEM[0]);
+                      console.log('index', woMainIndex, serviceindex, woindex, action);
+
+                      // this.worDetails.filterPackeges[serviceindex] = Object.assign({}, result[0].SERVICEITEM[0]);
+                      if (serviceType == 'main') {
+                        this.worDetails.WOSERVICES[serviceindex] = result[0].SERVICEITEM[0];
+                        this.flagAction = 'Y';
+                      } else if (serviceType == 'sub') {
+                        this.worDetails.SUBWORKORDER[serviceindex].WOSERVICES[0] = result[0].SERVICEITEM[0];
+                        this.flagAction = 'Y';
+                      }
+
+                      // this.serviceUpdatedObj = result[0].SERVICEITEM[0];   
+                    }
+                  }, (err) => {
+                    //self.paceEnv.stopLoading();
+                    loader.dismiss();
+                    console.log('err', err);
+                  })
+                } else {
+                  loader.dismiss();
+                  //self.paceEnv.stopLoading();
+                }
+              }, (err) => {
+                loader.dismiss();
+                //this.paceEnv.stopLoading();
+                console.log('err', err);
+              })
+            }
+
           }
-        }
-      ]
-    });
-    alert.present();
+
+        ]
+      });
+      alert.present();
+    }
   }
 
   empSelectionUpdate(woService, woIndex, serviceIndex, empId, serviceType) {
