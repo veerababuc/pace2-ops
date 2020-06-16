@@ -35,7 +35,7 @@
         <ion-col col-8 style="text-align:right">
             <ion-label *ngIf="worDetails.VINID !=''" style="color:white">{{worDetails.VINID}}</ion-label>
 
-            <span *ngIf="worDetails.VINID == ''" style="text-align: right;">
+            <span *ngIf="worDetails.VINID == '' && worDetails.ACTIVE != 'C'" style="text-align: right;">
                 <button ion-button small icon-start (click)="edit(worDetails,'edit')">
                     <ion-icon name="create" style="font-size: 12px;"></ion-icon>
                     Update Vin
