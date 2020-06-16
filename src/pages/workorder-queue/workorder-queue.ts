@@ -152,7 +152,7 @@ export class WorkorderQueuePage {
     // else{
     //   this.dataOptions.searchtext = searchText;
     // }
-    this.workOrders = [];
+    //this.workOrders = [];
     // if (woCompeltedIndex != "") {
     //   this.paceEnv.startLoading();
     // }
@@ -918,10 +918,13 @@ export class WorkorderQueuePage {
   }
 
   getSubWoPackeges(workOrder: any) {
+    console.log(workOrder.SUBWORKORDER.length);
+    //if (workOrder.SUBWORKORDER.length != 0) {
     let newArray = workOrder.SUBWORKORDER.reduce(
-      (accumulator, current) => accumulator.some(x => x.WOSERVICES[0].PACKAGENAME === current.WOSERVICES[0].PACKAGENAME) ? accumulator : [...accumulator, current], []
+      (accumulator, current, index) => accumulator.some(x => x.WOSERVICES.PACKAGENAME === current.WOSERVICES.PACKAGENAME) ? accumulator : [...accumulator, current], []
     );
     return newArray;
+    //}
   }
   // valueChange(selectedemp,spackage, i, serviceindex, subWorkorder = false, subWoindex = 0) {
   //   console.log('selectedemp', selectedemp, spackage, i, serviceindex);
