@@ -124,7 +124,7 @@ export class WorkorderQueuePage {
 
   ionViewDidEnter() {
     console.log("ion View Did Enter ...!");
-    this.paceEnv.stopLoading();
+    //this.paceEnv.stopLoading();
     console.log("Call back Obj :", this.paceEnv.woUpdateObj);
     if (this.paceEnv.woIndexUpdate != -1) {
       var woInd = this.paceEnv.woIndexUpdate;
@@ -241,7 +241,7 @@ export class WorkorderQueuePage {
       }
     }, (err) => {
       console.log('get order err', err);
-      this.paceEnv.stopLoading();
+      //this.paceEnv.stopLoading();
       this.loadingPopup.dismiss();
       this.woqEmpty();
     });
