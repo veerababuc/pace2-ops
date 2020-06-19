@@ -153,13 +153,16 @@ export class WorkorderQueuePage {
     //   this.dataOptions.searchtext = searchText;
     // }
     //this.workOrders = [];
-    // if (woCompeltedIndex != "") {
-    //   this.paceEnv.startLoading();
-    // }
+    if (woCompeltedIndex == "L") {
+      this.paceEnv.startLoading();
+    }
     let searchOptions: string = `<Info><siteid>${this.dataOptions.siteid}</siteid><pageNumber>${this.dataOptions.pageNumber}</pageNumber><pageSize>${this.dataOptions.pageSize}</pageSize><eid>${this.dataOptions.eid}</eid><searchtype>${this.dataOptions.searchtype}</searchtype><searchtext>${this.dataOptions.searchtext}</searchtext><searchstatus>${this.dataOptions.searchstatus}</searchstatus></Info>`.trim();
     this.OdsSvc.GetWorkOrderStatus(searchOptions).subscribe(Response => {
       console.log('getworkOrder Queue', Response);
       //this.paceEnv.stopLoading();
+      if (woCompeltedIndex == "L") {
+        this.paceEnv.stopLoading();
+      }
       this.loadingPopup.dismiss();
       if (Response.status === 200) {
         let body = JSON.parse(Response._body);
@@ -241,6 +244,9 @@ export class WorkorderQueuePage {
       }
     }, (err) => {
       console.log('get order err', err);
+      if (woCompeltedIndex == "L") {
+        this.paceEnv.stopLoading();
+      }
       //this.paceEnv.stopLoading();
       this.loadingPopup.dismiss();
       this.woqEmpty();
@@ -858,7 +864,7 @@ export class WorkorderQueuePage {
       //this.paceEnv.stopLoading();
       if (Response[0].result !== '') {
         let result = JSON.parse(Response[0].result);
-        self.getWorkOrders("L");
+        self.getWorkOrders("IL");
         self.workOrderPermission = Object.assign({}, result[0].WOPERMISSIONS[0]);
         console.log('Permissions', self.workOrderPermission);
 
