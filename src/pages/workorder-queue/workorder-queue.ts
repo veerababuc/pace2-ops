@@ -174,66 +174,66 @@ export class WorkorderQueuePage {
         } else {
           let result = JSON.parse(body[0].result);
           console.log(result, this.emplogtype, 'vv');
-          if (woCompeltedIndex == "L") {
-            result.forEach((element, index) => {
-              element.expanded = false;
-              element.selectedPackege = 0;
-              element.UniquePackeges = [...this.getPackeges(element)];
-              element.SubWOPackages = [...this.getSubWoPackeges(element)];
-              element.filterPackeges = [];
-              element.WOSERVICES.forEach((ws: any) => {
-                ws.expanded = false;
-                ws.value = '0';
-              });
-              if (element.SUBWORKORDER.length > 0) {
-                element.SUBWORKORDER.forEach(subOrder => {
-                  subOrder.WOSERVICES.forEach((ws: any) => {
-                    ws.expanded = false;
-                    ws.empid = '0';
-                  });
-                });
-
-              }
-              this.workOrders.push(Object.assign({}, element));
-              this.workOrders.forEach((selectOd, odIndex) => {
-                this.changeDetectorRef.detectChanges();
-                this.selectedPackege(odIndex, selectOd.UniquePackeges[0]);
-                ///this.getPackages(odIndex)
-
-              });
+          ///if (woCompeltedIndex == "L") {
+          result.forEach((element, index) => {
+            element.expanded = false;
+            element.selectedPackege = 0;
+            element.UniquePackeges = [...this.getPackeges(element)];
+            element.SubWOPackages = [...this.getSubWoPackeges(element)];
+            element.filterPackeges = [];
+            element.WOSERVICES.forEach((ws: any) => {
+              ws.expanded = false;
+              ws.value = '0';
             });
-          } else {
-            result.forEach((element, woCompeltedIndex) => {
-              element.expanded = false;
-              element.selectedPackege = 0;
-              element.UniquePackeges = [...this.getPackeges(element)];
-              element.SubWOPackages = [...this.getSubWoPackeges(element)];
-              element.filterPackeges = [];
-              element.WOSERVICES.forEach((ws: any) => {
-                ws.expanded = false;
-                ws.value = '0';
-              });
-              if (element.SUBWORKORDER.length > 0) {
-                element.SUBWORKORDER.forEach(subOrder => {
-                  subOrder.WOSERVICES.forEach((ws: any) => {
-                    ws.expanded = false;
-                    ws.empid = '0';
-                  });
+            if (element.SUBWORKORDER.length > 0) {
+              element.SUBWORKORDER.forEach(subOrder => {
+                subOrder.WOSERVICES.forEach((ws: any) => {
+                  ws.expanded = false;
+                  ws.empid = '0';
                 });
-
-              }
-              ///this.workOrders.push(Object.assign({}, element));
-
-              // console.log('test',element);
-              this.workOrders[woCompeltedIndex] = element;
-              this.workOrders.forEach((selectOd, odIndex) => {
-                this.changeDetectorRef.detectChanges();
-                this.selectedPackege(odIndex, selectOd.UniquePackeges[0]);
-
               });
-            });
 
-          }
+            }
+            this.workOrders.push(Object.assign({}, element));
+            this.workOrders.forEach((selectOd, odIndex) => {
+              this.changeDetectorRef.detectChanges();
+              this.selectedPackege(odIndex, selectOd.UniquePackeges[0]);
+              ///this.getPackages(odIndex)
+
+            });
+          });
+          // } else {
+          //   result.forEach((element, woCompeltedIndex) => {
+          //     element.expanded = false;
+          //     element.selectedPackege = 0;
+          //     element.UniquePackeges = [...this.getPackeges(element)];
+          //     element.SubWOPackages = [...this.getSubWoPackeges(element)];
+          //     element.filterPackeges = [];
+          //     element.WOSERVICES.forEach((ws: any) => {
+          //       ws.expanded = false;
+          //       ws.value = '0';
+          //     });
+          //     if (element.SUBWORKORDER.length > 0) {
+          //       element.SUBWORKORDER.forEach(subOrder => {
+          //         subOrder.WOSERVICES.forEach((ws: any) => {
+          //           ws.expanded = false;
+          //           ws.empid = '0';
+          //         });
+          //       });
+
+          //     }
+          //     ///this.workOrders.push(Object.assign({}, element));
+
+          //     // console.log('test',element);
+          //     this.workOrders[woCompeltedIndex] = element;
+          //     this.workOrders.forEach((selectOd, odIndex) => {
+          //       this.changeDetectorRef.detectChanges();
+          //       this.selectedPackege(odIndex, selectOd.UniquePackeges[0]);
+
+          //     });
+          //   });
+
+          //}
           this.infinitescrollactions(true, false, false);
           this.woqEmpty();
         }
@@ -322,7 +322,7 @@ export class WorkorderQueuePage {
     this.infintescrollevent = $event;
     this.dataOptions.pageNumber = this.dataOptions.pageNumber + 1;
     this.dataOptions.pageSize = this.pageSize;
-    this.getWorkOrders("L");
+    this.getWorkOrders("IL");
     //this.cloneGetWorkOrders();
   }
 
