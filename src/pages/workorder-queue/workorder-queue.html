@@ -70,11 +70,11 @@
 
             <!-- <img src="img/advance-card-bttf.png"> -->
 
-            <ion-card-content (click)="workOrderDetails(item,i)" style="padding:0px !important">
+            <!-- <ion-card-content (click)="workOrderDetails(item,i)" style="padding:0px !important">
                 <img src='{{item?.VININFO[0]?.IMAGE}}' onError="src='../../assets/imgs/car.png'">
-            </ion-card-content>
+            </ion-card-content> -->
 
-            <ion-row *ngIf="item.expanded==false" style="border-top: 1px solid #cccccc;border-bottom: 1px solid #cccccc;">
+            <ion-row *ngIf="item.expanded==false" (click)="workOrderDetails(item,i)" style="border-top: 1px solid #cccccc;border-bottom: 1px solid #cccccc;">
 
                 <ion-col col-3 style="">
                     <ion-label class="labelColorBlue">WO# </ion-label>
@@ -112,7 +112,7 @@
                     <ion-col *ngIf="item.expanded == true">Less</ion-col>
                 </ion-col> -->
             </ion-row>
-            <ion-row *ngIf="item.expanded==true">
+            <ion-row *ngIf="item.expanded==true" (click)="workOrderDetails(item,i)">
                 <div style="width: 100%;border-top:1px solid gray;">
                     <ion-row style="border-top: 1px solid #cccccc;border-bottom: 1px solid #cccccc;">
 

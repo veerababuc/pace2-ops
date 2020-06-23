@@ -9,6 +9,7 @@ import { NetworkInterface } from '@ionic-native/network-interface';
 // import {FCM} from '@ionic-native/fcm';
 import { PaceEnvironment } from '../common/PaceEnvironment';
 import { AppVersion } from '@ionic-native/app-version';
+import { Device } from '@ionic-native/device';
 
 @Component({
   templateUrl: 'app.html'
@@ -23,7 +24,7 @@ export class MyApp {
 
   appVersionData : any;
 
-  constructor(private appVersion: AppVersion,private platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,
+  constructor(private device: Device,private appVersion: AppVersion,private platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,
      public db:DatabaseProvider, public app:App,private network:Network, public networkinteface:NetworkInterface,public ionicapp:IonicApp,
     // public fcm:FCM,
     private appconst:PaceEnvironment, private events:Events,
@@ -150,7 +151,11 @@ export class MyApp {
     this.appVersion.getVersionNumber().then((data) => {
       console.log("App Version :",data);
       this.appVersionData = data;
+      this.appconst.appVersion = data;
+      this.appconst.deviceInfo = this.device.platform;
     })
+
+    
   }
    
   Logout()
