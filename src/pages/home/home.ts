@@ -263,8 +263,19 @@ export class HomePage {
 
 
 
-  openPage(pageName: string,item) {
-    let loader = this.loadingSrv.createLoader();
+  openPage(pageName: string, item) {
+    let loader = this.loadingSrv.createLoader(
+      {
+        enableBackdropDismiss: true,
+        content: `<div class="loading-Header" ></div>
+       <div class="custom-spinner-container">
+       <div class="custom-spinner-box">
+       <div class="loading-body"> Loading... </div>
+       </div>
+     </div>`,
+        duration: 1000 * 20
+      }
+    );
     if (pageName == 'page-createworkorder')
     {
       if (this.access_permission != 'Y') {

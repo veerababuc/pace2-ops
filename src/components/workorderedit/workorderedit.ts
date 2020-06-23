@@ -7,12 +7,6 @@ import { PaceEnvironment } from '../../common/PaceEnvironment';
 import { LoadingServiceProvider } from '../../providers/loading-service/loading-service';
 import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner';
 
-/**
- * Generated class for the WorkordereditComponent component.
- *
- * See https://angular.io/api/core/Component for more info on Angular
- * Components.
- */
 
 @Component({
   selector: 'workorderedit',
@@ -31,8 +25,8 @@ export class WorkordereditComponent {
   }
   stock_length: any = 0;
   stockcount_db: any = "";
-  
-  isScan:any;
+
+  isScan: any;
 
   options: BarcodeScannerOptions;
   scannedData: any = {};
@@ -45,7 +39,7 @@ export class WorkordereditComponent {
     public alertController: AlertController,
     private loadingSrv: LoadingServiceProvider,
     public appconst: PaceEnvironment
-    ) {
+  ) {
     console.log('Hello WorkordereditComponent Component');
     this.db.getAllUsers().then(emdata => {
       console.log('emdata', emdata);
@@ -64,8 +58,8 @@ export class WorkordereditComponent {
   ngOnInit() {
     console.log('workOrderObj', this.workOrderObj);
     this.readOnly = this.workOrderObj.VINID;
-    this.workOrderObj.VINID=this.workOrderObj.VINID.toUpperCase();
-    this.workOrderObj.STOCKID=this.workOrderObj.STOCKID.toUpperCase();
+    this.workOrderObj.VINID = this.workOrderObj.VINID.toUpperCase();
+    this.workOrderObj.STOCKID = this.workOrderObj.STOCKID.toUpperCase();
   }
 
   isReadonly() {
@@ -73,52 +67,54 @@ export class WorkordereditComponent {
   }
 
   updateWO() {
-    console.log("Tot Obj :",this.workOrderObj);
-    
+    console.log("Tot Obj :", this.workOrderObj);
+
     this.updateVinOrStock();
   }
 
-  updateVinOrStock(){
+  updateVinOrStock() {
     //if (this.workOrderObj.VINID != "") {
-      if(this.workOrderObj.VINID != "" && this.workOrderObj.VINID.length <= 16) {
-        this.appconst.ShowAlert("Enter valid Vin Number");
-      }
-      else if(this.workOrderObj.VINID != "" && this.workOrderObj.VINID.length > 17) {
-        this.appconst.ShowAlert("VIN characters should not be more than 17");
-      }else if((this.workOrderObj.VINID.length == 17 || this.workOrderObj.VINID.length == '') && this.workOrderObj.STOCKID != ""){
+    if (this.workOrderObj.VINID != "" && this.workOrderObj.VINID.length <= 16) {
+      this.appconst.ShowAlert("Enter valid Vin Number");
+    }
+    else if (this.workOrderObj.VINID != "" && this.workOrderObj.VINID.length > 17) {
+      this.appconst.ShowAlert("VIN characters should not be more than 17");
+    } else if (this.workOrderObj.STOCKID.length < 4) {
+      this.appconst.ShowAlert("Stock characters should  be more than 4");
+    } else if (this.workOrderObj.VINID.length == 17 && this.workOrderObj.STOCKID != "") {
 
-        let loader = this.loadingSrv.createLoader({ content: 'Updating ...' });
-        loader.present();
+      let loader = this.loadingSrv.createLoader({ content: 'Updating ...' });
+      loader.present();
 
-        let searchOptions: string = `<Info><woid>${this.workOrderObj.WOID}</woid><vin>${this.workOrderObj.VINID}</vin><stock>${this.workOrderObj.STOCKID}</stock><ro>${this.workOrderObj.RO}</ro><po>${this.workOrderObj.PO}</po></Info>`
-        console.log("Submit XML :" + searchOptions);
-        this.odsService.updateWorkOrderVechileInfo(searchOptions).subscribe(Response => {
-          console.log('update workorder', Response);
-          loader.dismiss();
-          if (Response.status === 200) {
-            let body = JSON.parse(Response._body);
-            if (body[0].status == "0") {
-    
-              // setTimeout(() => {
-              let wo = {
-                woorder: this.workOrderObj,
-                status: Response.status
-              }
-              this.viewController.dismiss(wo);
-              // }, 1500)
-              this.presentToast('Work order details updated successfully');
-            } else {
-              //this.presentToast('Try again');
+      let searchOptions: string = `<Info><woid>${this.workOrderObj.WOID}</woid><vin>${this.workOrderObj.VINID}</vin><stock>${this.workOrderObj.STOCKID}</stock><ro>${this.workOrderObj.RO}</ro><po>${this.workOrderObj.PO}</po></Info>`
+      console.log("Submit XML :" + searchOptions);
+      this.odsService.updateWorkOrderVechileInfo(searchOptions).subscribe(Response => {
+        console.log('update workorder', Response);
+        loader.dismiss();
+        if (Response.status === 200) {
+          let body = JSON.parse(Response._body);
+          if (body[0].status == "0") {
+
+            // setTimeout(() => {
+            let wo = {
+              woorder: this.workOrderObj,
+              status: Response.status
             }
-            //console.log('update workorder body', body);
+            this.viewController.dismiss(wo);
+            // }, 1500)
+            this.presentToast('Work order details updated successfully');
           } else {
             //this.presentToast('Try again');
           }
-          }, (err) => {
-            loader.dismiss();
-            //this.presentToast('Try again');
-          });
-      }      
+          //console.log('update workorder body', body);
+        } else {
+          //this.presentToast('Try again');
+        }
+      }, (err) => {
+        loader.dismiss();
+        //this.presentToast('Try again');
+      });
+    }
     //}
   }
 
@@ -217,7 +213,7 @@ export class WorkordereditComponent {
             }
             self.viewController.dismiss(wo);
             //console.log('hi');
-            
+
             self.presentToast('Work order details deleted successfully');
           } else {
             self.presentToast('Try again');
@@ -238,10 +234,10 @@ export class WorkordereditComponent {
     if (this.partObj.part != null && this.partObj.price != null) {
       this.addparts.push(Object.assign({}, this.partObj));
       this.clear();
-      
+
     } else {
       //console.log(this.partObj.price);
-      let alertMsg=this.partObj.part==null?'Enter part name':this.partObj.price==null?"Enter part price":"";
+      let alertMsg = this.partObj.part == null ? 'Enter part name' : this.partObj.price == null ? "Enter part price" : "";
       const alert = this.alertController.create({
         message: alertMsg,
         buttons: ['OK']
@@ -249,12 +245,12 @@ export class WorkordereditComponent {
       alert.present();
     }
   }
-  addPartsToSave(){
+  addPartsToSave() {
     if (this.partObj.part != null || this.partObj.price != null) {
       if (this.partObj.part != null && this.partObj.price != null) {
         this.addparts.push(Object.assign({}, this.partObj));
         this.clear();
-      }else{
+      } else {
         let alertMsg = this.partObj.part == null ? 'Enter part name' : this.partObj.price == null ? "Enter part price" : "";
         const alert = this.alertController.create({
           message: alertMsg,
@@ -276,16 +272,16 @@ export class WorkordereditComponent {
       note: null
     }
   }
-  
+
   save() {
     //if(this.partObj.price != null  && this.partObj.part != null){
-   this.addPartsToSave();
+    this.addPartsToSave();
     //this.addparts.push(Object.assign({}, this.partObj));
     console.log(this.addparts);
-    
-      if(this.addparts.length > 0){
-        
-     
+
+    if (this.addparts.length > 0) {
+
+
       const confirm = this.alertController.create({
         title: 'Please confirm',
         message: 'Are you sure you want to Add Parts?',
@@ -305,52 +301,52 @@ export class WorkordereditComponent {
         ]
       });
       confirm.present();
-    
+
+    }
+
+
+
+
   }
-  
-  
-    
-    
-  }
-      
- saveAddParts(){
-    
-      let loader = this.loadingSrv.createLoader();
-      loader.present();
-      let self = this;
-      this.db.getAllUsers().then(emdata => {
-        let woinfo = `<Info><woid>${self.workOrderObj.WOID}</woid><date>${moment(new Date()).format('MM/DD/YYYY HH:mm a')}</date><siteid>${emdata[0].SiteNumber}</siteid><ipaddress>${this.appconst.ipAddress}</ipaddress><eid>${emdata[0].EmpId}</eid><logtype>${emdata[0].LogType}</logtype></Info>`
-        let woparts = '';
-        this.addparts.forEach(element => {
-          if(element.note == null){
-            element.note = '';
-          }
-          woparts += `<Info><name>${element.part}</name><price>${element.price}</price><notes>${element.note}</notes></Info>`
-        });
-        self.odsService.addPartstoWO(woinfo, woparts).subscribe(Response => {
-          loader.dismiss();
-          if (Response.status === 200) {
-            let body = JSON.parse(Response._body);
-            if (body[0].errorId == "0") {
-              let wo = {
-                woorder: self.workOrderObj,
-                status: Response.status
-              }
-              self.viewController.dismiss(wo);
-              self.presentToast('Work order details updated successfully');
-            } else {
-              self.presentToast('Try again');
+
+  saveAddParts() {
+
+    let loader = this.loadingSrv.createLoader();
+    loader.present();
+    let self = this;
+    this.db.getAllUsers().then(emdata => {
+      let woinfo = `<Info><woid>${self.workOrderObj.WOID}</woid><date>${moment(new Date()).format('MM/DD/YYYY HH:mm a')}</date><siteid>${emdata[0].SiteNumber}</siteid><ipaddress>${this.appconst.ipAddress}</ipaddress><eid>${emdata[0].EmpId}</eid><logtype>${emdata[0].LogType}</logtype></Info>`
+      let woparts = '';
+      this.addparts.forEach(element => {
+        if (element.note == null) {
+          element.note = '';
+        }
+        woparts += `<Info><name>${element.part}</name><price>${element.price}</price><notes>${element.note}</notes></Info>`
+      });
+      self.odsService.addPartstoWO(woinfo, woparts).subscribe(Response => {
+        loader.dismiss();
+        if (Response.status === 200) {
+          let body = JSON.parse(Response._body);
+          if (body[0].errorId == "0") {
+            let wo = {
+              woorder: self.workOrderObj,
+              status: Response.status
             }
-            console.log('update workorder body', body);
+            self.viewController.dismiss(wo);
+            self.presentToast('Work order details updated successfully');
           } else {
             self.presentToast('Try again');
           }
-        }, (err) => {
-          loader.dismiss();
+          console.log('update workorder body', body);
+        } else {
           self.presentToast('Try again');
-        });
+        }
+      }, (err) => {
+        loader.dismiss();
+        self.presentToast('Try again');
       });
-    
+    });
+
     // } else {
     //   const alert = this.alertController.create({
     //     message: 'Please add at least one part',
@@ -385,8 +381,10 @@ export class WorkordereditComponent {
       event.value = newValue.slice(0, -1);
 
     }
+
     if (event.value.length > this.stock_length)
       event.value = event.value.substring(0, this.stock_length)
+
   }
   FillStock() {
     // this.isScan = "N";
@@ -410,21 +408,21 @@ export class WorkordereditComponent {
     this.scanner.scan(this.options).then((data) => {
 
       if (data.text.length > 18) {
-       this.workOrderObj.VINID = data.text.substring(1, data.text.length);
+        this.workOrderObj.VINID = data.text.substring(1, data.text.length);
       }
       else if (data.text.length == 17) {
-       this.workOrderObj.VINID = data.text.trim();
+        this.workOrderObj.VINID = data.text.trim();
         if (this.workOrderObj.STOCKID.trim() == "") {
-          this.workOrderObj.STOCKID =this.workOrderObj.VINID.substring(17 - this.stock_length);
+          this.workOrderObj.STOCKID = this.workOrderObj.VINID.substring(17 - this.stock_length);
         }
         this.isScan = "Y";
         //this.openVinInfoPage(data.text.trim());
       }
       else if (data.text.length == 18) {
-       this.workOrderObj.VINID = data.text.trim();
-       this.workOrderObj.VINID = data.text.substring(1, data.text.length);
+        this.workOrderObj.VINID = data.text.trim();
+        this.workOrderObj.VINID = data.text.substring(1, data.text.length);
         if (this.workOrderObj.STOCKID.trim() == "") {
-          this.workOrderObj.STOCKID =this.workOrderObj.VINID.substring(data.text.length - this.stock_length);
+          this.workOrderObj.STOCKID = this.workOrderObj.VINID.substring(data.text.length - this.stock_length);
         }
         this.isScan = "Y";
         //this.openVinInfoPage(data.text.trim());
@@ -432,9 +430,9 @@ export class WorkordereditComponent {
         this.odsService.setValue(false);
       }
       else {
-       this.workOrderObj.VINID = data.text.trim();
+        this.workOrderObj.VINID = data.text.trim();
         if (this.workOrderObj.STOCKID.trim() == "") {
-          this.workOrderObj.STOCKID =this.workOrderObj.VINID.substring(data.text.length - this.stock_length);
+          this.workOrderObj.STOCKID = this.workOrderObj.VINID.substring(data.text.length - this.stock_length);
         }
         this.isScan = "Y";
       }
