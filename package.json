@@ -57,9 +57,7 @@
     "phonegap-plugin-barcodescanner": "^8.1.0",
     "rxjs": "5.5.11",
     "sw-toolbox": "3.6.0",
-    "zone.js": "0.8.29",
-    "@ionic-native/fcm": "^4.5.3",
-    "cordova-plugin-fcm-with-dependecy-updated": "^2.4.0"
+    "zone.js": "0.8.29"
   },
   "devDependencies": {
     "@ionic/app-scripts": "^3.2.4",
@@ -92,9 +90,7 @@
       },
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-app-version": {},
-      "cordova-plugin-nativestorage": {},
-      "cordova-plugin-fcm-with-dependecy-updated": {},
-      "cordova-plugin-device": {}
+      "cordova-plugin-nativestorage": {}
     },
     "platforms": [
       "browser",
