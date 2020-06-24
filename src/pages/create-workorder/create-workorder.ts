@@ -780,8 +780,8 @@ export class CreateWorkorderPage {
       }
       if(this.stock!="")
       {
-         if(this.stock.length<this.stock_length)
-         this.appconstants.addErrorMessage("Stock length should be  "+this.stock_length+" chars");
+         if(this.stock.length<4)
+         this.appconstants.addErrorMessage("Enter valid Stock Number");
       }
      
       
