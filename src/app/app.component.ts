@@ -106,6 +106,7 @@ export class MyApp {
  })
  this.appVersion.getVersionNumber().then((data) => {
   this.appVersionData = data;
+  this.db.appversion=data;
   });
   });
 

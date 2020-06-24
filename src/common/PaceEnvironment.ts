@@ -134,4 +134,12 @@ sitechangealert()
     duration: 3000
   }).present();
 }
+pakgeLoading()
+{
+  this.loadingPopup=this.loadingCtrl.create({
+    enableBackdropDismiss:true,
+    content:"Loading...",
+  });
+  this.loadingPopup.present();
+}
 }

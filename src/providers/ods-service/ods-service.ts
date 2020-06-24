@@ -180,21 +180,36 @@ let body=`{"strDeviceInfo":"<deviceInfo>
     return this.http.post(this.appconst.ApiUrl + "GetWOPermissionDetails", body, options)
       .map((res: Response) => res.json());
   }
-  GetSiteServicesInfo(siteid, empid) {
-    let str = "<Info><s_id>" + siteid + "</s_id>";
-    str += "<packagename></packagename>";
-    str += "<sdid>0</sdid>";
-    str += "<status>A</status>";
-    str += "<pagenumber>1</pagenumber>";
-    str += "<pagesize>25</pagesize></Info>"
-    let body = {
-      "strSearchString": str
-    }
-    let options = new RequestOptions({ headers: this.appconst.headers });
-    return this.http.post(this.appconst.ApiUrl + "GetPackages", body, options)
-      .map((res: Response) => res)
-  }
+  // GetSiteServicesInfo(siteid, empid) {
+  //   let str = "<Info><s_id>" + siteid + "</s_id>";
+  //   str += "<packagename></packagename>";
+  //   str += "<sdid>0</sdid>";
+  //   str += "<status>A</status>";
+  //   str += "<pagenumber>1</pagenumber>";
+  //   str += "<pagesize>25</pagesize></Info>"
+  //   let body = {
+  //     "strSearchString": str
+  //   }
+  //   let options = new RequestOptions({ headers: this.appconst.headers });
+  //   return this.http.post(this.appconst.ApiUrl + "GetPackages", body, options)
+  //     .map((res: Response) => res)
+  // }
 
+  GetSiteServicesInfo(siteid,empid,logtype)
+   {
+     let str="<Info>";
+      str+= "<s_id>"+ siteid+"</s_id>";
+      str += "<e_id>"+ empid +"</e_id>";
+      str +="<logtype>"+logtype+"</logtype>";
+      str += "</Info>"         ;
+      
+     let body={
+       "strSearchString":str
+     }
+    let options=new RequestOptions({headers:this.appconst.headers});
+    return this.http.post(this.appconst.ApiUrl+"GetPackagesforWorkOrder",body,options)
+    .map((res:Response)=>res)
+   }
   SearchInfo(srchxml) {
     let options = new RequestOptions({ headers: this.appconst.headers });
     let body = { "WoSearchString": srchxml };

@@ -19,6 +19,7 @@ export class DatabaseProvider {
   loc:string="";
   public ipAddress:any="";
   public fcmtoken:any="";
+  public appversion:any="";
   constructor(public http: Http,public storage:SQLite,private platform: Platform) {
    
    this.loc=platform.is('ios')==true?"Library":"default";
