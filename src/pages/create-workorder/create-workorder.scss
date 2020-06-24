@@ -2,13 +2,12 @@ page-create-workorder {
   .scroll-content{
     margin-top:120px !important;
     -webkit-overflow-scrolling: unset !important;
-    background: white !important;
   }
     .rowpadding{
         padding:2px 10px 2px 10px;
     }
     .tabclass{
-      background-image: url('../assets/imgs/create_workorder/crt_wrkord_img.png');
+      background-image: url('../assets/imgs/crt_wrkord_img.png');
     }
   .timerclass .text-input-md
   {
@@ -175,9 +174,5 @@ page-create-workorder {
         width:50%;
         float:left;
       }
-      .marginTop_SW{
-        margin-top: 25px;
-      }
-      
-      
+
 }
