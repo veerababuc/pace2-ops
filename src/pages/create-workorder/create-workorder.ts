@@ -1,12 +1,14 @@
 import { SitesearchPage } from './../sitesearch/sitesearch';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, AlertController, ToastOptions, ToastController, Platform, ModalController, LoadingController, reorderArray } from 'ionic-angular';
+import { IonicPage, NavController, AlertController, ToastOptions, ToastController, Platform, ModalController, LoadingController, reorderArray, NavParams } from 'ionic-angular';
 import { DatePicker } from '@ionic-native/date-picker';
 import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner';
 import { DatabaseProvider } from '../../providers/database/database';
 import { OdsServiceProvider } from "../../providers/ods-service/ods-service";
 import { PaceEnvironment } from '../../common/PaceEnvironment';
 import { Device } from '@ionic-native/Device';
+
+import moment from 'moment';
 
 @IonicPage(
   { name: "page-createworkorder" }
@@ -68,6 +70,7 @@ export class CreateWorkorderPage {
   newpakgslist : any ;
   depetRemake:any=[];
   newDeptslist : any =[] ;
+  swValue:any;
 
   /************************BarCode Data*************************************************** */
   options: BarcodeScannerOptions;
@@ -75,16 +78,16 @@ export class CreateWorkorderPage {
   /*********************************************************************************************** */
   constructor(public navCtrl: NavController, public alertcontroller: AlertController, public scanner: BarcodeScanner,
     private dt: DatePicker, private db: DatabaseProvider, private odsservice: OdsServiceProvider, public appconstants: PaceEnvironment, private tostcntrl: ToastController, public platform: Platform
-    , public device: Device,private modalctrl:ModalController,public alertController: AlertController,) {
-    
+    , public device: Device,private modalctrl:ModalController,public alertController: AlertController, public navParams: NavParams) {
+   
       this.odsservice.setValue(true);
-
-      if (platform.is('ios')) {
+         if (platform.is('ios')) {
       this.platform_tabclass = true;
     }
     else {
       this.platform_tabclass = false;
     }
+    this.swValue = navParams.get('itm');
     this.datepicker_mindate = platform.is('ios') == true ? new Date() : new Date().valueOf();
     this.db.getAllUsers().then(emdata => {
       console.log("db data CW",emdata[0]);
@@ -267,7 +270,6 @@ export class CreateWorkorderPage {
           buttons: [{
             text: 'Ok',
             handler: () => {
-              this.isenabled=false;
               this.pkg_service_list=[];
               this.selected_deptid=0;
               this.siidlist=[]
@@ -312,7 +314,7 @@ export class CreateWorkorderPage {
 
 
   changePackage(value,i) {
-    this.isenabled=false;
+    
     if(value.pkgselected==true){
       this.siidlist.forEach((element,index,array) => {
           if(value.SSIID==element){
@@ -323,7 +325,7 @@ export class CreateWorkorderPage {
       value.pkgselected=false;
     }
     else{
-      this.reorderItems(value.SSIID,i);
+      // this.reorderItems(value.SSIID,i);
       this.siidlist.push(value.SSIID);
       this.pkg_service_list.push(value);
       console.log('siidlist'+JSON.stringify(this.siidlist));
@@ -450,13 +452,19 @@ export class CreateWorkorderPage {
 
   }
 
+  ionViewCanLeave() {
+    let canGoBack = this.odsservice.getValue();
+    this.odsservice.setValue(true);
+    return canGoBack;
+  }
+
   /*****************************************BarCode Reader Methods*********************************************************************************** */
   scan() {
     this.vin = "";
     this.stock = "";
     this.options = {
-      prompt: "Place a barcode inside the viewfinder rectangle to scan it"
-       ,orientation:'landscape'
+      prompt: "Place a barcode inside the viewfinder rectangle to scan it",
+      orientation : 'landscape'
     }
     this.scanner.scan(this.options).then((data) => {
 
@@ -469,9 +477,13 @@ export class CreateWorkorderPage {
         this.vin = data.text.substring(1, 18);
         this.stock = this.vin.substring(18 - this.stock_length);
         this.isScan = "Y";
-      }else if (data.cancelled == true) {
-        this.odsservice.setValue(false);
-        }  
+      } else if (data.cancelled == true) {
+        // alert("Was cancelled");
+        // this.navCtrl.pop();
+        // this.navCtrl.push('vin-searchpage');        
+        // if(this.platform.is('android'))
+          this.odsservice.setValue(false);
+      }
       else {
         this.vin = data.text;
         this.stock = this.vin.substring(17 - this.stock_length);
@@ -483,74 +495,122 @@ export class CreateWorkorderPage {
   }
   /****************************************************************************************************************************************************** */
 
-  ionViewCanLeave() {
-    let canGoBack = this.odsservice.getValue();
-    this.odsservice.setValue(true);
-    return canGoBack;
-  }
 
-  getSelectedServices(siteid, empid) {
-    this.appconstants.startLoading();
-    this.totaldepartments = [];
-    this.totalpackages = [];
-      this.departments_select = [];
-      this.services_select = [];
+
+  // getSelectedServices(siteid, empid) {
+  //   this.appconstants.startLoading();
+  //   this.totaldepartments = [];
+  //   this.totalpackages = [];
+  //     this.departments_select = [];
+  //     this.services_select = [];
       
-    this.odsservice.GetSiteServicesInfo(siteid, this.empid,this.emplogtype).subscribe((data) => {
-      let body = JSON.parse(data._body);
-      let result = JSON.parse(body[0].result);
-      console.log("Sites info", result);
-      let totalpackages: any = result[0].PACKAGES;
-      if (totalpackages.length > 0) {
-        totalpackages.forEach(element => {
-          this.totalpackages.push({
-            "SSIID": element.SSIID,
-            "UNIQUE_PACKAGE_ID": element.UNIQUE_PACKAGE_ID,
-            "PACKAGE_TITLE": element.PACKAGE_TITLE,
-            "PRICE": element.PRICE,
-            "TITLE": element.TITLE,
-            "TOTALPAYOUT": element.TOTALPAYOUT,
-            "Departments": element.SITESERVICEDEPARTMENTS,
-            "ServiceItems": element.SERVICEITEMS,
-            "pkgselected": false
-          });
-          console.log('dept element'+element);
+  //   this.odsservice.GetSiteServicesInfo(siteid, this.empid,this.emplogtype).subscribe((data) => {
+  //     let body = JSON.parse(data._body);
+  //     let result = JSON.parse(body[0].result);
+  //     console.log("Sites info", result);
+  //     let totalpackages: any = result[0].PACKAGES;
+  //     if (totalpackages.length > 0) {
+  //       totalpackages.forEach(element => {
+  //         this.totalpackages.push({
+  //           "SSIID": element.SSIID,
+  //           "UNIQUE_PACKAGE_ID": element.UNIQUE_PACKAGE_ID,
+  //           "PACKAGE_TITLE": element.PACKAGE_TITLE,
+  //           "PRICE": element.PRICE,
+  //           "TITLE": element.TITLE,
+  //           "TOTALPAYOUT": element.TOTALPAYOUT,
+  //           "Departments": element.SITESERVICEDEPARTMENTS,
+  //           "ServiceItems": element.SERVICEITEMS,
+  //           "pkgselected": false
+  //         });
+  //         console.log('dept element'+element);
 
-          element.SITESERVICEDEPARTMENTS.forEach(element1 => {
-              let cnt=0;
-            this.departments_select.forEach(element => {
-                   if(element.SDID==element1.SDID)
-                         cnt=cnt+1;
-            });
+  //         element.SITESERVICEDEPARTMENTS.forEach(element1 => {
+  //             let cnt=0;
+  //           this.departments_select.forEach(element => {
+  //                  if(element.SDID==element1.SDID)
+  //                        cnt=cnt+1;
+  //           });
 
-            if(cnt==0){
-            this.departments_select.push({
-              "ACTIVE": element1.ACTIVE,
-              "DEPARTMENT": element1.DEPARTMENT,
-              "SDID": element1.SDID,
-              "SISID": element1.SISID,
-              "SSIID": element1.SSIID,
-              "selected": false
-            });
-          }
-          });
-        });
+  //           if(cnt==0){
+  //           this.departments_select.push({
+  //             "ACTIVE": element1.ACTIVE,
+  //             "DEPARTMENT": element1.DEPARTMENT,
+  //             "SDID": element1.SDID,
+  //             "SISID": element1.SISID,
+  //             "SSIID": element1.SSIID,
+  //             "selected": false
+  //           });
+  //         }
+  //         });
+  //       });
 
-      this.totpkg_bakup=this.totalpackages;
+  //     this.totpkg_bakup=this.totalpackages;
+
+  //     // console.log('bakp pkg'+this.totpkg_bakup)
+  //     //   this.change_package = this.totalpackages[0].TITLE;
+  //     //   this.changevehicle_obj = this.totalpackages[0];
+  //     //   let departments = this.totalpackages[0].Departments;
+  //     //   if (departments.length > 0) {
+  //     //     departments.forEach(element => {
+  //     //       this.departments_select.push({
+  //     //         "ACTIVE": element.ACTIVE,
+  //     //         "DEPARTMENT": element.DEPARTMENT,
+  //     //         "SDID": element.SDID,
+  //     //         "SISID": element.SISID,
+  //     //         "SSIID": element.SSIID,
+  //     //         "selected": false
+  //     //       })
+  //     //     });
 
 
-        }
-        else {
-          this.departments_select = [];
-        }
-        this.appconstants.stopLoading();
-      });
-     
-      this.intialserve = "1";
+  //           //service items
+  //           // let serviceItems = this.totalpackages[0].ServiceItems;
+  //           // if (serviceItems.length > 0) {
+  //           //   serviceItems.forEach(element => {
+  //           //     this.services_select.push({
+  //           //       "ACTIVE": element.ACTIVE,
+  //           //       "APPROVALREQUIRED": element.APPROVALREQUIRED,
+  //           //       "ISINDWO": element.ISINDWO,
+  //           //       "ISINVOICE": element.ISINVOICE,
+  //           //       "ISSEPINVOICE": element.ISSEPINVOICE,
+  //           //       "ITEMPRICE": element.ITEMPRICE,
+  //           //       "MASKNAME": element.MASKNAME,
+  //           //       "MSSIID": element.MSSIID,
+  //           //       "PIECEPAY": element.PIECEPAY,
+  //           //       "RATINGREQUIRED": element.RATINGREQUIRED,
+  //           //       "ROREQUIRED": element.ROREQUIRED,
+  //           //       "SERVICEITEMNAME": element.SERVICEITEMNAME,
+  //           //       "SICODE": element.SICODE,
+  //           //       "SIID": element.SIID,
+  //           //       "SSIID": element.SSIID,
+  //           //       "selected": false
+  //           //     })
+  //           //   });
+  //           //   this.appconstants.stopLoading();
+  //           // }
+  //           // else {
+  //           //   this.services_select = [];
+  //           // }
+  //           // service items 
 
-    
+  //       }
+  //       else {
+  //         this.departments_select = [];
+  //       }
+  //       this.appconstants.stopLoading();
+  //     });
+  //     // else {
+  //     //  this.totalpackages = [];
+  //     //  this.departments_select = [];
+  //     //  this.services_select = [];
+  //     // }
+  //     // //let wopreference: any = data.json()[0].workOrderSitePreferencesInfo[0];
+      
+  //     this.intialserve = "1";
 
-  }
+  //   //})
+
+  // }
      
   checkservice_duplication(){
     if(this.pkg_service_list.length>1)
@@ -565,8 +625,8 @@ export class CreateWorkorderPage {
                              'SIID':element1.SIID,
                              'SSIID':element1.SSIID,
                              'PACKAGE_TITLE':element.TITLE,
-                             'SERVICEITEMNAME':element1.SERVICEITEMNAME,
-                            'SICODE':element1.SICODE
+                             'SERVICEITEMNAME':element1.SERVICEITEMNAME
+                              ,'SICODE':element1.SICODE
                             });
 
                             // msg +=`<div class="divclss1">
@@ -580,7 +640,8 @@ export class CreateWorkorderPage {
            let result=[];
 
            servicelist.forEach((item, index) => {
-            if (index !== servicelist.findIndex(i => i.SICODE.toUpperCase() === item.SICODE.toUpperCase())) {
+            if (index !== servicelist.findIndex(i => i.SICODE === item.SICODE)) {
+              
               result.push(item);
 
             }
@@ -719,29 +780,30 @@ export class CreateWorkorderPage {
       }
       if(this.stock!="")
       {
-         if(this.stock.length<4)
-         this.appconstants.addErrorMessage("Enter valid Stock Number");
+         if(this.stock.length<this.stock_length)
+         this.appconstants.addErrorMessage("Stock length should be  "+this.stock_length+" chars");
       }
      
-      if(this.po_required==1)
-      {
-        if(this.po=="")
-        this.appconstants.addErrorMessage("Enter PO");
-      }
+      
       if(this.ro_required==1)
       {
         if(this.ro=="")
         this.appconstants.addErrorMessage("Enter RO");
+      }
+      if(this.po_required==1)
+      {
+        if(this.po=="")
+        this.appconstants.addErrorMessage("Enter PO");
       }
       // if (count == 0) {
       //   //this.appconstants.addErrorMessage("Select at least one service item");
       //   this.appconstants.addErrorMessage("Select Department");
       // }
       
-      
+      if(this.swValue != "SW"){
         if(count == 0)
         {
-          this.appconstants.addErrorMessage("Please Select Department");
+          this.appconstants.addErrorMessage("Select Department");
         } 
       else {
         if(this.siidlist.length==0)
@@ -749,6 +811,7 @@ export class CreateWorkorderPage {
         this.appconstants.addErrorMessage("Select at least one package");
       } 
       }
+    }
 
       if (this.appconstants.displayErrors() == true) {
         // let servicexml = '<Info>';
@@ -789,6 +852,11 @@ export class CreateWorkorderPage {
         var mins = d.getMinutes() >= 10 ? d.getMinutes() : "0" + d.getMinutes();
         let hr = hours < 10 ? '0' + hours : hours;
         var created_day = month + '/' + day + '/' + year + '  ' + hr + ':' + mins;
+        let date = moment(new Date()).format('MM/DD/YYYY');////changed by Vishnu
+        let time = moment(new Date()).format('hh:mm A');////changed by Vishnu;
+        let createDate = date +' '+ time
+        console.log(createDate);
+        
 
 
         if ((this.isScan == 'Y') && (this.vin.length == 18)) {
@@ -812,26 +880,26 @@ export class CreateWorkorderPage {
                   <requestedbylogtype>${this.emplogtype}</requestedbylogtype>               
                   <woctype>I</woctype> 
                   <createtype>M</createtype> 
-                  <devicetype>`+this.device.platform+` `+this.device.version+` `+this.db.appversion+ `</devicetype> 
-                  <appversion>`+this.db.appversion+`</appversion>
+                  <devicetype>`+this.device.platform+` `+this.device.version+ `</devicetype> 
+                  <appversion>`+this.appconstants.appVersion+`</appversion>
                   <scantype>`+this.isScan+`</scantype> 
                   <ipaddress>`+this.db.ipAddress+`</ipaddress> 
-                  <createddate>`+created_day+`</createddate> 
+                  <createddate>`+createDate+`</createddate> 
                   <deptid>`+ this.selected_deptid+`</deptid> 
                   <empid>`+this.empid+`</empid> 
                   <empidlogtype>${this.emplogtype}</empidlogtype> 
                   </Info>`;
                       // <wotype>I</wotype> 
-
-     // this.odsservice.CheckWOExceptions(wodetails,servicexml).subscribe(result=>{
+         //console.log(wodetails);
+         
+      this.odsservice.CheckWOExceptions(wodetails,servicexml).subscribe(result=>{
       
-        // if(result[0].result!="")
-        //   {
-        //      alert(JSON.parse(result[0].result)[0].Message);
-        //      this.isenabled=false;
-        //   }
-        //   else
-        {
+        if(result[0].result!="")
+          {
+             alert(JSON.parse(result[0].result)[0].Message);
+             this.isenabled=false;
+          }
+          else{
              this.odsservice.CreateWorkOrder(wodetails,notesxml,"",servicexml).subscribe((data) => {
 
           var val = data[0].errId;
@@ -852,29 +920,33 @@ export class CreateWorkorderPage {
           this.isenabled=false;
         })
           }
-    //  })
+      })
 
       }
       else{
         this.isenabled=false;
       }
     }
-    
+    else{
+     // this.appconstants.ShowAlert('Selected Packages have duplicate items');
+      this.isenabled=false;
+    }
     }
   }
 
   ionViewDidEnter() {
     this.appconstants.CheckNetwork_Connection();
     this.isenabled=false;
+
   }
 
 
 GetDepartmentsnew()
 {
-  this.appconstants.pakgeLoading();
   this.selected_deptid=0;
     let searchstring ="";
     let body2 :any;
+    let subdept:any;
     let SID=(this.emplogtype=="C")?0:this.siteNumber;
     searchstring = `<Departments>
                     <E_ID>${this.empid}</E_ID>
@@ -887,13 +959,18 @@ GetDepartmentsnew()
     // <s_id>0</s_id>
     // <status>Y</status>                    
     // </Departments>`
+    this.appconstants.startLoading();
                     this.odsservice.GetNewDepartments(searchstring).subscribe((data) => {
+                      this.appconstants.stopLoading();
                       let body = JSON.parse(data._body);  
                       let body1 = JSON.parse(body[0].result); 
                         body2 =  body1[0].TBL_DEPARTMENTS;
                       // this.newDeptslist = body1[0].TBL_DEPARTMENTS;
                       console.log("santu" +  this.newDeptslist );
+                      let exist=0;
+                        if(this.swValue==undefined){
 
+                          
                       body2.filter(element => {
                         this.newDeptslist.push({
                           "ACTIVE": element.departmentStatus,
@@ -903,7 +980,7 @@ GetDepartmentsnew()
                         });
                         if(element.TBL_SUB_DEPARTMENTS.length>0){
 
-                        let subdept=  element.TBL_SUB_DEPARTMENTS;
+                         subdept=  element.TBL_SUB_DEPARTMENTS;
                         subdept.filter(item=>{
                           this.newDeptslist.push({
                             "ACTIVE": item.departmentStatus,
@@ -914,15 +991,52 @@ GetDepartmentsnew()
                         });
                         }
                       });
+                    }
+                    else if(this.swValue=="SW")
+                    {
+                      body2.filter(element => {
 
-                      this.appconstants.stopLoading();
-                 },()=>{this.appconstants.stopLoading();});
+                       if(element.departmentTitle.toUpperCase()=="SERVICE WASH")
+                       {
+                        exist=1;
+                     //   this.selected_deptid=element.SDID;
+                        this.selectDepartmentdiv(element); 
+
+                       }
+                          if(element.TBL_SUB_DEPARTMENTS.length>0 &&  exist==0){
+                            
+                        let subdept1=  element.TBL_SUB_DEPARTMENTS;
+                        subdept1.filter(item=>{
+                                  if(item.departmentTitle.toUpperCase()=="SERVICE WASH")
+                                   {
+                                 exist=1;
+                                  this.selected_deptid = item.departmentNumber;
+                                  this.selectDepartmentdiv(item); 
+                                   }
+                             });
+                          }
+   
+                    });
+
+                    if(exist==0)
+                    {
+                      alert("NO Service Wash avaliable!");
+                    }
+                  }
+
+                 },err=>{
+                  this.appconstants.stopLoading();
+                  console.log(err);
+                 });
+                
+
 }
 
 
-  selectDepartmentdiv(dept)
+selectDepartmentdiv(dept)
   {
-    this.appconstants.pakgeLoading();
+    if(this.swValue!="SW")
+    {
     this.newDeptslist.filter(item=>
       {
         if(dept.SDID==item.SDID)
@@ -932,15 +1046,25 @@ GetDepartmentsnew()
       });
    
     this.selected_deptid=dept.SDID;
+    ///return false;
+    }
     let SearchString :any ="";
-    
+    let selecDeptId:any ="";
+    if(this.swValue !="SW"){
+         selecDeptId = dept.SDID
+    }
+    else{
+      selecDeptId = dept.departmentNumber
+    }
     SearchString =`<Info>
                     <s_id>${this.siteNumber}</s_id>
                     <type>M</type>
-                    <dept_id>${dept.SDID}</dept_id>
+                    <dept_id>${selecDeptId}</dept_id>
                     <e_id>${this.empid}</e_id>
                     <logtype>${this.emplogtype}</logtype>
                   </Info>`
+   console.log(SearchString);
+   
 
   //   SearchString =`<Info>
   //   <s_id>3269</s_id>
@@ -949,17 +1073,25 @@ GetDepartmentsnew()
   //   <e_id>1</e_id>
   //   <logtype>C</logtype>
   // </Info>`
-  
   this.pkg_service_list=[];
   this.totalpackages=[];
   this.siidlist=[];
-      
+   // this.changev=dept.DEPARTMENT
+   
+        
           this.newpkgblock = true;
           this.odsservice.GetrelatedPackages(SearchString).subscribe((data) => {
             let body = JSON.parse(data._body);
             let body1 = JSON.parse(body[0].result);
-         let   body2 = body1[0].PACKAGES;
+            let body2 = body1[0].PACKAGES;
              console.log("san-packages" +  this.totalpackages);  
+             
+             if(this.swValue=="SW")
+             {
+              this.selected_deptid=dept.departmentNumber;
+              this.changePackage(body2[0],0);
+             }
+             else{
              body2.filter(element => {
               this.totalpackages.push({
                 "SSIID": element.SSIID,
@@ -972,9 +1104,9 @@ GetDepartmentsnew()
                 "pkgselected":false              
               });            
           });
-          this.appconstants.stopLoading();
-        },()=>{ this.appconstants.stopLoading();});
+        }
+          });
+        
      
-}
-
-}
+            }
+        }

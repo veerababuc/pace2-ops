@@ -6,17 +6,19 @@ import {Camera} from '@ionic-native/camera';
 import {DatePicker} from '@ionic-native/date-picker';
 import {Device} from '@ionic-native/Device';
 import { pace2headerModule } from '../../components/pace2header/pace2headermodule';
+import { FeedBackComponent } from '../../components/feed-back/feed-back';
 
 
 
 @NgModule({
-  declarations: [    CreateWorkorderPage,
+  declarations: [CreateWorkorderPage
    
   ],
   imports: [
     IonicPageModule.forChild(CreateWorkorderPage),
     pace2headerModule
   ],
+  
   
   providers:[
     BarcodeScanner,Camera,DatePicker ,Device

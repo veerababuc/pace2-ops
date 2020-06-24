@@ -30,7 +30,7 @@
                       <ion-item no-lines style="box-shadow:unset;padding:0px;margin:0px;min-height:4.3rem !important; ">
                           <ion-input type="text" name="vin" [(ngModel)]="vin"  class="inputtxtclass"  (ionBlur)="FillStock()" (ionChange)="maxVin($event)" style="border-top-right-radius:0px;border-bottom-right-radius:0px;height:4.3rem;padding:0px;font-size:1.4rem"></ion-input>
                           <button ion-button large color="dark" clear (click)="scan()" item-end style="border-top-left-radius:0px;border-bottom-left-radius:0px;background-color:#191919 !important;height:4.3rem;margin:0px;padding:5px;">
-                              <img src="assets/imgs/scan_icon.png"  style="height:1.6rem;" />
+                              <img src="assets/imgs/create_workorder/scan_icon.png"  style="height:1.6rem;" />
                             </button>
                         </ion-item>
                     
@@ -86,7 +86,7 @@
             </ion-grid>
          </ion-col>
          </ion-row>
-         <ion-row class="vin_series_block">
+         <ion-row class="vin_series_block" *ngIf="swValue != 'SW'">
 
           <!------------------------------------------------PACKAGES------------------------------------------------------------------------------------------>
             <!-- <ion-card style="box-shadow:none !important;background:transparent;margin-bottom:3px;">
@@ -162,7 +162,7 @@
 </ion-card> -->
 
 
-<ion-card style="box-shadow:none !important;background:#e6eff5;margin-bottom:3px;">
+<ion-card style="box-shadow:none !important;background:#e6eff5;margin-bottom:3px;" *ngIf="swValue != 'SW'">
     <ion-card-header  style="padding:0px;text-align:center">
         <ion-label style="font-family: 'HelveticaNeueLTStd-Bd';margin-bottom:0px;" >Departments:</ion-label>
     </ion-card-header>
@@ -196,7 +196,7 @@
             <ion-card style="box-shadow:none !important;background:#e6eff5;margin-bottom:3px;" *ngIf="newpkgblock!=false" >
                 <ion-card-header style="padding:0px;text-align:center">
                     <ion-card-header style="padding:0px;text-align:center">
-                        <ion-label style="font-family: 'HelveticaNeueLTStd-Bd';margin-bottom:0px;" *ngIf="selected_deptid>0" > Packages:</ion-label>
+                        <ion-label style="font-family: 'HelveticaNeueLTStd-Bd';margin-bottom:0px;" *ngIf="selected_deptid>0  && swValue != 'SW'" > Packages:</ion-label>
                         <!-- <ion-label style="font-family: 'HelveticaNeueLTStd-Bd';margin-bottom:0px;" *ngIf="selected_deptid>0" >{{lbldeptname}}</ion-label> -->
                       </ion-card-header>
                   </ion-card-header>
@@ -215,9 +215,6 @@
                     <ion-label style="color:black;font-size:1.6rem;font-family: 'HelveticaNeueLTStd-Bd'">No packages found</ion-label>
               </ion-card-content>
              </ion-card>
-
-
-
 
                <!-----------------------------------------------------SERVICES-------------------------------------------------------------------------------------->
                <ion-card style="box-shadow:none !important;background:transparent;display:none">
@@ -245,7 +242,7 @@
         <!------------------------------------------------------------------------------------------------------------------------------------------------------------------------>
 
 
-         <ion-row style="background-color:white;color:black">
+         <ion-row style="background-color:white;color:black" *ngIf="swValue != 'SW'">
             <ion-col>
                 <ion-label style="color:black;margin:13px 8px 0px 15px;font-size:1.6rem; font-family: 'HelveticaNeueLTStd-Md'">
                     <span style="color:red">*</span> Due By:
@@ -253,7 +250,7 @@
             <div style="float:left;width:60%;padding-right:3px;">
               <button ion-button icon-only (click)="showDatePicker()" style="background:transparent;float:left;box-shadow:none !important;margin-left:4px;height:3.2rem;"><ion-icon name="calendar" style="color:black;padding:0 0.2em;"></ion-icon></button>
             <span (click)="showDatePicker()"> <ion-label style="float:left;">{{date}}</ion-label></span>
-              <img src="assets/imgs/timer_icon.png"  (click)="showTimePicker()"  style="float:left;padding:10px 5px 0px 0px"/>
+              <img src="assets/imgs/create_workorder/timer_icon.png"  (click)="showTimePicker()"  style="float:left;padding:10px 5px 0px 0px"/>
                <ion-input type="text" name="time" [(ngModel)]="time" (click)="showTimePicker()" disabled="true" ng-readonly class="timerclass" style="float:left;max-width:40%;width: calc(100% - 10px - 145px);font-size:1.2rem;margin-top:4px;" ></ion-input>
           </div>
               
@@ -282,7 +279,7 @@
           
          </ion-col>
          </ion-row>    
-         <ion-row style="background:white">
+         <ion-row style="background:white" *ngIf="swValue != 'SW'">
            <ion-col>
              <ion-label style="color:black;padding-left:15px;font-size:1.6rem; font-family: 'HelveticaNeueLTStd-Md'">Notes:</ion-label>
              <textarea  [(ngModel)]="note" style="border:0.5px solid gray;border-radius:4px;color:black;width:94%;padding:10px;margin-left:14px" rows="10">
@@ -290,8 +287,8 @@
     
            </ion-col>
          </ion-row>
-         <ion-row style="background:white">
-           <ion-col style="align-items:center;display:flex;justify-content:center">
+         <ion-row style="background:white" [ngClass]="{'marginTop_SW': swValue=='SW'}">
+           <ion-col style="align-items:center;display:flex;justify-content:center" >
                <button  ion-button block (click)="submitWorkOrder()" style="max-width:70%;text-transform:capitalize;font-family: 'HelveticaNeueLTStd-Bd'" [disabled]="isenabled">Submit Work Order</button>
            </ion-col>
          </ion-row>
