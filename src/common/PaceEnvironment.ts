@@ -10,7 +10,7 @@ export class PaceEnvironment implements OnInit{
     public headers;
     public ApiUrl:any;
     public newApiUrl:any="";
-    public  Paceimg:any;
+    public Paceimg:any;
     public ipAddress:any="";
     public appVersion:any='0.0.1';
     public empName:any;
@@ -20,6 +20,7 @@ export class PaceEnvironment implements OnInit{
     public woIndexUpdate = -1;
     public woUpdateObj  : any;
     public woUpdateType : any;
+    public deviceInfo   : any;
 
 constructor( public alertController: AlertController,
     public loadingCtrl: LoadingController,

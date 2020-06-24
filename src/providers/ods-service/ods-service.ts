@@ -332,8 +332,9 @@ let body=`{"strDeviceInfo":"<deviceInfo>
   pickUpService(servive) {
     let options = new RequestOptions({ headers: this.appconst.headers });
     let body = {
-      strSearchString: `<Info><action>${servive.action}</action><eid>${servive.empid}</eid><eidlogtype>${servive.eidlogtype}</eidlogtype><serviceid>${servive.serid}</serviceid><date>${moment(new Date()).format('MM/DD/YYYY')}</date><time>${moment(new Date()).format('HH:mm A')}</time><ip>${servive.ip}</ip><isscanned>${servive.isscanned}</isscanned><appversion>${this.appconst.appVersion}</appversion></Info>`.trim()
+      strSearchString: `<Info><action>${servive.action}</action><eid>${servive.empid}</eid><eidlogtype>${servive.eidlogtype}</eidlogtype><serviceid>${servive.serid}</serviceid><date>${moment(new Date()).format('MM/DD/YYYY')}</date><time>${moment(new Date()).format('HH:mm A')}</time><ip>${servive.ip}</ip><isscanned>${servive.isscanned}</isscanned><appversion>${this.appconst.appVersion}</appversion><deviceinfo>${this.appconst.deviceInfo}</deviceinfo></Info>`.trim()
     }
+    console.log("Search String :", body);
     return this.http.post(this.appconst.ApiUrl + "WorkOrderPickUp/", body, options)
       .map((res: Response) => res.json());
   }
