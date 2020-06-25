@@ -75,13 +75,14 @@ export class WorkordereditComponent {
   updateVinOrStock() {
     //if (this.workOrderObj.VINID != "") {
     if (this.workOrderObj.VINID != "" && this.workOrderObj.VINID.length <= 16) {
-      this.appconst.ShowAlert("Enter valid Vin Number");
+      this.appconst.addErrorMessage("Enter valid Vin Number");
     }
     else if (this.workOrderObj.VINID != "" && this.workOrderObj.VINID.length > 17) {
-      this.appconst.ShowAlert("VIN characters should not be more than 17");
+      this.appconst.addErrorMessage("VIN characters should not be more than 17");
     } else if (this.workOrderObj.STOCKID.length < 4) {
-      this.appconst.ShowAlert("Stock characters should  be more than 4");
-    } else if (this.workOrderObj.VINID.length == 17 && this.workOrderObj.STOCKID != "") {
+      this.appconst.addErrorMessage("Stock characters should  be more than 4");
+    } 
+    if (this.appconst.displayErrors() == true){
 
       let loader = this.loadingSrv.createLoader({ content: 'Updating ...' });
       loader.present();
