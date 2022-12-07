@@ -34,7 +34,7 @@
     "@ionic-native/status-bar": "~4.20.0",
     "@ionic/storage": "^2.2.0",
     "cordova-android": "7.0.0",
-    "cordova-browser": "5.0.4",
+    "cordova-browser": "6.0.0",
     "cordova-plugin-app-version": "^0.1.9",
     "cordova-plugin-camera": "^4.1.0",
     "cordova-plugin-cleartext": "^1.0.0",
